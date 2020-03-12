@@ -15,6 +15,8 @@ namespace MediaBazaarSolution
         public LogInScreen()
         {
             InitializeComponent();
+            ScheduleForm form = new ScheduleForm();
+            form.Visible = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)

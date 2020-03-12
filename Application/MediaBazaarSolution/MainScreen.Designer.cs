@@ -30,6 +30,12 @@
         {
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
+            this.btnEditSchedule = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.clnWorkerId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clnWorkerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clnShift = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clnWorkingDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EmployeesTab = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,21 +44,36 @@
             this.HWageCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddressCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DepotTab = new System.Windows.Forms.TabPage();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnAddProduct = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dgvDepot = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ITEM_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DESCRIPTION = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.STOCK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PRICE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
+            this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.DepotTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).BeginInit();
             this.StatisticsTab.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // Tabs
@@ -62,29 +83,79 @@
             this.Tabs.Controls.Add(this.EmployeesTab);
             this.Tabs.Controls.Add(this.DepotTab);
             this.Tabs.Controls.Add(this.StatisticsTab);
-            this.Tabs.Location = new System.Drawing.Point(13, 13);
+            this.Tabs.Location = new System.Drawing.Point(11, 70);
+            this.Tabs.Margin = new System.Windows.Forms.Padding(2);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(997, 485);
+            this.Tabs.Size = new System.Drawing.Size(748, 394);
             this.Tabs.TabIndex = 0;
             // 
             // ScheduleTab
             // 
             this.ScheduleTab.BackColor = System.Drawing.Color.Transparent;
-            this.ScheduleTab.Location = new System.Drawing.Point(4, 25);
+            this.ScheduleTab.Controls.Add(this.btnEditSchedule);
+            this.ScheduleTab.Controls.Add(this.listView1);
+            this.ScheduleTab.Location = new System.Drawing.Point(4, 22);
+            this.ScheduleTab.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleTab.Name = "ScheduleTab";
-            this.ScheduleTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ScheduleTab.Size = new System.Drawing.Size(989, 456);
+            this.ScheduleTab.Padding = new System.Windows.Forms.Padding(2);
+            this.ScheduleTab.Size = new System.Drawing.Size(740, 368);
             this.ScheduleTab.TabIndex = 0;
             this.ScheduleTab.Text = "Schedule";
+            // 
+            // btnEditSchedule
+            // 
+            this.btnEditSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditSchedule.Location = new System.Drawing.Point(602, 140);
+            this.btnEditSchedule.Name = "btnEditSchedule";
+            this.btnEditSchedule.Size = new System.Drawing.Size(113, 81);
+            this.btnEditSchedule.TabIndex = 1;
+            this.btnEditSchedule.Text = "Edit Schedule";
+            this.btnEditSchedule.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clnWorkerId,
+            this.clnWorkerName,
+            this.clnShift,
+            this.clnWorkingDay});
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(16, 14);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(555, 324);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // clnWorkerId
+            // 
+            this.clnWorkerId.Text = "ID";
+            this.clnWorkerId.Width = 100;
+            // 
+            // clnWorkerName
+            // 
+            this.clnWorkerName.Text = "Name";
+            this.clnWorkerName.Width = 150;
+            // 
+            // clnShift
+            // 
+            this.clnShift.Text = "Shift";
+            this.clnShift.Width = 150;
+            // 
+            // clnWorkingDay
+            // 
+            this.clnWorkingDay.Text = "DayOfWeek";
+            this.clnWorkingDay.Width = 150;
             // 
             // EmployeesTab
             // 
             this.EmployeesTab.Controls.Add(this.dataGridView1);
-            this.EmployeesTab.Location = new System.Drawing.Point(4, 25);
+            this.EmployeesTab.Location = new System.Drawing.Point(4, 22);
+            this.EmployeesTab.Margin = new System.Windows.Forms.Padding(2);
             this.EmployeesTab.Name = "EmployeesTab";
-            this.EmployeesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.EmployeesTab.Size = new System.Drawing.Size(989, 456);
+            this.EmployeesTab.Padding = new System.Windows.Forms.Padding(2);
+            this.EmployeesTab.Size = new System.Drawing.Size(740, 368);
             this.EmployeesTab.TabIndex = 1;
             this.EmployeesTab.Text = "Employees";
             this.EmployeesTab.UseVisualStyleBackColor = true;
@@ -100,11 +171,12 @@
             this.HWageCol,
             this.AddressCol});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(983, 450);
+            this.dataGridView1.Size = new System.Drawing.Size(736, 364);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -145,21 +217,129 @@
             // 
             // DepotTab
             // 
-            this.DepotTab.Location = new System.Drawing.Point(4, 25);
+            this.DepotTab.Controls.Add(this.btnRemove);
+            this.DepotTab.Controls.Add(this.btnAddProduct);
+            this.DepotTab.Controls.Add(this.btnSearch);
+            this.DepotTab.Controls.Add(this.label1);
+            this.DepotTab.Controls.Add(this.textBox1);
+            this.DepotTab.Controls.Add(this.dgvDepot);
+            this.DepotTab.Location = new System.Drawing.Point(4, 22);
+            this.DepotTab.Margin = new System.Windows.Forms.Padding(2);
             this.DepotTab.Name = "DepotTab";
-            this.DepotTab.Padding = new System.Windows.Forms.Padding(3);
-            this.DepotTab.Size = new System.Drawing.Size(989, 456);
+            this.DepotTab.Padding = new System.Windows.Forms.Padding(2);
+            this.DepotTab.Size = new System.Drawing.Size(740, 368);
             this.DepotTab.TabIndex = 2;
             this.DepotTab.Text = "Depot";
             this.DepotTab.UseVisualStyleBackColor = true;
             // 
+            // btnRemove
+            // 
+            this.btnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemove.Location = new System.Drawing.Point(482, 308);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(87, 35);
+            this.btnRemove.TabIndex = 5;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            // 
+            // btnAddProduct
+            // 
+            this.btnAddProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddProduct.Location = new System.Drawing.Point(376, 308);
+            this.btnAddProduct.Name = "btnAddProduct";
+            this.btnAddProduct.Size = new System.Drawing.Size(100, 35);
+            this.btnAddProduct.TabIndex = 4;
+            this.btnAddProduct.Text = "Add";
+            this.btnAddProduct.UseVisualStyleBackColor = true;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(618, 99);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(105, 37);
+            this.btnSearch.TabIndex = 3;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(614, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(109, 20);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Enter Item ID:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(618, 64);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(106, 23);
+            this.textBox1.TabIndex = 1;
+            // 
+            // dgvDepot
+            // 
+            this.dgvDepot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDepot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.ITEM_NAME,
+            this.DESCRIPTION,
+            this.STOCK,
+            this.PRICE});
+            this.dgvDepot.Location = new System.Drawing.Point(15, 32);
+            this.dgvDepot.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvDepot.Name = "dgvDepot";
+            this.dgvDepot.RowHeadersWidth = 51;
+            this.dgvDepot.RowTemplate.Height = 24;
+            this.dgvDepot.Size = new System.Drawing.Size(578, 250);
+            this.dgvDepot.TabIndex = 0;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.Width = 125;
+            // 
+            // ITEM_NAME
+            // 
+            this.ITEM_NAME.HeaderText = "Item name";
+            this.ITEM_NAME.MinimumWidth = 6;
+            this.ITEM_NAME.Name = "ITEM_NAME";
+            this.ITEM_NAME.Width = 125;
+            // 
+            // DESCRIPTION
+            // 
+            this.DESCRIPTION.HeaderText = "Description";
+            this.DESCRIPTION.MinimumWidth = 6;
+            this.DESCRIPTION.Name = "DESCRIPTION";
+            this.DESCRIPTION.Width = 125;
+            // 
+            // STOCK
+            // 
+            this.STOCK.HeaderText = "In Stock";
+            this.STOCK.MinimumWidth = 6;
+            this.STOCK.Name = "STOCK";
+            this.STOCK.Width = 125;
+            // 
+            // PRICE
+            // 
+            this.PRICE.HeaderText = "Price";
+            this.PRICE.MinimumWidth = 6;
+            this.PRICE.Name = "PRICE";
+            this.PRICE.Width = 125;
+            // 
             // StatisticsTab
             // 
             this.StatisticsTab.Controls.Add(this.tabControl1);
-            this.StatisticsTab.Location = new System.Drawing.Point(4, 25);
+            this.StatisticsTab.Location = new System.Drawing.Point(4, 22);
+            this.StatisticsTab.Margin = new System.Windows.Forms.Padding(2);
             this.StatisticsTab.Name = "StatisticsTab";
-            this.StatisticsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.StatisticsTab.Size = new System.Drawing.Size(989, 456);
+            this.StatisticsTab.Padding = new System.Windows.Forms.Padding(2);
+            this.StatisticsTab.Size = new System.Drawing.Size(740, 368);
             this.StatisticsTab.TabIndex = 3;
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
@@ -168,30 +348,45 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(6, 6);
+            this.tabControl1.Location = new System.Drawing.Point(4, 5);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(977, 447);
+            this.tabControl1.Size = new System.Drawing.Size(733, 363);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.dataGridView3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(969, 418);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Size = new System.Drawing.Size(725, 337);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Employees";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView3.Location = new System.Drawing.Point(2, 2);
+            this.dataGridView3.Margin = new System.Windows.Forms.Padding(2);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowHeadersWidth = 51;
+            this.dataGridView3.RowTemplate.Height = 24;
+            this.dataGridView3.Size = new System.Drawing.Size(721, 333);
+            this.dataGridView3.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dataGridView2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(969, 418);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Size = new System.Drawing.Size(725, 337);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Products";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -200,42 +395,49 @@
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView2.Location = new System.Drawing.Point(2, 2);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(963, 412);
+            this.dataGridView2.Size = new System.Drawing.Size(721, 333);
             this.dataGridView2.TabIndex = 0;
             // 
-            // dataGridView3
+            // label2
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 51;
-            this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(963, 412);
-            this.dataGridView3.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(207, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(330, 37);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "WELCOME, <User>!";
             // 
             // MainScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 510);
+            this.ClientSize = new System.Drawing.Size(762, 471);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Tabs);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainScreen";
             this.Text = "Hello";
             this.Tabs.ResumeLayout(false);
+            this.ScheduleTab.ResumeLayout(false);
             this.EmployeesTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.DepotTab.ResumeLayout(false);
+            this.DepotTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).EndInit();
             this.StatisticsTab.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -257,5 +459,23 @@
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvDepot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ITEM_NAME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DESCRIPTION;
+        private System.Windows.Forms.DataGridViewTextBoxColumn STOCK;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PRICE;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnAddProduct;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnEditSchedule;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader clnWorkerId;
+        private System.Windows.Forms.ColumnHeader clnWorkerName;
+        private System.Windows.Forms.ColumnHeader clnShift;
+        private System.Windows.Forms.ColumnHeader clnWorkingDay;
+        private System.Windows.Forms.Label label2;
     }
 }
