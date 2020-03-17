@@ -16,5 +16,20 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
         }
+
+        private void btnAddWorker_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRemoveWorker_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSaveSchedule_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

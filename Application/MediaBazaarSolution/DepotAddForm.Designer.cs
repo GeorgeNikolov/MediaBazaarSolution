@@ -60,6 +60,7 @@
             this.btnApplyChangesToDepot.TabIndex = 26;
             this.btnApplyChangesToDepot.Text = "Add Item";
             this.btnApplyChangesToDepot.UseVisualStyleBackColor = true;
+            this.btnApplyChangesToDepot.Click += new System.EventHandler(this.btnApplyChangesToDepot_Click);
             // 
             // textBox4
             // 

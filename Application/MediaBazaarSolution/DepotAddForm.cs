@@ -16,5 +16,10 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
         }
+
+        private void btnApplyChangesToDepot_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -780,6 +780,7 @@
             this.dgvDepot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDepot.Size = new System.Drawing.Size(1481, 436);
             this.dgvDepot.TabIndex = 0;
+            this.dgvDepot.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDepot_CellEndEdit);
             // 
             // ID
             // 
