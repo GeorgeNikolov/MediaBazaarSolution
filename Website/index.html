@@ -2,7 +2,9 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Page</title>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
 
@@ -11,7 +13,7 @@
     <div class="nav-container">
 
       <div class="nav-left">
-        <img src="" alt="">
+        <img src="img/logo.png" alt="" class="">
         <h2>Welcome To LogiK</h2>
       </div>
 
@@ -19,21 +21,24 @@
         <nav class="main-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#" class="nav-link link">Schedule</a>
-            </li><li class="nav-item">
-              <a href="#" class="nav-link link">Item Stock</a>
-            </li><li class="nav-item">
-              <a href="#" class="nav-link link">Personal Info</a>
-            </li><li class="nav-item">
-              <a href="#" class="nav-link link">Sign Out</a>
+              <a href="index.html" class="nav-link link">Schedule</a>
             </li>
+            <li class="nav-item">
+              <a href="stock.html" class="nav-link link">Item Stock</a>
+            </li>
+            <li class="nav-item">
+              <a href="personalinfo.html" class="nav-link link">Personal Info</a>
+            </li>
+            <button type="button" name="button" class="signout">
+              <a href="login.html" class="nav-link link">Sign Out</a>
+            </button>
           </ul>
         </nav>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="schedule">
     <table>
       <tr>
         <th>Day Time</th>
@@ -71,3 +76,8 @@
   </main>
   </body>
 </html>
+
+<footer id="footer">
+    <a href="#header">Back To Header</a>
+    <p>@2020 Copyright LogiK</p>
+</footer>
