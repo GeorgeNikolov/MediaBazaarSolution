@@ -728,6 +728,7 @@
             this.btnAddProduct.TabIndex = 4;
             this.btnAddProduct.Text = "Add";
             this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
             // btnSearch
             // 

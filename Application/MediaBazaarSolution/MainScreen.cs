@@ -13,10 +13,12 @@ namespace MediaBazaarSolution
     public partial class MainScreen : Form
     {
         private ScheduleForm scheduleForm;
+        private DepotAddForm depotAddForm;
         public MainScreen()
         {
             InitializeComponent();
             scheduleForm = new ScheduleForm();
+            depotAddForm = new DepotAddForm();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -27,6 +29,11 @@ namespace MediaBazaarSolution
         private void btnEditSchedule_Click(object sender, EventArgs e)
         {
             scheduleForm.Show();
+        }
+
+        private void btnAddProduct_Click(object sender, EventArgs e)
+        {
+            depotAddForm.Show();
         }
     }
 }
