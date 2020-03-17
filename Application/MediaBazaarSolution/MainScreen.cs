@@ -35,14 +35,15 @@ namespace MediaBazaarSolution
         {
             depotAddForm.Show();
         }
-        private void lvMondayMorning_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Selected");
-        }
 
         private void dgvDepot_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             MessageBox.Show("Do you really want to edit that value?", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
