@@ -15,9 +15,8 @@ namespace MediaBazaarSolution
         public LogInScreen()
         {
             InitializeComponent();
-            //Show main form for testing.
-            MainScreen mainSC = new MainScreen();
-            mainSC.Show();
+            ScheduleForm form = new ScheduleForm();
+            form.Visible = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
