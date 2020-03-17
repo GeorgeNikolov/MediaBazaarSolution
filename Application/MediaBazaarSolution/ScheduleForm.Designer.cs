@@ -45,9 +45,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(39, 19);
+            this.label1.Location = new System.Drawing.Point(52, 23);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(172, 22);
+            this.label1.Size = new System.Drawing.Size(205, 26);
             this.label1.TabIndex = 2;
             this.label1.Text = "Available Workers";
             // 
@@ -55,18 +56,20 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(284, 21);
+            this.label2.Location = new System.Drawing.Point(379, 26);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 22);
+            this.label2.Size = new System.Drawing.Size(185, 26);
             this.label2.TabIndex = 3;
             this.label2.Text = "Workers on shift";
             // 
             // btnAddWorker
             // 
             this.btnAddWorker.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddWorker.Location = new System.Drawing.Point(33, 302);
+            this.btnAddWorker.Location = new System.Drawing.Point(44, 372);
+            this.btnAddWorker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddWorker.Name = "btnAddWorker";
-            this.btnAddWorker.Size = new System.Drawing.Size(135, 34);
+            this.btnAddWorker.Size = new System.Drawing.Size(180, 42);
             this.btnAddWorker.TabIndex = 4;
             this.btnAddWorker.Text = "Add Selected";
             this.btnAddWorker.UseVisualStyleBackColor = true;
@@ -74,9 +77,10 @@
             // btnRemoveWorker
             // 
             this.btnRemoveWorker.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveWorker.Location = new System.Drawing.Point(306, 302);
+            this.btnRemoveWorker.Location = new System.Drawing.Point(408, 372);
+            this.btnRemoveWorker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRemoveWorker.Name = "btnRemoveWorker";
-            this.btnRemoveWorker.Size = new System.Drawing.Size(153, 34);
+            this.btnRemoveWorker.Size = new System.Drawing.Size(204, 42);
             this.btnRemoveWorker.TabIndex = 5;
             this.btnRemoveWorker.Text = "Remove Selected";
             this.btnRemoveWorker.UseVisualStyleBackColor = true;
@@ -84,9 +88,10 @@
             // btnSaveSchedule
             // 
             this.btnSaveSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveSchedule.Location = new System.Drawing.Point(183, 340);
+            this.btnSaveSchedule.Location = new System.Drawing.Point(252, 431);
+            this.btnSaveSchedule.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSaveSchedule.Name = "btnSaveSchedule";
-            this.btnSaveSchedule.Size = new System.Drawing.Size(102, 34);
+            this.btnSaveSchedule.Size = new System.Drawing.Size(136, 42);
             this.btnSaveSchedule.TabIndex = 6;
             this.btnSaveSchedule.Text = "Save";
             this.btnSaveSchedule.UseVisualStyleBackColor = true;
@@ -97,9 +102,10 @@
             this.clnWorkerID,
             this.clnWorkerName});
             this.lvAvailableWorkers.HideSelection = false;
-            this.lvAvailableWorkers.Location = new System.Drawing.Point(33, 44);
+            this.lvAvailableWorkers.Location = new System.Drawing.Point(44, 54);
+            this.lvAvailableWorkers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lvAvailableWorkers.Name = "lvAvailableWorkers";
-            this.lvAvailableWorkers.Size = new System.Drawing.Size(187, 252);
+            this.lvAvailableWorkers.Size = new System.Drawing.Size(248, 309);
             this.lvAvailableWorkers.TabIndex = 7;
             this.lvAvailableWorkers.UseCompatibleStateImageBehavior = false;
             this.lvAvailableWorkers.View = System.Windows.Forms.View.Details;
@@ -111,7 +117,7 @@
             // clnWorkerName
             // 
             this.clnWorkerName.Text = "Name";
-            this.clnWorkerName.Width = 150;
+            this.clnWorkerName.Width = 185;
             // 
             // lvWorkersOnShift
             // 
@@ -119,9 +125,10 @@
             this.columnHeader1,
             this.columnHeader2});
             this.lvWorkersOnShift.HideSelection = false;
-            this.lvWorkersOnShift.Location = new System.Drawing.Point(272, 46);
+            this.lvWorkersOnShift.Location = new System.Drawing.Point(363, 57);
+            this.lvWorkersOnShift.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lvWorkersOnShift.Name = "lvWorkersOnShift";
-            this.lvWorkersOnShift.Size = new System.Drawing.Size(187, 252);
+            this.lvWorkersOnShift.Size = new System.Drawing.Size(248, 309);
             this.lvWorkersOnShift.TabIndex = 8;
             this.lvWorkersOnShift.UseCompatibleStateImageBehavior = false;
             this.lvWorkersOnShift.View = System.Windows.Forms.View.Details;
@@ -133,13 +140,13 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Name";
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 188;
             // 
             // ScheduleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 396);
+            this.ClientSize = new System.Drawing.Size(649, 487);
             this.Controls.Add(this.lvWorkersOnShift);
             this.Controls.Add(this.lvAvailableWorkers);
             this.Controls.Add(this.btnSaveSchedule);
@@ -147,6 +154,7 @@
             this.Controls.Add(this.btnAddWorker);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ScheduleForm";
             this.Text = "ScheduleForm";
             this.ResumeLayout(false);

@@ -84,6 +84,18 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepotAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DepotAddForm.Designer.cs">
+      <DependentUpon>DepotAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DepotEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DepotEditForm.Designer.cs">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +116,12 @@
     <Compile Include="ScheduleForm.Designer.cs">
       <DependentUpon>ScheduleForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DepotAddForm.resx">
+      <DependentUpon>DepotAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DepotEditForm.resx">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LogInScreen.resx">
       <DependentUpon>LogInScreen.cs</DependentUpon>
     </EmbeddedResource>
