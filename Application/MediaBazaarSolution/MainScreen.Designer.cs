@@ -634,6 +634,7 @@
             this.btnEditSchedule.TabIndex = 1;
             this.btnEditSchedule.Text = "Edit Schedule";
             this.btnEditSchedule.UseVisualStyleBackColor = true;
+            this.btnEditSchedule.Click += new System.EventHandler(this.btnEditSchedule_Click);
             // 
             // EmployeesTab
             // 
