@@ -1,13 +1,6 @@
 <?php require_once('helpers/functions.php') ?>
 <?php require_once('helpers/db.php') ?>
 <?php
-  require_once('libs/Exception.php');
-  require_once('libs/SMTP.php');
-  require_once('libs/PHPMailer.php');
-
-  use PHPMailer\PHPMailer\PHPMailer;
- ?>
-<?php
   if (isset($_POST['submit'])) {
     $selector = bin2hex(random_bytes(8));
     $token = random_bytes(32);
@@ -38,31 +31,9 @@
      $headers .= "Content-type: text/html\r\n";
 
 
-     // if (mail('doannguyenthanhkhoa2112@gmail.com', 'Testing email subject', 'Here is message')){
-     //   echo "Success";
-     // }
-
-     $mail = new PHPMailer();
-     $mail->IsSMTP();
-
-     //$mail->SMTPDebug = 2;
-     $mail->Host = "smtp.gmail.com";
-     $mail->Port = 587;
-     $mail->SMTPSecure = "tls";
-     $mail->SMTPAuth = true;
-     $mail->Username = "khoadoan2k@gmail.com";
-     $mail->Password = "mypasswordis12345";
-     $mail->SetFrom("khoadoan2k@gmail.com", "LogiK");
-     $mail->AddReplyTo("khoadoan2k@gmail.com", "Reply");
-     $mail->AddAddress($recipient, "recipient");
-     $mail->Subject = $subject;
-     $mail->isHTML(true);
-     $mail->Body = $message;
-
-     if ($mail->Send()) {
-       $_POST['reset'] = "success";
+     if (mail('doannguyenthanhkhoa2112@gmail.com', 'Testing email subject', 'Here is message')){
+       $_POST['reset'] = 'success';
      }
-
 
    }
  ?>
