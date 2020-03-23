@@ -1,16 +1,17 @@
-/* Header */
+
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body{
-  background: white;
+    background: white;
 
 }
-.main-header {
-/* font */
+
+header{
+    margin-bottom: 25px;
 }
 
 .link{
@@ -30,36 +31,53 @@ body{
   list-style-type: none;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .nav-item {
   padding: 0 20px;
 }
 
+.nav-item:last-child{
+    background: #ff6666;
+    color: white;
+    padding: 5px;
+    transition: all 0.5s ease;
+}
+
+.nav-item:last-child:hover{
+    background: white;
+    border: 1px solid #ff6666;
+}
+
+.nav-item:last-child:hover a{
+    color: #ff6666;
+}
+
 .nav-container{
-  display: flex;
-  background: linear-gradient(120deg, rgba(0,122,223,1) 0%, rgba(0,236,188,1) 100%);
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
+     display: flex;
+     background: linear-gradient(120deg, rgba(0,122,223,1) 0%, rgba(0,236,188,1) 100%);
+     justify-content: space-between;
+     align-items: center;
+     padding: 20px 40px;
 }
 
 
 .nav-left, .nav-right {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
 }
 
 
 .nav-left img{
-  width: 80px;
-  height: auto;
-  margin-right: 30px;
+      width: 80px;
+      height: auto;
+      margin-right: 30px;
 }
 
 .nav-left h2{
-    color: white;
+        color: white;
 }
 
 .signout{
@@ -79,14 +97,84 @@ body{
     color: #ff6666;
 }
 
+.nav-toggle-icon{
+    color: white;
+}
+
+.nav-toggle-btn{
+    cursor: pointer;
+    display: none;
+}
+
+@media screen and (max-width: 1350px) {
+    .nav-container{
+        padding: 10px;
+    }
+}
+
+@media (max-width: 1130px) {
+    .nav-container{
+        flex-direction: column;
+    }
+
+    .nav-left{
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 620px) {
+    .nav-left, .nav-right{
+        flex-direction: column;
+    }
+
+    .nav-right{
+        display: none;
+    }
+
+    .nav-left img{
+        margin: 10px auto;
+    }
+
+    .nav-list{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .nav-item{
+        margin-top: 10px;
+        flex: 1 0 auto;
+    }
+
+
+    .nav-toggle-btn{
+        display: block;
+    }
+
+    .show-nav .nav-right{
+        display: flex;
+
+    }
+
+    .show-nav .nav-toggle-icon{
+        transform: rotate(180deg);
+    }
+}
 /* Table */
+
+#schedule {
+    overflow-x:auto;
+}
 
 #schedule table {
     font-size: 1.7rem;
     border-style: solid;
     border-width: 5px;
     padding: 10px;
-    margin: 250px auto;
+    margin: 250px auto 0;
+    max-width: 500px;
 }
 
 #schedule th, td {
@@ -94,7 +182,11 @@ body{
     text-align: center;
 }
 
-
+@media (max-width: 620px) {
+    #schedule table {
+        font-size: 1.1rem;
+    }
+}
 
 /* ******************* LOGIN PAGE STYLING ****************** */
 
@@ -119,6 +211,11 @@ body{
 
 #login h2{
     margin-bottom: 30px;
+}
+
+.reset-desc{
+    padding: 0 50px;
+    font-weight: bold;
 }
 
 #login form{
@@ -197,11 +294,73 @@ body{
 }
 
 
-.error {
+.error, .success{
     width: 100%;
     color: red;
     text-align: left;
     font-size: 14px;
+}
+
+.success{
+    color: #49F409;
+    text-align: center!important;
+    font-size: 18px;
+}
+
+/* ******************** Depot Styling ************************** */
+#stock {
+    overflow-x:auto;
+}
+
+#stock table {
+    font-size: 1.7rem;
+    border-style: solid;
+    border-width: 5px;
+    padding: 10px;
+    margin: 250px auto 0;
+    width: 900px;
+}
+
+#stock th, td {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.side-search{
+    text-align: center;
+}
+.side-search form{
+    text-align: center;
+}
+
+.side-search form input[type=text] {
+    width: 300px;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.side-search form input[type=submit]{
+    padding: 5px;
+    font-size: 12px;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.side-search form input[type=submit]:hover{
+    background: orange;
+}
+
+#id-error{
+    text-align: center!important;
+    margin-bottom: 10px;
+}
+
+
+@media (max-width: 620px) {
+    #stock table {
+        font-size: 1.1rem;
+    }
 }
 
 /********************* Personal Info Styling ***************** */
@@ -212,7 +371,8 @@ body{
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    margin-bottom: 50px;
+    margin-top: 50px;
 }
 
 
@@ -224,35 +384,89 @@ body{
     line-height: 2rem;
 }
 
-.profile input[type=submit] {
-    padding: 8px;
+.profile h4{
+    margin-top: 50px;
+}
+
+.update-info {
+    padding: 4px;
     border-radius: 5px;
-    margin-top: 30px;
+    margin: 30px auto 5px;
     background: #2b98f0;
     border-style: none;
     color: white;
     transition: 0.5s;
     cursor: pointer;
+    display: block;
+
 }
 
-.profile input[type=submit]:hover{
+.update-info a{
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.update-info:hover{
+    background: white;
+    border: 1px solid #2b98f0;
+}
+
+.update-info:hover a{
+    color: #2b98f0;
+}
+
+#details form{
+    max-width: 1000px;
+    padding: 2px;
+    margin: 2px auto 15px;
+}
+
+#details p{
+    margin: 5px 0;
+    text-align: left;
+    padding-bottom: 5px;
+    padding-top: 20px;
+}
+
+#details label{
+    font-weight: 200;
+}
+
+#details input{
+    display: block;
+    padding: 8px;
+    border: 1px solid black;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.5s ;
+    margin-top: 5px;
+}
+
+#details input:focus{
+    border-bottom: 2px solid #2b98f0;
+}
+#details img{
+    width: 130px;
+    margin-top: 30px;
+}
+
+#details input[type=submit] {
+    padding: 12px;
+    border: none;
+    background: #2b98f0;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+#details input[type=submit]:hover{
     background: white;
     border: 1px solid #2b98f0;
     color: #2b98f0;
 }
 
-.details table{
-    background: white;
-}
-
-.details td {
-    padding: 20px;
-    font-size: 20px;
-}
-
-.details td:nth-child(2) {
-    width: 600px;
-}
 
 /* *********************FOOTER STYLING ************************* */
 footer{
@@ -260,6 +474,7 @@ footer{
     color: #f5f5f5;
     text-align: center;
     padding: 20px 10px 10px 10px;
+    margin-top: 200px;
 }
 
 footer a{
