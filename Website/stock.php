@@ -3,10 +3,15 @@
 <body>
   <div class="side-search">
     <form class="side-search-form" method="post">
-      <input id="name-input" type="text" onkeyup="searchName()" placeholder="Search item here...">
+      <input id="name-input" type="text" onkeyup="searchID()" placeholder="Search by ID">
       <br><br>
     </form>
     <div id="id-error" class="error">
+      <form class="side-search-form" method="post">
+        <input id="name-input" type="text" onkeyup="searchName()" placeholder="Search by name">
+        <br><br>
+      </form>
+      <div id="id-error" class="error">
 
     </div>
     <select name="categories" onchange="showCategory(this.value)">

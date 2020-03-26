@@ -20,24 +20,31 @@
         <th>Thursday</th>
         <th>Friday</th>
       </tr>
-      <?php
-
-        for ($i = 0; $i < count($shift); ++$i) {
-          $dateToWork = array();
-          $sql = "SELECT w.date FROM work_day w INNER JOIN employee_work_day_int e ON e.employee_id = w.employee_id AND e.employee_id = '$employee_id' AND w.shift = '$shift[$i]'";
-          $stmt = $con->query($sql);
-
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($dateToWork, $row['date']);
-          }
-      ?>
       <tr>
-        <td><?php echo $shift[$i]; ?></td>
-
+        <td>Morning</td>
+        <td>Jack</td>
+        <td></td>
+        <td>Jack</td>
+        <td>Jack</td>
+        <td></td>
       </tr>
-      <?php
-    }
-       ?>
+      <tr>
+        <td>Afternoon</td>
+        <td>Jack</td>
+        <td>Jack</td>
+        <td></td>
+        <td>Jack</td>
+        <td>Jack</td>
+      </tr>
+      <tr>
+        <td>Evening</td>
+        <td></td>
+        <td>Jack</td>
+        <td>Jack</td>
+        <td>Jack</td>
+        <td></td>
+      </tr>
+
     </table>
   </main>
 
