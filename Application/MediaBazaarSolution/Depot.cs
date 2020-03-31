@@ -100,7 +100,7 @@ namespace MediaBazaarSolution
                 }
             }
         }
-        public void AddItemToDepot(MySqlConnection dbConnection, string itemName, string category, int itemInStock, decimal price)
+        public void AddItemToDepot(MySqlConnection dbConnection, DataGridView dgvDepot, string itemName, string category, int itemInStock, decimal price)
         {
             if (String.IsNullOrEmpty(itemName) || String.IsNullOrWhiteSpace(itemName))
             {
@@ -138,11 +138,37 @@ namespace MediaBazaarSolution
                 if(resultOfQuery > 0)
                 {
                     MessageBox.Show("Item successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    LoadDepot(dbConnection, dgvDepot);
                 }
                 else
                 {
                     MessageBox.Show("Item not added!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        public void DeleteSelectedItem(MySqlConnection dbconnection, DataGridView dgvDepot)
+        {
+            int rowIndex = dgvDepot.CurrentCell.RowIndex;
+            int idOfProduct = Convert.ToInt32(dgvDepot.SelectedCells[0].Value.ToString());
+
+            MySqlCommand command = new MySqlCommand("DELETE FROM depot_item WHERE item_id=@id",dbconnection);
+
+            command.Parameters.AddWithValue("@id", idOfProduct);
+
+            int resultOfQuery = command.ExecuteNonQuery();
+            
+
+            if(resultOfQuery > 0)
+            {
+                MessageBox.Show("Item successfully deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //LoadDepot(dbconnection, dgvDepot);
+                dgvDepot.Rows.RemoveAt(rowIndex);
+                indecis.Remove(idOfProduct);
+            }
+            else
+            {
+                MessageBox.Show("Item not deleted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

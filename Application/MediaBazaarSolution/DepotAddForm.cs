@@ -13,10 +13,12 @@ namespace MediaBazaarSolution
     public partial class DepotAddForm : Form
     {
         private MainScreen parentForm;
-        public DepotAddForm(MainScreen parent)
+        private DataGridView dgvDepot;
+        public DepotAddForm(MainScreen parent, DataGridView dgvDepot)
         {
             InitializeComponent();
             parentForm = parent;
+            this.dgvDepot = dgvDepot;
         }
 
         private void btnApplyChangesToDepot_Click(object sender, EventArgs e)
@@ -36,7 +38,13 @@ namespace MediaBazaarSolution
                 MessageBox.Show("The price you entered is not an integer!", "Price must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
-            parentForm.Depot.AddItemToDepot(parentForm.DbConnection, itemName, itemCategory, itemInStock, price);
+            parentForm.Depot.AddItemToDepot(parentForm.DbConnection, dgvDepot, itemName, itemCategory, itemInStock, price);
+            
+            this.Hide();
+            tbxItemName.Text = "";
+            tbxCategory.Text = "";
+            tbxInStock.Text = "";
+            tbxPrice.Text = "";
         }
     }
 }

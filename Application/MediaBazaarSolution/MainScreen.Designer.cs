@@ -109,6 +109,7 @@
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.btnDeleteItem = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
@@ -704,6 +705,7 @@
             // 
             // DepotTab
             // 
+            this.DepotTab.Controls.Add(this.btnDeleteItem);
             this.DepotTab.Controls.Add(this.btnAddProduct);
             this.DepotTab.Controls.Add(this.btnSearch);
             this.DepotTab.Controls.Add(this.label1);
@@ -885,6 +887,18 @@
             this.dataGridView2.Size = new System.Drawing.Size(1044, 428);
             this.dataGridView2.TabIndex = 0;
             // 
+            // btnDeleteItem
+            // 
+            this.btnDeleteItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteItem.Location = new System.Drawing.Point(1152, 503);
+            this.btnDeleteItem.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteItem.Name = "btnDeleteItem";
+            this.btnDeleteItem.Size = new System.Drawing.Size(133, 43);
+            this.btnDeleteItem.TabIndex = 5;
+            this.btnDeleteItem.Text = "Delete";
+            this.btnDeleteItem.UseVisualStyleBackColor = true;
+            this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -997,5 +1011,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CATEGORY;
         private System.Windows.Forms.DataGridViewTextBoxColumn STOCK;
         private System.Windows.Forms.DataGridViewTextBoxColumn PRICE;
+        private System.Windows.Forms.Button btnDeleteItem;
     }
 }

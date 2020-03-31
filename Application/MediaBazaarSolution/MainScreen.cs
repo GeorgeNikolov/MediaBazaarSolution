@@ -38,7 +38,7 @@ namespace MediaBazaarSolution
             InitializeComponent();
 
             scheduleForm = new ScheduleForm();
-            depotAddForm = new DepotAddForm(this);
+            depotAddForm = new DepotAddForm(this, dgvDepot);
 
             depot = new Depot();
             ConnectToDatabase();
@@ -84,6 +84,15 @@ namespace MediaBazaarSolution
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnDeleteItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete that item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                depot.DeleteSelectedItem(dbConnection, dgvDepot);
             }
         }
     }
