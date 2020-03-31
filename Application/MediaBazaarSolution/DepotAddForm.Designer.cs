@@ -30,10 +30,10 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.btnApplyChangesToDepot = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxPrice = new System.Windows.Forms.TextBox();
+            this.tbxInStock = new System.Windows.Forms.TextBox();
+            this.tbxCategory = new System.Windows.Forms.TextBox();
+            this.tbxItemName = new System.Windows.Forms.TextBox();
             this.lblPrice = new System.Windows.Forms.Label();
             this.lblinStock = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
@@ -62,33 +62,33 @@
             this.btnApplyChangesToDepot.UseVisualStyleBackColor = true;
             this.btnApplyChangesToDepot.Click += new System.EventHandler(this.btnApplyChangesToDepot_Click);
             // 
-            // textBox4
+            // tbxPrice
             // 
-            this.textBox4.Location = new System.Drawing.Point(104, 431);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(110, 22);
-            this.textBox4.TabIndex = 25;
+            this.tbxPrice.Location = new System.Drawing.Point(104, 431);
+            this.tbxPrice.Name = "tbxPrice";
+            this.tbxPrice.Size = new System.Drawing.Size(110, 22);
+            this.tbxPrice.TabIndex = 25;
             // 
-            // textBox3
+            // tbxInStock
             // 
-            this.textBox3.Location = new System.Drawing.Point(104, 345);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(110, 22);
-            this.textBox3.TabIndex = 24;
+            this.tbxInStock.Location = new System.Drawing.Point(104, 345);
+            this.tbxInStock.Name = "tbxInStock";
+            this.tbxInStock.Size = new System.Drawing.Size(110, 22);
+            this.tbxInStock.TabIndex = 24;
             // 
-            // textBox2
+            // tbxCategory
             // 
-            this.textBox2.Location = new System.Drawing.Point(104, 248);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(110, 22);
-            this.textBox2.TabIndex = 23;
+            this.tbxCategory.Location = new System.Drawing.Point(104, 248);
+            this.tbxCategory.Name = "tbxCategory";
+            this.tbxCategory.Size = new System.Drawing.Size(110, 22);
+            this.tbxCategory.TabIndex = 23;
             // 
-            // textBox1
+            // tbxItemName
             // 
-            this.textBox1.Location = new System.Drawing.Point(104, 150);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(110, 22);
-            this.textBox1.TabIndex = 22;
+            this.tbxItemName.Location = new System.Drawing.Point(104, 150);
+            this.tbxItemName.Name = "tbxItemName";
+            this.tbxItemName.Size = new System.Drawing.Size(110, 22);
+            this.tbxItemName.TabIndex = 22;
             // 
             // lblPrice
             // 
@@ -116,9 +116,9 @@
             this.lblDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDescription.Location = new System.Drawing.Point(99, 197);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(120, 25);
+            this.lblDescription.Size = new System.Drawing.Size(100, 25);
             this.lblDescription.TabIndex = 19;
-            this.lblDescription.Text = "Description";
+            this.lblDescription.Text = "Category";
             // 
             // lblItemName
             // 
@@ -137,10 +137,10 @@
             this.ClientSize = new System.Drawing.Size(440, 499);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnApplyChangesToDepot);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbxPrice);
+            this.Controls.Add(this.tbxInStock);
+            this.Controls.Add(this.tbxCategory);
+            this.Controls.Add(this.tbxItemName);
             this.Controls.Add(this.lblPrice);
             this.Controls.Add(this.lblinStock);
             this.Controls.Add(this.lblDescription);
@@ -156,10 +156,10 @@
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnApplyChangesToDepot;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxPrice;
+        private System.Windows.Forms.TextBox tbxInStock;
+        private System.Windows.Forms.TextBox tbxCategory;
+        private System.Windows.Forms.TextBox tbxItemName;
         private System.Windows.Forms.Label lblPrice;
         private System.Windows.Forms.Label lblinStock;
         private System.Windows.Forms.Label lblDescription;

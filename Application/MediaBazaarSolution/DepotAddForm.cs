@@ -12,14 +12,31 @@ namespace MediaBazaarSolution
 {
     public partial class DepotAddForm : Form
     {
-        public DepotAddForm()
+        private MainScreen parentForm;
+        public DepotAddForm(MainScreen parent)
         {
             InitializeComponent();
+            parentForm = parent;
         }
 
         private void btnApplyChangesToDepot_Click(object sender, EventArgs e)
         {
+            string itemName = tbxItemName.Text;
+            string itemCategory = tbxCategory.Text;
+            bool IsValidAmount = int.TryParse(tbxInStock.Text, out int itemInStock);
+            bool IsValidPrice = decimal.TryParse(tbxPrice.Text, out decimal price);
 
+            if (!IsValidAmount)
+            {
+                MessageBox.Show("The amount you entered is not an integer!", "Amount must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (!IsValidPrice)
+            {
+                MessageBox.Show("The price you entered is not an integer!", "Price must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            parentForm.Depot.AddItemToDepot(parentForm.DbConnection, itemName, itemCategory, itemInStock, price);
         }
     }
 }

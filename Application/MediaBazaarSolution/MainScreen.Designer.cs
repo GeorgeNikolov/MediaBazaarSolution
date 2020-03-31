@@ -96,19 +96,19 @@
             this.btnAddProduct = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxSearchItemById = new System.Windows.Forms.TextBox();
             this.dgvDepot = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ITEM_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CATEGORY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.STOCK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PRICE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ITEM_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CATEGORY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.STOCK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PRICE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
@@ -707,7 +707,7 @@
             this.DepotTab.Controls.Add(this.btnAddProduct);
             this.DepotTab.Controls.Add(this.btnSearch);
             this.DepotTab.Controls.Add(this.label1);
-            this.DepotTab.Controls.Add(this.textBox1);
+            this.DepotTab.Controls.Add(this.tbxSearchItemById);
             this.DepotTab.Controls.Add(this.dgvDepot);
             this.DepotTab.Location = new System.Drawing.Point(4, 34);
             this.DepotTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -753,17 +753,18 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Enter Item ID:";
             // 
-            // textBox1
+            // tbxSearchItemById
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(1634, 151);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 36);
-            this.textBox1.TabIndex = 1;
+            this.tbxSearchItemById.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxSearchItemById.Location = new System.Drawing.Point(1634, 151);
+            this.tbxSearchItemById.Margin = new System.Windows.Forms.Padding(4);
+            this.tbxSearchItemById.Name = "tbxSearchItemById";
+            this.tbxSearchItemById.Size = new System.Drawing.Size(140, 36);
+            this.tbxSearchItemById.TabIndex = 1;
             // 
             // dgvDepot
             // 
+            this.dgvDepot.AllowUserToAddRows = false;
             this.dgvDepot.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDepot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDepot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -782,6 +783,36 @@
             this.dgvDepot.Size = new System.Drawing.Size(1481, 436);
             this.dgvDepot.TabIndex = 0;
             this.dgvDepot.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDepot_CellEndEdit);
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            // 
+            // ITEM_NAME
+            // 
+            this.ITEM_NAME.HeaderText = "Item name";
+            this.ITEM_NAME.MinimumWidth = 6;
+            this.ITEM_NAME.Name = "ITEM_NAME";
+            // 
+            // CATEGORY
+            // 
+            this.CATEGORY.HeaderText = "Category";
+            this.CATEGORY.MinimumWidth = 6;
+            this.CATEGORY.Name = "CATEGORY";
+            // 
+            // STOCK
+            // 
+            this.STOCK.HeaderText = "In Stock";
+            this.STOCK.MinimumWidth = 6;
+            this.STOCK.Name = "STOCK";
+            // 
+            // PRICE
+            // 
+            this.PRICE.HeaderText = "Price";
+            this.PRICE.MinimumWidth = 6;
+            this.PRICE.Name = "PRICE";
             // 
             // StatisticsTab
             // 
@@ -853,36 +884,6 @@
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(1044, 428);
             this.dataGridView2.TabIndex = 0;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 6;
-            this.ID.Name = "ID";
-            // 
-            // ITEM_NAME
-            // 
-            this.ITEM_NAME.HeaderText = "Item name";
-            this.ITEM_NAME.MinimumWidth = 6;
-            this.ITEM_NAME.Name = "ITEM_NAME";
-            // 
-            // CATEGORY
-            // 
-            this.CATEGORY.HeaderText = "Category";
-            this.CATEGORY.MinimumWidth = 6;
-            this.CATEGORY.Name = "CATEGORY";
-            // 
-            // STOCK
-            // 
-            this.STOCK.HeaderText = "In Stock";
-            this.STOCK.MinimumWidth = 6;
-            this.STOCK.Name = "STOCK";
-            // 
-            // PRICE
-            // 
-            this.PRICE.HeaderText = "Price";
-            this.PRICE.MinimumWidth = 6;
-            this.PRICE.Name = "PRICE";
             // 
             // MainScreen
             // 
@@ -983,7 +984,7 @@
         private System.Windows.Forms.Button btnAddProduct;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxSearchItemById;
         private System.Windows.Forms.DataGridView dgvDepot;
         private System.Windows.Forms.TabPage StatisticsTab;
         private System.Windows.Forms.TabControl tabControl1;

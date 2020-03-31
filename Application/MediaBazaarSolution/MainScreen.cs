@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,16 +16,38 @@ namespace MediaBazaarSolution
     {
         private ScheduleForm scheduleForm;
         private DepotAddForm depotAddForm;
+        private MySqlConnection dbConnection;
+        private Depot depot;
+
+        public Depot Depot
+        {
+            get
+            {
+                return this.depot;
+            }
+        }
+        public MySqlConnection DbConnection
+        {
+            get
+            {
+                return this.dbConnection;
+            }
+        }
         public MainScreen()
         {
             InitializeComponent();
+
             scheduleForm = new ScheduleForm();
-            depotAddForm = new DepotAddForm();
+            depotAddForm = new DepotAddForm(this);
+
+            depot = new Depot();
+            ConnectToDatabase();
+            depot.LoadDepot(dbConnection,dgvDepot);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void btnEditSchedule_Click(object sender, EventArgs e)
@@ -43,7 +67,24 @@ namespace MediaBazaarSolution
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            string IdAsString = tbxSearchItemById.Text;
+            depot.SearchItemById(IdAsString, dbConnection, dgvDepot);
+        }
 
+        
+
+        private void ConnectToDatabase()
+        {
+            dbConnection = new MySqlConnection(@"Server=studmysql01.fhict.local;Uid=dbi425406;Database=dbi425406;Pwd=1234;");
+
+            try
+            {
+                dbConnection.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
