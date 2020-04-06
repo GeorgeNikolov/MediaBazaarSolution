@@ -16,21 +16,14 @@ namespace MediaBazaarSolution
     {
         private ScheduleForm scheduleForm;
         private DepotAddForm depotAddForm;
-        private MySqlConnection dbConnection;
         private Depot depot;
+        private object oldCellValue;
 
         public Depot Depot
         {
             get
             {
                 return this.depot;
-            }
-        }
-        public MySqlConnection DbConnection
-        {
-            get
-            {
-                return this.dbConnection;
             }
         }
         public MainScreen()
@@ -41,13 +34,7 @@ namespace MediaBazaarSolution
             depotAddForm = new DepotAddForm(this, dgvDepot);
 
             depot = new Depot();
-            ConnectToDatabase();
-            depot.LoadDepot(dbConnection,dgvDepot);
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
+            depot.LoadDepot(dgvDepot);
         }
 
         private void btnEditSchedule_Click(object sender, EventArgs e)
@@ -62,29 +49,40 @@ namespace MediaBazaarSolution
 
         private void dgvDepot_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            MessageBox.Show("Do you really want to edit that value?", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            object currentCellValue = dgvDepot.CurrentCell.Value;
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if(dgvDepot.CurrentCell.Value == null)
+                {
+                    MessageBox.Show("Enter a valid parameter!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvDepot.CurrentCell.Value = oldCellValue;
+                }
+                else
+                {
+                    currentCellValue = dgvDepot.CurrentCell.Value;
+                    int currentColumnIndex = dgvDepot.CurrentCell.ColumnIndex;
+                    int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
+
+                    depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue,this.oldCellValue);
+                }
+                
+            }
+            else
+            {
+                dgvDepot.CurrentCell.Value = oldCellValue;
+            }
+        }
+        private void dgvDepot_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            oldCellValue = dgvDepot.CurrentCell.Value;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string IdAsString = tbxSearchItemById.Text;
-            depot.SearchItemById(IdAsString, dbConnection, dgvDepot);
-        }
-
-        
-
-        private void ConnectToDatabase()
-        {
-            dbConnection = new MySqlConnection(@"Server=studmysql01.fhict.local;Uid=dbi425406;Database=dbi425406;Pwd=1234;");
-
-            try
-            {
-                dbConnection.Open();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            depot.SearchItemById(IdAsString, dgvDepot);
         }
 
         private void btnDeleteItem_Click(object sender, EventArgs e)
@@ -92,7 +90,7 @@ namespace MediaBazaarSolution
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete that item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                depot.DeleteSelectedItem(dbConnection, dgvDepot);
+                depot.DeleteSelectedItem(dgvDepot);
             }
         }
     }

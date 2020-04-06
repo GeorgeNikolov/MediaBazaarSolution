@@ -32,15 +32,20 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show("The amount you entered is not an integer!", "Amount must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (!IsValidPrice)
+            else if (!IsValidPrice)
             {
-                MessageBox.Show("The price you entered is not an integer!", "Price must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The price you entered is not an integer!", "Price must be a number",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
-            parentForm.Depot.AddItemToDepot(parentForm.DbConnection, dgvDepot, itemName, itemCategory, itemInStock, price);
-            
-            this.Hide();
+            else
+            {
+                parentForm.Depot.AddItemToDepot(dgvDepot, itemName, itemCategory, itemInStock, price);
+            }
+        }
+
+        private void DepotAddForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
             tbxItemName.Text = "";
             tbxCategory.Text = "";
             tbxInStock.Text = "";

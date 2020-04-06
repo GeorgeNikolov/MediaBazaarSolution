@@ -147,6 +147,7 @@
             this.Controls.Add(this.lblItemName);
             this.Name = "DepotAddForm";
             this.Text = "DepotAddForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DepotAddForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
