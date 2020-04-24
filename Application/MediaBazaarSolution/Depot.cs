@@ -29,6 +29,7 @@ namespace MediaBazaarSolution
                 "FROM `depot_item` AS dp " +
                 "LEFT JOIN category AS c " +
                 "ON dp.category_id = c.category_id", dbConnection);
+                
 
                 MySqlDataReader reader = command.ExecuteReader();
 
@@ -57,13 +58,20 @@ namespace MediaBazaarSolution
                 }
             }
         }
+        public void LoadItemCategoriesInComboBox(ComboBox cbxCategory)
+        {
+            cbxCategory.Items.Add("None");
+            cbxCategory.SelectedIndex = 0;
+            foreach (var category in categories)
+            {
+                if(!cbxCategory.Items.Contains(category))
+                {
+                    cbxCategory.Items.Add(category);
+                }
+            }
+        }
         public void SearchItemById(string IdAsString, DataGridView dgvDepot)
         {
-            if (String.IsNullOrEmpty(IdAsString) || String.IsNullOrWhiteSpace(IdAsString))
-            {
-                LoadDepot(dgvDepot);
-                return;
-            }
 
             bool IsValidWantedId = int.TryParse(IdAsString, out int wantedId);
 
@@ -105,6 +113,37 @@ namespace MediaBazaarSolution
 
                             dgvDepot.Rows.Add(itemId, itemName, itemCategory, itemInStock, itemPrice);
                         }
+                    }
+                }
+            }
+        }
+        public void SearchItemByCategory(string categoryAsString, DataGridView dgvDepot)
+        {
+            var dbConnection = base.ConnectToDatabase();
+            using (dbConnection)
+            {
+                MySqlCommand command = new MySqlCommand("SELECT dp.item_id, dp.item_name, dp.amount, c.category_name, dp.price " +
+                    "FROM `depot_item` AS dp " +
+                    "LEFT JOIN category AS c " +
+                    "ON dp.category_id = c.category_id " +
+                    "WHERE c.category_name = @category_name", dbConnection);
+
+                command.Parameters.AddWithValue("@category_name", categoryAsString);
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                using (reader)
+                {
+                    dgvDepot.Rows.Clear();
+                    while (reader.Read())
+                    {
+                        int itemId = Convert.ToInt32(reader["item_id"]);
+                        string itemName = reader["item_name"].ToString();
+                        int itemInStock = Convert.ToInt32(reader["amount"]);
+                        string itemCategory = reader["category_name"].ToString();
+                        decimal itemPrice = Convert.ToDecimal(reader["price"]);
+
+                        dgvDepot.Rows.Add(itemId, itemName, itemCategory, itemInStock, itemPrice);
                     }
                 }
             }
@@ -187,7 +226,6 @@ namespace MediaBazaarSolution
                 }
             }
         }
-
         public void EditSelectedItem(DataGridView dgvDepot, int currentColumnIndex, int id, object valueToBeChanged, object oldCurrentValue)
         {
             var dbConnection = base.ConnectToDatabase();

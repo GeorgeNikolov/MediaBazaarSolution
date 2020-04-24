@@ -93,6 +93,7 @@
             this.HWageCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddressCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DepotTab = new System.Windows.Forms.TabPage();
+            this.cbxItemCategory = new System.Windows.Forms.ComboBox();
             this.btnDeleteItem = new System.Windows.Forms.Button();
             this.btnAddProduct = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -110,6 +111,7 @@
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
@@ -705,6 +707,8 @@
             // 
             // DepotTab
             // 
+            this.DepotTab.Controls.Add(this.label3);
+            this.DepotTab.Controls.Add(this.cbxItemCategory);
             this.DepotTab.Controls.Add(this.btnDeleteItem);
             this.DepotTab.Controls.Add(this.btnAddProduct);
             this.DepotTab.Controls.Add(this.btnSearch);
@@ -719,6 +723,17 @@
             this.DepotTab.TabIndex = 2;
             this.DepotTab.Text = "Depot";
             this.DepotTab.UseVisualStyleBackColor = true;
+            // 
+            // cbxItemCategory
+            // 
+            this.cbxItemCategory.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbxItemCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxItemCategory.FormattingEnabled = true;
+            this.cbxItemCategory.Location = new System.Drawing.Point(1581, 282);
+            this.cbxItemCategory.Name = "cbxItemCategory";
+            this.cbxItemCategory.Size = new System.Drawing.Size(237, 33);
+            this.cbxItemCategory.TabIndex = 6;
+            this.cbxItemCategory.SelectedValueChanged += new System.EventHandler(this.cbxItemCategory_SelectedValueChanged);
             // 
             // btnDeleteItem
             // 
@@ -747,7 +762,7 @@
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(1634, 216);
+            this.btnSearch.Location = new System.Drawing.Point(1623, 365);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(140, 46);
@@ -760,7 +775,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1620, 91);
+            this.label1.Location = new System.Drawing.Point(1607, 88);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(167, 29);
@@ -770,7 +785,7 @@
             // tbxSearchItemById
             // 
             this.tbxSearchItemById.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxSearchItemById.Location = new System.Drawing.Point(1634, 151);
+            this.tbxSearchItemById.Location = new System.Drawing.Point(1623, 148);
             this.tbxSearchItemById.Margin = new System.Windows.Forms.Padding(4);
             this.tbxSearchItemById.Name = "tbxSearchItemById";
             this.tbxSearchItemById.Size = new System.Drawing.Size(140, 36);
@@ -901,6 +916,17 @@
             this.dataGridView2.Size = new System.Drawing.Size(1044, 428);
             this.dataGridView2.TabIndex = 0;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(1594, 218);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(195, 29);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Select category:";
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1014,5 +1040,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CATEGORY;
         private System.Windows.Forms.DataGridViewTextBoxColumn STOCK;
         private System.Windows.Forms.DataGridViewTextBoxColumn PRICE;
+        private System.Windows.Forms.ComboBox cbxItemCategory;
+        private System.Windows.Forms.Label label3;
     }
 }
