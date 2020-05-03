@@ -10,6 +10,8 @@ namespace MediaBazaarSolution.DAO
 {
     public class ItemDAO
     {
+        //using Singleton Design pattern 
+        //this ensures that only one object of its kind exists and provides a single point of access to it for any other code
         private static ItemDAO instance;
 
         public static ItemDAO Instance { 
@@ -29,6 +31,7 @@ namespace MediaBazaarSolution.DAO
             }
         }
 
+        //set the constructor to private so that it will not be instantiated because of its protection level
         private ItemDAO() { }
 
         public List<Item> LoadAllItems()
