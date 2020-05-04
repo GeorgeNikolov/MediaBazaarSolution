@@ -57,7 +57,6 @@
             this.lblFName.Size = new System.Drawing.Size(106, 25);
             this.lblFName.TabIndex = 0;
             this.lblFName.Text = "First Name";
-            this.lblFName.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblLName
             // 
@@ -67,7 +66,6 @@
             this.lblLName.Size = new System.Drawing.Size(106, 25);
             this.lblLName.TabIndex = 1;
             this.lblLName.Text = "Last Name";
-            this.lblLName.Click += new System.EventHandler(this.label2_Click);
             // 
             // lblUName
             // 
@@ -86,7 +84,6 @@
             this.lblPassword.Size = new System.Drawing.Size(98, 25);
             this.lblPassword.TabIndex = 3;
             this.lblPassword.Text = "Password";
-            this.lblPassword.Click += new System.EventHandler(this.label4_Click);
             // 
             // lblPhone
             // 
@@ -105,7 +102,6 @@
             this.lblType.Size = new System.Drawing.Size(57, 25);
             this.lblType.TabIndex = 5;
             this.lblType.Text = "Type";
-            this.lblType.Click += new System.EventHandler(this.label6_Click);
             // 
             // lblPlace
             // 
@@ -124,7 +120,6 @@
             this.lblRate.Size = new System.Drawing.Size(113, 25);
             this.lblRate.TabIndex = 7;
             this.lblRate.Text = "Hourly Rate";
-            this.lblRate.Click += new System.EventHandler(this.label8_Click);
             // 
             // tbxFName
             // 
@@ -132,7 +127,6 @@
             this.tbxFName.Name = "tbxFName";
             this.tbxFName.Size = new System.Drawing.Size(137, 29);
             this.tbxFName.TabIndex = 8;
-            this.tbxFName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tbxPlace
             // 
@@ -147,7 +141,6 @@
             this.tbxUName.Name = "tbxUName";
             this.tbxUName.Size = new System.Drawing.Size(137, 29);
             this.tbxUName.TabIndex = 12;
-            this.tbxUName.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // cbxType
             // 
@@ -156,7 +149,6 @@
             this.cbxType.Name = "cbxType";
             this.cbxType.Size = new System.Drawing.Size(137, 32);
             this.cbxType.TabIndex = 14;
-            this.cbxType.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // tbxLName
             // 
@@ -171,7 +163,6 @@
             this.tbxPhone.Name = "tbxPhone";
             this.tbxPhone.Size = new System.Drawing.Size(137, 29);
             this.tbxPhone.TabIndex = 16;
-            this.tbxPhone.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // tbxPassword
             // 
@@ -187,7 +178,6 @@
             this.tbxRate.Name = "tbxRate";
             this.tbxRate.Size = new System.Drawing.Size(137, 29);
             this.tbxRate.TabIndex = 18;
-            this.tbxRate.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // btnAdd
             // 
@@ -197,7 +187,6 @@
             this.btnAdd.TabIndex = 19;
             this.btnAdd.Text = "Add Employee";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblEmail
             // 
@@ -214,7 +203,6 @@
             this.tbxEmail.Name = "tbxEmail";
             this.tbxEmail.Size = new System.Drawing.Size(287, 29);
             this.tbxEmail.TabIndex = 21;
-            this.tbxEmail.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
             // 
             // EmployeeAddForm
             // 
@@ -242,7 +230,6 @@
             this.Controls.Add(this.lblFName);
             this.Name = "EmployeeAddForm";
             this.Text = "EmployeeAddForm";
-            this.Load += new System.EventHandler(this.EmployeeAddForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

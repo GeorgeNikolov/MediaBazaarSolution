@@ -116,6 +116,7 @@
       <DependentUpon>DepotAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\Category.cs" />
+    <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\Item.cs" />
     <Compile Include="EmployeeAddForm.cs">
       <SubType>Form</SubType>
