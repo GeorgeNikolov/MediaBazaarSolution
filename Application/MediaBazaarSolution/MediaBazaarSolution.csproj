@@ -106,7 +106,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\AccountDAO.cs" />
     <Compile Include="DAO\DataProvider.cs" />
+    <Compile Include="DAO\EmployeeDAO.cs" />
     <Compile Include="DAO\ItemDAO.cs" />
     <Compile Include="DAO\ItemCategoryDAO.cs" />
     <Compile Include="DepotAddForm.cs">

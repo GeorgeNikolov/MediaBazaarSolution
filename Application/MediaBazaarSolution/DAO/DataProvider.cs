@@ -43,7 +43,8 @@ namespace MediaBazaarSolution.DAO
             DataTable data = new DataTable();
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+            {   
+
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
 

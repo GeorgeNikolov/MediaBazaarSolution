@@ -18,23 +18,34 @@ namespace MediaBazaarSolution
     {
         private ScheduleForm scheduleForm;
         private DepotAddForm depotAddForm;
+        private EmployeeAddForm employeeAddForm;
         internal List<int> indecis;
         internal List<string> categories;
-        private int tempID;
+        internal List<string> employees;
+        
+        private int itemID;
+        private int employeeID;
 
-        private object oldCellValue;
+        private object oldItemCellValue;
+        private object oldEmployeeCellValue;
 
-        public MainScreen()
+        private string userFirstName;
+
+        public MainScreen(string userFirstName)
         {
             InitializeComponent();
 
             scheduleForm = new ScheduleForm();
             depotAddForm = new DepotAddForm(this);
+            employeeAddForm = new EmployeeAddForm(this);
 
             indecis = new List<int>();
             categories = new List<string>();
-            LoadAllItems();
-            LoadItemCategoriesInComboBox();
+            employees = new List<string>();
+            LoadAll();
+
+            this.userFirstName = userFirstName;
+            lblWelcome.Text = "Welcome " + userFirstName + "!";
         }
 
         #region Methods 
@@ -43,6 +54,7 @@ namespace MediaBazaarSolution
         {
             LoadAllItems();
             LoadItemCategoriesInComboBox();
+            LoadAllEmployees();
         }
         private void LoadAllItems()
         {
@@ -74,6 +86,23 @@ namespace MediaBazaarSolution
             cbxItemCategory.DataSource = ItemCategoryDAO.Instance.getAllCategory();
             cbxItemCategory.DisplayMember = "name";
             cbxItemCategory.SelectedIndex = 0;
+        }
+
+        private void LoadAllEmployees()
+        {
+
+            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
+            dgvEmployees.DataSource = employeeList;
+
+            employees.Clear();
+
+            foreach (Employee employee in employeeList)
+            {
+                if (!employees.Contains(employee.LastName))
+                {
+                    employees.Add(employee.LastName);
+                }       
+            }
         }
 
         private void SearchItemByCategory(string categoryWanted)
@@ -113,107 +142,10 @@ namespace MediaBazaarSolution
             depotAddForm.Show();
         }
 
-        private void dgvDepot_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            
-            object currentCellValue = dgvDepot.CurrentCell.Value;
-            bool queryIsSuccess = false;
-
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (dialogResult == DialogResult.Yes)
-            {
-                if(dgvDepot.CurrentCell.Value == null)
-                {
-                    MessageBox.Show("Enter a valid parameter!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgvDepot.CurrentCell.Value = oldCellValue;
-                }
-                else
-                {
-                    currentCellValue = dgvDepot.CurrentCell.Value;
-                    int currentColumnIndex = dgvDepot.CurrentCell.ColumnIndex;
-                    int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
-
-                    //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
-                    if (currentColumnIndex == 1)
-                    {
-                        queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentCellValue.ToString());
-                    } 
-                    else if (currentColumnIndex == 2)
-                    {
-                        if (!categories.Contains(currentCellValue.ToString()))
-                        {
-                            MessageBox.Show("No such category!", "Invalid category", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dgvDepot.CurrentCell.Value = oldCellValue;
-                            return;
-                        }
-                        else
-                        {
-                            queryIsSuccess = ItemDAO.Instance.UpdateItemCategory(currentItemId, currentCellValue.ToString());
-                        }
-                    }
-                    else if (currentColumnIndex == 3)
-                    {
-                        bool IsValidAmount = int.TryParse(currentCellValue.ToString(), out int itemInStock);
-
-
-                        if (!IsValidAmount)
-                        {
-                            MessageBox.Show("The amount you entered is not an integer!", "Amount must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dgvDepot.CurrentCell.Value = oldCellValue;
-                            return;
-                        }
-                        else if (itemInStock <= 0)
-                        {
-                            MessageBox.Show("The amount must be positive!", "Invalid amount", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dgvDepot.CurrentCell.Value = oldCellValue;
-                            return;
-                        }
-                        else
-                        {
-                            queryIsSuccess = ItemDAO.Instance.UpdateItemAmount(currentItemId, (int)currentCellValue);
-                        }
-                    } else if (currentColumnIndex == 4)
-                    {
-                        bool IsValidPrice = decimal.TryParse(currentCellValue.ToString(), out decimal price);
-
-                        if (!IsValidPrice)
-                        {
-                            MessageBox.Show("The price you entered is not an integer!", "Price must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dgvDepot.CurrentCell.Value = oldCellValue;
-                            return;
-                        }
-                        else if (price <= 0)
-                        {
-                            MessageBox.Show("The amount must be positive!", "Invalid amount", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            dgvDepot.CurrentCell.Value = oldCellValue;
-                            return;
-                        }
-                        else
-                        {
-                            queryIsSuccess = ItemDAO.Instance.UpdateItemPrice(currentItemId, Convert.ToDecimal(currentCellValue));
-                        }
-                    }
-                }
-            }
-            else
-            {
-                dgvDepot.CurrentCell.Value = oldCellValue;
-                return;
-            }
-
-            if (queryIsSuccess)
-            {
-                MessageBox.Show("Item successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                LoadAll();
-            } else
-            {
-                MessageBox.Show("Item not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private void dgvDepot_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             //Saves the old value of the cell that is currently being edited. 
-            oldCellValue = dgvDepot.CurrentCell.Value;
+            oldItemCellValue = dgvDepot.CurrentCell.Value;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -252,7 +184,7 @@ namespace MediaBazaarSolution
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete that item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                if (ItemDAO.Instance.DeleteSelectedItem(tempID))
+                if (ItemDAO.Instance.DeleteSelectedItem(itemID))
                 {
                     MessageBox.Show("Item successfully deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     LoadAll();
@@ -287,15 +219,254 @@ namespace MediaBazaarSolution
             {
                 int selectedRowIndex = dgvDepot.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = dgvDepot.Rows[selectedRowIndex];
-                tempID = Convert.ToInt32(selectedRow.Cells["ID"].Value);
+                itemID = Convert.ToInt32(selectedRow.Cells["ID"].Value);
             }
             
         }
 
+        private void btnAddEmployee_Click(object sender, EventArgs e)
+        {
+            employeeAddForm.Show();
+        }
 
+        private void btnDeleteEmployee_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete that employee?", "Delete Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (EmployeeDAO.Instance.DeleteEmployee(employeeID))
+                {
+                    MessageBox.Show("Employee successfully deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    LoadAll();
+                }
+                else
+                {
+                    MessageBox.Show("Employee not deleted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void dgvEmployees_SelectionChanged(object sender, EventArgs e)
+        { 
+            if (dgvEmployees.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dgvEmployees.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = dgvEmployees.Rows[selectedRowIndex];
+                employeeID = Convert.ToInt32(selectedRow.Cells["ID"].Value);
+            }
+        }
+
+        private void btnSearchEmployee_Click(object sender, EventArgs e)
+        {
+            string name = tbxSearchEmployeeByName.Text;
+            bool isNameNotValid = int.TryParse(name, out int nameAsInt);
+
+            if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Enter An Invalid Name!", "Invalid Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else if (isNameNotValid)
+            {
+                MessageBox.Show("The name should not be an integer!", "Invalid name type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else if (!employees.Contains(name))
+            {
+                MessageBox.Show("There is no matching for the employee name", "No matching result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                dgvEmployees.DataSource = EmployeeDAO.Instance.SearchEmployeeByLastName(name);
+            }
+            
+        }
+
+        private void btnReloadEmployees_Click(object sender, EventArgs e)
+        {
+            LoadAllEmployees();
+        }
+
+
+        private void btnReloadItems_Click(object sender, EventArgs e)
+        {
+            LoadAllItems();
+        }
+
+
+        private void dgvDepot_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            object currentItemCellValue = dgvDepot.CurrentCell.Value;
+
+            bool queryIsSuccess = false;
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that item?", "Edit Item", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (currentItemCellValue == null)
+                {
+                    MessageBox.Show("Enter a valid parameter!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvDepot.CurrentCell.Value = oldItemCellValue;
+                }
+                else
+                {
+                    currentItemCellValue = dgvDepot.CurrentCell.Value;
+                    int currentColumnIndex = dgvDepot.CurrentCell.ColumnIndex;
+                    int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
+
+                    //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
+                    if (currentColumnIndex == 1)
+                    {
+                        queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentItemCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 2)
+                    {
+                        if (!categories.Contains(currentItemCellValue.ToString()))
+                        {
+                            MessageBox.Show("No such category!", "Invalid category", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgvDepot.CurrentCell.Value = oldItemCellValue;
+                            return;
+                        }
+                        else
+                        {
+                            queryIsSuccess = ItemDAO.Instance.UpdateItemCategory(currentItemId, currentItemCellValue.ToString());
+                        }
+                    }
+                    else if (currentColumnIndex == 3)
+                    {
+                        bool IsValidAmount = int.TryParse(currentItemCellValue.ToString(), out int itemInStock);
+
+
+                        if (!IsValidAmount)
+                        {
+                            MessageBox.Show("The amount you entered is not an integer!", "Amount must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgvDepot.CurrentCell.Value = oldItemCellValue;
+                            return;
+                        }
+                        else if (itemInStock <= 0)
+                        {
+                            MessageBox.Show("The amount must be positive!", "Invalid amount", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgvDepot.CurrentCell.Value = oldItemCellValue;
+                            return;
+                        }
+                        else
+                        {
+                            queryIsSuccess = ItemDAO.Instance.UpdateItemAmount(currentItemId, (int)currentItemCellValue);
+                        }
+                    }
+                    else if (currentColumnIndex == 4)
+                    {
+                        bool IsValidPrice = decimal.TryParse(currentItemCellValue.ToString(), out decimal price);
+
+                        if (!IsValidPrice)
+                        {
+                            MessageBox.Show("The price you entered is not an integer!", "Price must be a number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgvDepot.CurrentCell.Value = oldItemCellValue;
+                            return;
+                        }
+                        else if (price <= 0)
+                        {
+                            MessageBox.Show("The amount must be positive!", "Invalid amount", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dgvDepot.CurrentCell.Value = oldItemCellValue;
+                            return;
+                        }
+                        else
+                        {
+                            queryIsSuccess = ItemDAO.Instance.UpdateItemPrice(currentItemId, Convert.ToDecimal(currentItemCellValue));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                dgvDepot.CurrentCell.Value = oldItemCellValue;
+                return;
+            }
+
+            if (queryIsSuccess)
+            {
+                MessageBox.Show("Item successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                LoadAll();
+            }
+            else
+            {
+                MessageBox.Show("Item not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvEmployees_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            oldEmployeeCellValue = dgvEmployees.CurrentCell.Value;
+        }
+
+
+        private void dgvEmployees_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            object currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
+
+            bool queryIsSuccess = false;
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that employee?", "Edit Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (currentEmployeeCellValue == null)
+                {
+                    MessageBox.Show("Enter a valid parameter!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
+                }
+                else
+                {
+                    currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
+                    int currentColumnIndex = dgvEmployees.CurrentCell.ColumnIndex;
+                    int currentEmployeeId = Convert.ToInt32(dgvEmployees.Rows[e.RowIndex].Cells[0].Value);
+
+                    if (currentColumnIndex == 1)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeFirstName(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 2)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeLastName(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 3)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeUsername(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 4)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeEmail(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    } else if (currentColumnIndex == 5)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeePhone(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 6)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeHourlyWage(currentEmployeeId, Convert.ToDouble(currentEmployeeCellValue));
+                    }
+                    else if (currentColumnIndex == 7)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeType(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 8)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeAddress(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                }
+            }
+            else
+            {
+                dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
+                return;
+            }
+
+            if (queryIsSuccess)
+            {
+                MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                LoadAll();
+            }
+            else
+            {
+                MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         #endregion
-
 
     }
 }

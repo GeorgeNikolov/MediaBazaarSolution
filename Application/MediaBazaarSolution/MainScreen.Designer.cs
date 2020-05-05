@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblWelcome = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
             this.listView15 = new System.Windows.Forms.ListView();
@@ -86,13 +86,15 @@
             this.lblMorning = new System.Windows.Forms.Label();
             this.btnEditSchedule = new System.Windows.Forms.Button();
             this.EmployeesTab = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HWageCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddressCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReloadEmployees = new System.Windows.Forms.Button();
+            this.btnSearchEmployee = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbxSearchEmployeeByName = new System.Windows.Forms.TextBox();
+            this.btnAddEmployee = new System.Windows.Forms.Button();
+            this.btnDeleteEmployee = new System.Windows.Forms.Button();
+            this.dgvEmployees = new System.Windows.Forms.DataGridView();
             this.DepotTab = new System.Windows.Forms.TabPage();
+            this.btnReloadItems = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cbxItemCategory = new System.Windows.Forms.ComboBox();
             this.btnDeleteItem = new System.Windows.Forms.Button();
@@ -110,7 +112,7 @@
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).BeginInit();
             this.DepotTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).BeginInit();
             this.StatisticsTab.SuspendLayout();
@@ -121,15 +123,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
-            // label2
+            // lblWelcome
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(477, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(330, 37);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "WELCOME, <User>!";
+            this.lblWelcome.AutoSize = true;
+            this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWelcome.Location = new System.Drawing.Point(477, 19);
+            this.lblWelcome.Name = "lblWelcome";
+            this.lblWelcome.Size = new System.Drawing.Size(330, 37);
+            this.lblWelcome.TabIndex = 1;
+            this.lblWelcome.Text = "WELCOME, <User>!";
             // 
             // Tabs
             // 
@@ -657,7 +659,13 @@
             // 
             // EmployeesTab
             // 
-            this.EmployeesTab.Controls.Add(this.dataGridView1);
+            this.EmployeesTab.Controls.Add(this.btnReloadEmployees);
+            this.EmployeesTab.Controls.Add(this.btnSearchEmployee);
+            this.EmployeesTab.Controls.Add(this.label4);
+            this.EmployeesTab.Controls.Add(this.tbxSearchEmployeeByName);
+            this.EmployeesTab.Controls.Add(this.btnAddEmployee);
+            this.EmployeesTab.Controls.Add(this.btnDeleteEmployee);
+            this.EmployeesTab.Controls.Add(this.dgvEmployees);
             this.EmployeesTab.Location = new System.Drawing.Point(4, 29);
             this.EmployeesTab.Margin = new System.Windows.Forms.Padding(2);
             this.EmployeesTab.Name = "EmployeesTab";
@@ -667,62 +675,83 @@
             this.EmployeesTab.Text = "Employees";
             this.EmployeesTab.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // btnReloadEmployees
             // 
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IDColumn,
-            this.FNameCol,
-            this.LNameCol,
-            this.HWageCol,
-            this.AddressCol});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 2);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1371, 494);
-            this.dataGridView1.TabIndex = 0;
+            this.btnReloadEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReloadEmployees.Location = new System.Drawing.Point(630, 432);
+            this.btnReloadEmployees.Name = "btnReloadEmployees";
+            this.btnReloadEmployees.Size = new System.Drawing.Size(100, 35);
+            this.btnReloadEmployees.TabIndex = 11;
+            this.btnReloadEmployees.Text = "Reload";
+            this.btnReloadEmployees.UseVisualStyleBackColor = true;
+            this.btnReloadEmployees.Click += new System.EventHandler(this.btnReloadEmployees_Click);
             // 
-            // IDColumn
+            // btnSearchEmployee
             // 
-            this.IDColumn.HeaderText = "ID";
-            this.IDColumn.MinimumWidth = 6;
-            this.IDColumn.Name = "IDColumn";
-            this.IDColumn.Width = 125;
+            this.btnSearchEmployee.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchEmployee.Location = new System.Drawing.Point(1156, 208);
+            this.btnSearchEmployee.Name = "btnSearchEmployee";
+            this.btnSearchEmployee.Size = new System.Drawing.Size(105, 37);
+            this.btnSearchEmployee.TabIndex = 10;
+            this.btnSearchEmployee.Text = "Search";
+            this.btnSearchEmployee.UseVisualStyleBackColor = true;
+            this.btnSearchEmployee.Click += new System.EventHandler(this.btnSearchEmployee_Click);
             // 
-            // FNameCol
+            // label4
             // 
-            this.FNameCol.HeaderText = "First Name";
-            this.FNameCol.MinimumWidth = 6;
-            this.FNameCol.Name = "FNameCol";
-            this.FNameCol.Width = 125;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(1085, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(249, 25);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Enter Employee Last Name";
             // 
-            // LNameCol
+            // tbxSearchEmployeeByName
             // 
-            this.LNameCol.HeaderText = "Last Name";
-            this.LNameCol.MinimumWidth = 6;
-            this.LNameCol.Name = "LNameCol";
-            this.LNameCol.Width = 125;
+            this.tbxSearchEmployeeByName.Location = new System.Drawing.Point(1088, 112);
+            this.tbxSearchEmployeeByName.Name = "tbxSearchEmployeeByName";
+            this.tbxSearchEmployeeByName.Size = new System.Drawing.Size(246, 26);
+            this.tbxSearchEmployeeByName.TabIndex = 8;
             // 
-            // HWageCol
+            // btnAddEmployee
             // 
-            this.HWageCol.HeaderText = "HWage";
-            this.HWageCol.MinimumWidth = 6;
-            this.HWageCol.Name = "HWageCol";
-            this.HWageCol.Width = 125;
+            this.btnAddEmployee.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddEmployee.Location = new System.Drawing.Point(921, 432);
+            this.btnAddEmployee.Name = "btnAddEmployee";
+            this.btnAddEmployee.Size = new System.Drawing.Size(100, 35);
+            this.btnAddEmployee.TabIndex = 7;
+            this.btnAddEmployee.Text = "Add";
+            this.btnAddEmployee.UseVisualStyleBackColor = true;
+            this.btnAddEmployee.Click += new System.EventHandler(this.btnAddEmployee_Click);
             // 
-            // AddressCol
+            // btnDeleteEmployee
             // 
-            this.AddressCol.HeaderText = "Address";
-            this.AddressCol.MinimumWidth = 6;
-            this.AddressCol.Name = "AddressCol";
-            this.AddressCol.Width = 125;
+            this.btnDeleteEmployee.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteEmployee.Location = new System.Drawing.Point(771, 432);
+            this.btnDeleteEmployee.Name = "btnDeleteEmployee";
+            this.btnDeleteEmployee.Size = new System.Drawing.Size(100, 35);
+            this.btnDeleteEmployee.TabIndex = 6;
+            this.btnDeleteEmployee.Text = "Delete";
+            this.btnDeleteEmployee.UseVisualStyleBackColor = true;
+            this.btnDeleteEmployee.Click += new System.EventHandler(this.btnDeleteEmployee_Click);
+            // 
+            // dgvEmployees
+            // 
+            this.dgvEmployees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEmployees.Location = new System.Drawing.Point(25, 17);
+            this.dgvEmployees.Name = "dgvEmployees";
+            this.dgvEmployees.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvEmployees.Size = new System.Drawing.Size(1011, 378);
+            this.dgvEmployees.TabIndex = 0;
+            this.dgvEmployees.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvEmployees_CellBeginEdit);
+            this.dgvEmployees.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployees_CellEndEdit);
+            this.dgvEmployees.SelectionChanged += new System.EventHandler(this.dgvEmployees_SelectionChanged);
             // 
             // DepotTab
             // 
+            this.DepotTab.Controls.Add(this.btnReloadItems);
             this.DepotTab.Controls.Add(this.label3);
             this.DepotTab.Controls.Add(this.cbxItemCategory);
             this.DepotTab.Controls.Add(this.btnDeleteItem);
@@ -739,6 +768,17 @@
             this.DepotTab.TabIndex = 2;
             this.DepotTab.Text = "Depot";
             this.DepotTab.UseVisualStyleBackColor = true;
+            // 
+            // btnReloadItems
+            // 
+            this.btnReloadItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReloadItems.Location = new System.Drawing.Point(710, 409);
+            this.btnReloadItems.Name = "btnReloadItems";
+            this.btnReloadItems.Size = new System.Drawing.Size(100, 35);
+            this.btnReloadItems.TabIndex = 12;
+            this.btnReloadItems.Text = "Reload";
+            this.btnReloadItems.UseVisualStyleBackColor = true;
+            this.btnReloadItems.Click += new System.EventHandler(this.btnReloadItems_Click);
             // 
             // label3
             // 
@@ -909,7 +949,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1404, 612);
             this.Controls.Add(this.Tabs);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblWelcome);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainScreen";
             this.Text = "Hello";
@@ -917,7 +957,8 @@
             this.ScheduleTab.ResumeLayout(false);
             this.ScheduleTab.PerformLayout();
             this.EmployeesTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.EmployeesTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).EndInit();
             this.DepotTab.ResumeLayout(false);
             this.DepotTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).EndInit();
@@ -933,7 +974,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.TabControl Tabs;
         private System.Windows.Forms.TabPage ScheduleTab;
         private System.Windows.Forms.ListView listView15;
@@ -991,12 +1032,6 @@
         private System.Windows.Forms.Label lblMorning;
         private System.Windows.Forms.Button btnEditSchedule;
         private System.Windows.Forms.TabPage EmployeesTab;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FNameCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LNameCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HWageCol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AddressCol;
         private System.Windows.Forms.TabPage DepotTab;
         private System.Windows.Forms.Button btnAddProduct;
         private System.Windows.Forms.Button btnSearch;
@@ -1012,5 +1047,13 @@
         private System.Windows.Forms.Button btnDeleteItem;
         private System.Windows.Forms.ComboBox cbxItemCategory;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dgvEmployees;
+        private System.Windows.Forms.Button btnAddEmployee;
+        private System.Windows.Forms.Button btnDeleteEmployee;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbxSearchEmployeeByName;
+        private System.Windows.Forms.Button btnSearchEmployee;
+        private System.Windows.Forms.Button btnReloadEmployees;
+        private System.Windows.Forms.Button btnReloadItems;
     }
 }
