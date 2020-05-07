@@ -31,12 +31,18 @@ namespace MediaBazaarSolution
 
         private string userFirstName;
 
+        public string UserFirstName { 
+            get 
+            {
+                return this.userFirstName;    
+            }
+        }
+
         public MainScreen(string userFirstName)
         {
             InitializeComponent();
 
             scheduleForm = new ScheduleForm();
-            depotAddForm = new DepotAddForm(this);
             employeeAddForm = new EmployeeAddForm(this);
 
             indecis = new List<int>();
@@ -45,6 +51,9 @@ namespace MediaBazaarSolution
             LoadAll();
 
             this.userFirstName = userFirstName;
+            //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
+            depotAddForm = new DepotAddForm(this);
+
             lblWelcome.Text = "Welcome " + userFirstName + "!";
         }
 

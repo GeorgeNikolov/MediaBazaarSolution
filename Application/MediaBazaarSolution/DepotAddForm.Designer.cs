@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblDepotAddFormUser = new System.Windows.Forms.Label();
             this.btnApplyChangesToDepot = new System.Windows.Forms.Button();
             this.tbxPrice = new System.Windows.Forms.TextBox();
             this.tbxInStock = new System.Windows.Forms.TextBox();
@@ -40,16 +40,16 @@
             this.cbxCategory = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // label2
+            // lblDepotAddFormUser
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(78, 9);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(314, 46);
-            this.label2.TabIndex = 27;
-            this.label2.Text = "You are <User>";
+            this.lblDepotAddFormUser.AutoSize = true;
+            this.lblDepotAddFormUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDepotAddFormUser.Location = new System.Drawing.Point(78, 9);
+            this.lblDepotAddFormUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDepotAddFormUser.Name = "lblDepotAddFormUser";
+            this.lblDepotAddFormUser.Size = new System.Drawing.Size(314, 46);
+            this.lblDepotAddFormUser.TabIndex = 27;
+            this.lblDepotAddFormUser.Text = "You are <User>";
             // 
             // btnApplyChangesToDepot
             // 
@@ -142,7 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(477, 597);
             this.Controls.Add(this.cbxCategory);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblDepotAddFormUser);
             this.Controls.Add(this.btnApplyChangesToDepot);
             this.Controls.Add(this.tbxPrice);
             this.Controls.Add(this.tbxInStock);
@@ -162,7 +162,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblDepotAddFormUser;
         private System.Windows.Forms.Button btnApplyChangesToDepot;
         private System.Windows.Forms.TextBox tbxPrice;
         private System.Windows.Forms.TextBox tbxInStock;

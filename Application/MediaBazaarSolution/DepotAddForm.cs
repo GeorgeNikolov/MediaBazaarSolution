@@ -24,7 +24,7 @@ namespace MediaBazaarSolution
             //this.dgvDepot = dgvDepot;
             cbxCategory.DataSource = ItemCategoryDAO.Instance.getAllCategory();
             cbxCategory.DisplayMember = "name";
-
+            this.lblDepotAddFormUser.Text = "You are " + parent.UserFirstName;
         }
 
         private void btnApplyChangesToDepot_Click(object sender, EventArgs e)
@@ -85,6 +85,7 @@ namespace MediaBazaarSolution
 
         private void DepotAddForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //Reset the fields in the DepotAddForm after closing.
             Hide();
             e.Cancel = true;
             tbxItemName.Text = "";
