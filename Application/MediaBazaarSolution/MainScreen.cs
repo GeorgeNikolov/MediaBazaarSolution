@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MediaBazaarSolution.DAO;
 using MediaBazaarSolution.DTO;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace MediaBazaarSolution
 {
@@ -55,6 +57,20 @@ namespace MediaBazaarSolution
             depotAddForm = new DepotAddForm(this);
 
             lblWelcome.Text = "Welcome " + userFirstName + "!";
+
+
+            // Dummy Data for presentation Week 12
+            SeriesCollection series = new SeriesCollection();
+            string[] categoryNames = new string[6] { "Computer", "Home Appliances", "Television", "Camera", "Mobile", "Gaming" };
+            int[] categoryNumbers = new int[6] { 50, 30, 57, 134, 264, 80 };
+            for(int i = 0; i < 6; i++) {
+                series.Add(new PieSeries() { Title = categoryNames[i], Values = new ChartValues<int> { categoryNumbers[i] }, DataLabels = true, LabelPoint = label });
+            }
+            SalesPieChart.Series = series;
+            SalesPieChart.Text = "Category Sales";
+            SalesPieChart.LegendLocation = LegendLocation.Right;
+            
+            SalesPieChart.Refresh();
         }
 
         #region Methods 
@@ -477,5 +493,9 @@ namespace MediaBazaarSolution
 
         #endregion
 
+
+        // Dummy methods for statistics page
+        Func<ChartPoint, string> label = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
+        
     }
 }
