@@ -19,6 +19,7 @@ namespace MediaBazaarSolution.DTO
         private string email;
         private string phone;
         private string address;
+        
         //private EmployeeType type;
         private string type;
         private double hourlyWage;
@@ -63,5 +64,11 @@ namespace MediaBazaarSolution.DTO
             this.Type = type;
             this.hourlyWage = hourlyWage;
         }
+
+        public override string ToString()
+        {
+            return $"ID: {this.ID}, Name: {this.FirstName} {this.LastName}";
+        }
+
     }
 }

@@ -525,9 +525,9 @@ namespace MediaBazaarSolution
         {
             int workDayID = (int)(sender as ListView).Tag;
             scheduleForm = new ScheduleForm(this, workDayID);
-            MessageBox.Show(workDayID.ToString());
+            //MessageBox.Show(workDayID.ToString());
             scheduleForm = new ScheduleForm(this, workDayID);
-            //scheduleForm.Show();
+            scheduleForm.Show();
         }
     }
 }
