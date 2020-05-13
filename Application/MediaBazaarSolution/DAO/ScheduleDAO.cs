@@ -36,7 +36,7 @@ namespace MediaBazaarSolution.DAO
             string query = "INSERT INTO schedule(schedule_id, employee_id, work_day_id)" +
                            "VALUES(@schedule_id, @employee_id, @work_day_id);";
 
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employee_id , work_day_id }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { schedule_id, employee_id , work_day_id }) > 0;
         }
 
         public bool RemoveEmployeeFromShift(int work_day_id)
