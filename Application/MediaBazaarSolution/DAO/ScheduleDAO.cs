@@ -31,17 +31,17 @@ namespace MediaBazaarSolution.DAO
 
         private ScheduleDAO() { }
 
-        public bool AddEmployeeToShift(int employee_id, int work_day_id)
+        public bool AddEmployeeToShift(int schedule_id, int employee_id, int work_day_id)
         {
-            string query = "INSERT INTO employee_work_day_int(employee_id, work_day_id)" +
-                           "VALUES(@employee_id, @work_day_id);";
+            string query = "INSERT INTO schedule(schedule_id, employee_id, work_day_id)" +
+                           "VALUES(@schedule_id, @employee_id, @work_day_id);";
 
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employee_id , work_day_id }) > 0;
         }
 
         public bool RemoveEmployeeFromShift(int work_day_id)
         {
-            string query = "DELETE FROM employee_work_day_int WHERE work_day_id = " + work_day_id;
+            string query = "DELETE FROM schedule WHERE work_day_id = " + work_day_id;
             return DataProvider.Instance.ExecuteNonQuery(query) > 0;
         }
 
