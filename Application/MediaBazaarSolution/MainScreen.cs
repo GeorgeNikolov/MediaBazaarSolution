@@ -44,7 +44,7 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
 
-            scheduleForm = new ScheduleForm();
+            //scheduleForm = new ScheduleForm();
             employeeAddForm = new EmployeeAddForm(this);
 
             indecis = new List<int>();
@@ -80,6 +80,7 @@ namespace MediaBazaarSolution
             LoadAllItems();
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
+            LoadScheduleTables();
         }
         private void LoadAllItems()
         {
@@ -496,6 +497,37 @@ namespace MediaBazaarSolution
 
         // Dummy methods for statistics page
         Func<ChartPoint, string> label = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
-        
+
+        private void lvMondayMorning_Click(object sender, EventArgs e)
+        {
+            scheduleForm.Show();
+        }
+
+        private void LoadScheduleTables()
+        {
+            for(int i = 1; i <= 15; i++)
+            {
+                ListView lv = new ListView() { Width = 200, Height = 93 };
+                lv.View = View.Details;
+                lv.FullRowSelect = true;
+                
+                lv.Columns.Add("ID", 30);
+                lv.Columns.Add("Name", 170);
+                //Subscribe the method Lv_Click to the event when a listview is clicked
+                lv.ColumnClick += Lv_Click;
+                lv.Tag = i;
+
+                flpScheduleTable.Controls.Add(lv);
+            }
+        }
+
+        private void Lv_Click(object sender, EventArgs e)
+        {
+            int workDayID = (int)(sender as ListView).Tag;
+            scheduleForm = new ScheduleForm(this, workDayID);
+            MessageBox.Show(workDayID.ToString());
+            scheduleForm = new ScheduleForm(this, workDayID);
+            //scheduleForm.Show();
+        }
     }
 }
