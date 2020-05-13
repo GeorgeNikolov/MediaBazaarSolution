@@ -26,7 +26,7 @@ namespace MediaBazaarSolution
 
         private void btnAddWorker_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnRemoveWorker_Click(object sender, EventArgs e)
