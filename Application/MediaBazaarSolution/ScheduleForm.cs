@@ -28,6 +28,7 @@ namespace MediaBazaarSolution
 
         private void btnAddWorker_Click(object sender, EventArgs e)
         {
+
             if (lbxAvailableWorkers.SelectedIndex < 0)
             {
                 MessageBox.Show("Please specify a worker to select!", "Add worker warnig!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -35,7 +36,8 @@ namespace MediaBazaarSolution
             {
                 int employeeID = (lbxAvailableWorkers.SelectedItem as Employee).ID;
 
-                if (ScheduleDAO.Instance.)
+                
+                if (ScheduleDAO.Instance.AddEmployeeToShift(employeeID, workDayID))
                 {
                     foreach(Employee employee in availableEmployees )
                     {
@@ -49,6 +51,7 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show("Failed to add the employee on shift!", "Fail Notitfication", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
             }
         }
 
@@ -61,16 +64,31 @@ namespace MediaBazaarSolution
             {
                 int employeeID = (lbxWorkersOnShift.SelectedItem as Employee).ID;
 
-                if (ScheduleDAO.Instance.)
+                
+                if (ScheduleDAO.Instance.RemoveEmployeeFromShift(employeeID))
                 {
-                    foreach(Employee employee in )
+                    foreach(Employee employee in lbxWorkersOnShift.Items)
+                    {
+                        lbxWorkersOnShift.Items.Remove(employee);
+                    }
+                    MessageBox.Show("Successfully removed the worker from shift schedule", "Remove Worker Notification", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                } else
+                {
+                    MessageBox.Show("Failed to remove the worker from the worker on shift schedule!", "Remove Worker Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+               
             }
         }
 
         private void btnSaveSchedule_Click(object sender, EventArgs e)
         {
-
+            if (lbxWorkersOnShift.Items.Count > 1)
+            {
+                MessageBox.Show("No more than one employee is allowed to work on shift!");
+            } else
+            {
+                MessageBox.Show("Successfully saved !");
+            }
         }
 
         private void FillAvailableWorkers()
