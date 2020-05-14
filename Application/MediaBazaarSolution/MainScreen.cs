@@ -507,27 +507,42 @@ namespace MediaBazaarSolution
         {
             for(int i = 1; i <= 15; i++)
             {
+                List<Employee> employeeOnShiftList = EmployeeDAO.Instance.GetAllEmployeesOnShift(i);
+
                 ListView lv = new ListView() { Width = 200, Height = 93 };
                 lv.View = View.Details;
                 lv.FullRowSelect = true;
-                
                 lv.Columns.Add("ID", 30);
                 lv.Columns.Add("Name", 170);
+
+                if (employeeOnShiftList.Count > 0)
+                {
+                    Employee employee = employeeOnShiftList[0];
+
+                    ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
+                    lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
+                    lv.Items.Add(lvItem);
+                }
                 //Subscribe the method Lv_Click to the event when a listview is clicked
                 lv.ColumnClick += Lv_Click;
-                lv.Tag = i;
 
+                lv.Tag = i;
                 flpScheduleTable.Controls.Add(lv);
+
             }
         }
 
         private void Lv_Click(object sender, EventArgs e)
         {
             int workDayID = (int)(sender as ListView).Tag;
-            scheduleForm = new ScheduleForm(this, workDayID);
+            ListView passedListView = sender as ListView;
+
+            scheduleForm = new ScheduleForm(this, workDayID, ref passedListView);
             //MessageBox.Show(workDayID.ToString());
-            scheduleForm = new ScheduleForm(this, workDayID);
+            
             scheduleForm.Show();
         }
+
+        
     }
 }

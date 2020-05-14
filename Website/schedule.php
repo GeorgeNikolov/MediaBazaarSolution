@@ -5,8 +5,12 @@
   if (isset($_SESSION['employee_id'])) {
     $employee_id = $_SESSION['employee_id'];
   }
-  $shift = array("Morning", "Afternoon", "Evening");
-  $date = array("Monday", "Tuesday", "")
+  $res = $con->query("SELECT * FROM schedule WHERE employee_id = '$employee_id'");
+  $work_day = array();
+  while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+    array_push($work_day, $row['work_day_id']);
+  }
+
  ?>
 
 
@@ -22,27 +26,27 @@
       </tr>
       <tr>
         <td>Morning</td>
-        <td>Jack</td>
-        <td></td>
-        <td>Jack</td>
-        <td>Jack</td>
-        <td></td>
+        <td><?php if(in_array(1, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(2, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(3, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(4, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(5, $work_day)){echo "X";} ?></td>
       </tr>
       <tr>
         <td>Afternoon</td>
-        <td>Jack</td>
-        <td>Jack</td>
-        <td></td>
-        <td>Jack</td>
-        <td>Jack</td>
+        <td><?php if(in_array(6, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(7, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(8, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(9, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(10, $work_day)){echo "X";} ?></td>
       </tr>
       <tr>
         <td>Evening</td>
-        <td></td>
-        <td>Jack</td>
-        <td>Jack</td>
-        <td>Jack</td>
-        <td></td>
+        <td><?php if(in_array(11, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(12, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(13, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(14, $work_day)){echo "X";} ?></td>
+        <td><?php if(in_array(15, $work_day)){echo "X";} ?></td>
       </tr>
 
     </table>

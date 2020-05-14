@@ -3,7 +3,7 @@
 <body>
   <div class="side-search">
     <form class="side-search-form" method="post">
-      <input id="name-input" type="text" onkeyup="searchID()" placeholder="Search by ID">
+      <input id="id-input" type="text" onkeyup="searchID()" placeholder="Search by ID">
       <br><br>
     </form>
     <div id="id-error" class="error">

@@ -28,7 +28,7 @@
 
       if ($res['employee_type'] == 'employee') {
         Redirect_to('schedule.php');
-      } else if ($res['employee_type'] == 'manager') {
+      } else if ($res['employee_type'] == 'admin') {
         Redirect_to('personalinfo.php');
       }
     }
@@ -73,5 +73,4 @@
     </div>
   </section>
   </body>
-  <?php require_once('includes/footer.php') ?>
 </html>

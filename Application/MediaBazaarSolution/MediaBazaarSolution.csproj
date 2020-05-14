@@ -127,6 +127,7 @@
     <Compile Include="EmployeeAddForm.Designer.cs">
       <DependentUpon>EmployeeAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\MD5.cs" />
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
