@@ -81,6 +81,7 @@ namespace MediaBazaarSolution
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
             LoadScheduleTables();
+            DisplayDateFromMondayToSunday();
         }
         private void LoadAllItems()
         {
@@ -543,6 +544,25 @@ namespace MediaBazaarSolution
             scheduleForm.Show();
         }
 
-        
+        public void DisplayDateFromMondayToSunday()
+        {
+            DateTime today = DateTime.Today;
+            int currentDayOfWeek = (int)today.DayOfWeek;
+            DateTime sunday = today.AddDays(-currentDayOfWeek);
+            DateTime monday = sunday.AddDays(1);
+            // If we started on Sunday, we should actually have gone *back*
+            // 6 days instead of forward 1...
+            if (currentDayOfWeek == 0)
+            {
+                monday = monday.AddDays(-7);
+            }
+            var dates = Enumerable.Range(0, 5).Select(days => monday.AddDays(days)).ToList();
+
+            lblMonday.Text = "Monday \n" + dates[0].ToShortDateString();
+            lblTuesday.Text = "Tuesday \n" + dates[1].ToShortDateString();
+            lblWednesday.Text = "Wednesday \n" + dates[2].ToShortDateString();
+            lblThursday.Text = "Thursday \n" + dates[3].ToShortDateString();
+            lblFriday.Text = "Friday \n" + dates[4].ToShortDateString();
+        }
     }
 }

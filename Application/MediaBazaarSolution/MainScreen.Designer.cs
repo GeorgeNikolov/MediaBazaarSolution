@@ -31,12 +31,14 @@
             this.lblWelcome = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
+            this.flpScheduleTable = new System.Windows.Forms.FlowLayoutPanel();
             this.lblFriday = new System.Windows.Forms.Label();
             this.lblThursday = new System.Windows.Forms.Label();
             this.lblWednesday = new System.Windows.Forms.Label();
             this.lblTuesday = new System.Windows.Forms.Label();
             this.lblMonday = new System.Windows.Forms.Label();
             this.lblEvening = new System.Windows.Forms.Label();
+            this.lblAfternoon = new System.Windows.Forms.Label();
             this.lblMorning = new System.Windows.Forms.Label();
             this.EmployeesTab = new System.Windows.Forms.TabPage();
             this.btnReloadEmployees = new System.Windows.Forms.Button();
@@ -69,8 +71,6 @@
             this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblAfternoon = new System.Windows.Forms.Label();
-            this.flpScheduleTable = new System.Windows.Forms.FlowLayoutPanel();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
@@ -104,7 +104,7 @@
             this.Tabs.Controls.Add(this.StatisticsTab);
             this.Tabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Tabs.Location = new System.Drawing.Point(9, 69);
-            this.Tabs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Tabs.Margin = new System.Windows.Forms.Padding(2);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
             this.Tabs.Size = new System.Drawing.Size(1383, 531);
@@ -123,18 +123,25 @@
             this.ScheduleTab.Controls.Add(this.lblAfternoon);
             this.ScheduleTab.Controls.Add(this.lblMorning);
             this.ScheduleTab.Location = new System.Drawing.Point(4, 29);
-            this.ScheduleTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ScheduleTab.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleTab.Name = "ScheduleTab";
-            this.ScheduleTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ScheduleTab.Padding = new System.Windows.Forms.Padding(2);
             this.ScheduleTab.Size = new System.Drawing.Size(1375, 498);
             this.ScheduleTab.TabIndex = 0;
             this.ScheduleTab.Text = "Schedule";
+            // 
+            // flpScheduleTable
+            // 
+            this.flpScheduleTable.Location = new System.Drawing.Point(139, 83);
+            this.flpScheduleTable.Name = "flpScheduleTable";
+            this.flpScheduleTable.Size = new System.Drawing.Size(1221, 379);
+            this.flpScheduleTable.TabIndex = 25;
             // 
             // lblFriday
             // 
             this.lblFriday.AutoSize = true;
             this.lblFriday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFriday.Location = new System.Drawing.Point(991, 37);
+            this.lblFriday.Location = new System.Drawing.Point(991, 23);
             this.lblFriday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFriday.Name = "lblFriday";
             this.lblFriday.Size = new System.Drawing.Size(138, 24);
@@ -145,7 +152,7 @@
             // 
             this.lblThursday.AutoSize = true;
             this.lblThursday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblThursday.Location = new System.Drawing.Point(791, 37);
+            this.lblThursday.Location = new System.Drawing.Point(790, 23);
             this.lblThursday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblThursday.Name = "lblThursday";
             this.lblThursday.Size = new System.Drawing.Size(167, 24);
@@ -156,7 +163,7 @@
             // 
             this.lblWednesday.AutoSize = true;
             this.lblWednesday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWednesday.Location = new System.Drawing.Point(575, 37);
+            this.lblWednesday.Location = new System.Drawing.Point(574, 23);
             this.lblWednesday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblWednesday.Name = "lblWednesday";
             this.lblWednesday.Size = new System.Drawing.Size(190, 24);
@@ -167,7 +174,7 @@
             // 
             this.lblTuesday.AutoSize = true;
             this.lblTuesday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTuesday.Location = new System.Drawing.Point(376, 37);
+            this.lblTuesday.Location = new System.Drawing.Point(376, 23);
             this.lblTuesday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTuesday.Name = "lblTuesday";
             this.lblTuesday.Size = new System.Drawing.Size(160, 24);
@@ -178,7 +185,7 @@
             // 
             this.lblMonday.AutoSize = true;
             this.lblMonday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMonday.Location = new System.Drawing.Point(158, 37);
+            this.lblMonday.Location = new System.Drawing.Point(159, 23);
             this.lblMonday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMonday.Name = "lblMonday";
             this.lblMonday.Size = new System.Drawing.Size(154, 24);
@@ -195,6 +202,17 @@
             this.lblEvening.Size = new System.Drawing.Size(87, 24);
             this.lblEvening.TabIndex = 19;
             this.lblEvening.Text = "Evening";
+            // 
+            // lblAfternoon
+            // 
+            this.lblAfternoon.AutoSize = true;
+            this.lblAfternoon.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAfternoon.Location = new System.Drawing.Point(22, 216);
+            this.lblAfternoon.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAfternoon.Name = "lblAfternoon";
+            this.lblAfternoon.Size = new System.Drawing.Size(101, 24);
+            this.lblAfternoon.TabIndex = 18;
+            this.lblAfternoon.Text = "Afternoon";
             // 
             // lblMorning
             // 
@@ -217,9 +235,9 @@
             this.EmployeesTab.Controls.Add(this.btnDeleteEmployee);
             this.EmployeesTab.Controls.Add(this.dgvEmployees);
             this.EmployeesTab.Location = new System.Drawing.Point(4, 29);
-            this.EmployeesTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EmployeesTab.Margin = new System.Windows.Forms.Padding(2);
             this.EmployeesTab.Name = "EmployeesTab";
-            this.EmployeesTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EmployeesTab.Padding = new System.Windows.Forms.Padding(2);
             this.EmployeesTab.Size = new System.Drawing.Size(1375, 498);
             this.EmployeesTab.TabIndex = 1;
             this.EmployeesTab.Text = "Employees";
@@ -312,9 +330,9 @@
             this.DepotTab.Controls.Add(this.tbxSearchItemById);
             this.DepotTab.Controls.Add(this.dgvDepot);
             this.DepotTab.Location = new System.Drawing.Point(4, 29);
-            this.DepotTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DepotTab.Margin = new System.Windows.Forms.Padding(2);
             this.DepotTab.Name = "DepotTab";
-            this.DepotTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DepotTab.Padding = new System.Windows.Forms.Padding(2);
             this.DepotTab.Size = new System.Drawing.Size(1375, 498);
             this.DepotTab.TabIndex = 2;
             this.DepotTab.Text = "Depot";
@@ -347,7 +365,7 @@
             this.cbxItemCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxItemCategory.FormattingEnabled = true;
             this.cbxItemCategory.Location = new System.Drawing.Point(1186, 229);
-            this.cbxItemCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxItemCategory.Margin = new System.Windows.Forms.Padding(2);
             this.cbxItemCategory.Name = "cbxItemCategory";
             this.cbxItemCategory.Size = new System.Drawing.Size(179, 28);
             this.cbxItemCategory.TabIndex = 6;
@@ -410,7 +428,7 @@
             this.dgvDepot.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDepot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDepot.Location = new System.Drawing.Point(15, 32);
-            this.dgvDepot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvDepot.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDepot.MultiSelect = false;
             this.dgvDepot.Name = "dgvDepot";
             this.dgvDepot.RowHeadersWidth = 51;
@@ -427,9 +445,9 @@
             this.StatisticsTab.Controls.Add(this.SalesPieChart);
             this.StatisticsTab.Controls.Add(this.tabControl1);
             this.StatisticsTab.Location = new System.Drawing.Point(4, 29);
-            this.StatisticsTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StatisticsTab.Margin = new System.Windows.Forms.Padding(2);
             this.StatisticsTab.Name = "StatisticsTab";
-            this.StatisticsTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StatisticsTab.Padding = new System.Windows.Forms.Padding(2);
             this.StatisticsTab.Size = new System.Drawing.Size(1375, 498);
             this.StatisticsTab.TabIndex = 3;
             this.StatisticsTab.Text = "Statistics";
@@ -438,7 +456,7 @@
             // SalesPieChart
             // 
             this.SalesPieChart.Location = new System.Drawing.Point(870, 59);
-            this.SalesPieChart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SalesPieChart.Margin = new System.Windows.Forms.Padding(2);
             this.SalesPieChart.Name = "SalesPieChart";
             this.SalesPieChart.Size = new System.Drawing.Size(470, 301);
             this.SalesPieChart.TabIndex = 1;
@@ -449,7 +467,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(4, 5);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(794, 382);
@@ -459,9 +477,9 @@
             // 
             this.tabPage1.Controls.Add(this.dataGridView3);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(786, 349);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Employees";
@@ -476,7 +494,7 @@
             this.EmWage});
             this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView3.Location = new System.Drawing.Point(2, 2);
-            this.dataGridView3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView3.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowTemplate.Height = 24;
@@ -508,9 +526,9 @@
             // 
             this.tabPage2.Controls.Add(this.StProductDGV);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(786, 349);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Products";
@@ -525,7 +543,7 @@
             this.PrPrice});
             this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.StProductDGV.Location = new System.Drawing.Point(2, 2);
-            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
             this.StProductDGV.Name = "StProductDGV";
             this.StProductDGV.RowHeadersWidth = 51;
             this.StProductDGV.RowTemplate.Height = 24;
@@ -553,24 +571,6 @@
             this.PrPrice.Name = "PrPrice";
             this.PrPrice.Width = 125;
             // 
-            // lblAfternoon
-            // 
-            this.lblAfternoon.AutoSize = true;
-            this.lblAfternoon.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAfternoon.Location = new System.Drawing.Point(22, 216);
-            this.lblAfternoon.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblAfternoon.Name = "lblAfternoon";
-            this.lblAfternoon.Size = new System.Drawing.Size(101, 24);
-            this.lblAfternoon.TabIndex = 18;
-            this.lblAfternoon.Text = "Afternoon";
-            // 
-            // flpScheduleTable
-            // 
-            this.flpScheduleTable.Location = new System.Drawing.Point(139, 83);
-            this.flpScheduleTable.Name = "flpScheduleTable";
-            this.flpScheduleTable.Size = new System.Drawing.Size(1221, 379);
-            this.flpScheduleTable.TabIndex = 25;
-            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -579,7 +579,7 @@
             this.ClientSize = new System.Drawing.Size(1404, 612);
             this.Controls.Add(this.Tabs);
             this.Controls.Add(this.lblWelcome);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainScreen";
             this.Text = "Hello";
             this.Tabs.ResumeLayout(false);
