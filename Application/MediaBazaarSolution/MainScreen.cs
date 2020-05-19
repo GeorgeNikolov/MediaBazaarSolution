@@ -44,13 +44,14 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
 
-            scheduleForm = new ScheduleForm();
-            employeeAddForm = new EmployeeAddForm(this);
+            //scheduleForm = new ScheduleForm();
 
             indecis = new List<int>();
             categories = new List<string>();
             employees = new List<string>();
             LoadAll();
+            LoadScheduleTables();
+
 
             this.userFirstName = userFirstName;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
@@ -80,6 +81,7 @@ namespace MediaBazaarSolution
             LoadAllItems();
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
+            DisplayDateFromMondayToSunday();
         }
         private void LoadAllItems()
         {
@@ -251,6 +253,8 @@ namespace MediaBazaarSolution
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
+            employeeAddForm = new EmployeeAddForm(this);
+
             employeeAddForm.Show();
         }
 
@@ -496,6 +500,74 @@ namespace MediaBazaarSolution
 
         // Dummy methods for statistics page
         Func<ChartPoint, string> label = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
-        
+
+        private void lvMondayMorning_Click(object sender, EventArgs e)
+        {
+            scheduleForm.Show();
+        }
+
+        private void LoadScheduleTables()
+        {
+            for(int i = 1; i <= 15; i++)
+            {
+                List<Employee> employeeOnShiftList = EmployeeDAO.Instance.GetAllEmployeesOnShift(i);
+
+                ListView lv = new ListView() { Width = 200, Height = 93 };
+                lv.View = View.Details;
+                lv.FullRowSelect = true;
+                lv.Columns.Add("ID", 30);
+                lv.Columns.Add("Name", 170);
+
+                if (employeeOnShiftList.Count > 0)
+                {
+                    for (int j = 0; j < employeeOnShiftList.Count; ++j)
+                    {
+                        Employee employee = employeeOnShiftList[j];
+
+                        ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
+                        lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
+                        lv.Items.Add(lvItem);
+                    }
+                }
+                //Subscribe the method Lv_Click to the event when a listview is clicked
+                lv.ColumnClick += Lv_Click;
+
+                lv.Tag = i;
+                flpScheduleTable.Controls.Add(lv);
+
+            }
+        }
+
+        private void Lv_Click(object sender, EventArgs e)
+        {
+            int workDayID = (int)(sender as ListView).Tag;
+            ListView passedListView = sender as ListView;
+
+            scheduleForm = new ScheduleForm(this, workDayID, ref passedListView);
+            //MessageBox.Show(workDayID.ToString());
+            
+            scheduleForm.ShowDialog();
+        }
+
+        public void DisplayDateFromMondayToSunday()
+        {
+            DateTime today = DateTime.Today;
+            int currentDayOfWeek = (int)today.DayOfWeek;
+            DateTime sunday = today.AddDays(-currentDayOfWeek);
+            DateTime monday = sunday.AddDays(1);
+            // If we started on Sunday, we should actually have gone *back*
+            // 6 days instead of forward 1...
+            if (currentDayOfWeek == 0)
+            {
+                monday = monday.AddDays(-7);
+            }
+            var dates = Enumerable.Range(0, 5).Select(days => monday.AddDays(days)).ToList();
+
+            lblMonday.Text = "Monday \n" + dates[0].ToShortDateString();
+            lblTuesday.Text = "Tuesday \n" + dates[1].ToShortDateString();
+            lblWednesday.Text = "Wednesday \n" + dates[2].ToShortDateString();
+            lblThursday.Text = "Thursday \n" + dates[3].ToShortDateString();
+            lblFriday.Text = "Friday \n" + dates[4].ToShortDateString();
+        }
     }
 }

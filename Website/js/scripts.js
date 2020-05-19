@@ -209,7 +209,7 @@ function searchName() {
 
 function searchID() {
   var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("name-input");
+  input = document.getElementById("id-input");
   filter = input.value.toUpperCase();
   table = document.getElementById("table-search");
   tr = table.getElementsByTagName("tr");

@@ -34,7 +34,7 @@ namespace MediaBazaarSolution
             string email = tbxEmail.Text;
             string phone = tbxPhone.Text;
             string address = tbxPlace.Text;
-            string type = (cbbxType.SelectedIndex == 0) ? "Employee" : "Admin";
+            string type = (cbbxType.SelectedIndex == 0) ? "employee" : "admin";
             string hourlyWageString = tbxRate.Text;
             
 

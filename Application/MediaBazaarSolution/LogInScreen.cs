@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MediaBazaarSolution.DAO;
-using System.Data;
 
 namespace MediaBazaarSolution
 {
@@ -19,11 +18,6 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
             
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btnLogIn_Click(object sender, EventArgs e)

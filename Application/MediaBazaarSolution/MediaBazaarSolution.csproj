@@ -111,6 +111,7 @@
     <Compile Include="DAO\EmployeeDAO.cs" />
     <Compile Include="DAO\ItemDAO.cs" />
     <Compile Include="DAO\ItemCategoryDAO.cs" />
+    <Compile Include="DAO\ScheduleDAO.cs" />
     <Compile Include="DepotAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +127,7 @@
     <Compile Include="EmployeeAddForm.Designer.cs">
       <DependentUpon>EmployeeAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\MD5.cs" />
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
