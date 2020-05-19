@@ -19,6 +19,7 @@ namespace MediaBazaarSolution
         private ListView passedListView;
         private MainScreen parentForm;
         private List<Employee> availableEmployees;
+        private List<int> workersOnShiftID;
 
         public ScheduleForm(MainScreen parent, int workDayID, ref ListView listView)
         {
@@ -26,10 +27,10 @@ namespace MediaBazaarSolution
             this.parentForm = parent;
             this.workDayID = workDayID;
             this.passedListView = listView;
+            workersOnShiftID = new List<int>();
 
             FillAvailableWorkers();
             FillWorkersOnShift();
-           
         }
 
         private void btnAddWorker_Click(object sender, EventArgs e)
@@ -38,12 +39,12 @@ namespace MediaBazaarSolution
 
             if (lbxAvailableWorkers.SelectedIndex < 0)
             {
-                MessageBox.Show("Please specify a worker to select!", "Add worker warnig!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else if(lbxWorkersOnShift.Items.Count == 1)
+                MessageBox.Show("Please specify a worker to select!", "Add worker warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            } else if (workersOnShiftID.Contains(employeeID))
             {
-                MessageBox.Show("No more than one person is allowed to work on a shift!", "Require number of employees", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Employee with that ID is already put on this time slot", "Duplicate workers on shift", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            else
+            else 
             {
                 
                 if (ScheduleDAO.Instance.AddEmployeeToShift(employeeID, workDayID))
@@ -56,6 +57,7 @@ namespace MediaBazaarSolution
                             ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
                             lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
                             this.passedListView.Items.Add(lvItem);
+                            workersOnShiftID.Add(employee.ID);
                         }
                     }
                     MessageBox.Show("Successfully added the employee on shift!", "Successful Notification", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -73,32 +75,23 @@ namespace MediaBazaarSolution
             if (lbxWorkersOnShift.SelectedIndex < 0)
             {
                 MessageBox.Show("Please choose a employee to be deleted from shift schedule!", "Remove Worker Notitfication", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else
+            } 
+            else
             {
                 int employeeID = (lbxWorkersOnShift.SelectedItem as Employee).ID;
-
+                int selectedIndex = lbxWorkersOnShift.SelectedIndex;
 
                 if (ScheduleDAO.Instance.RemoveEmployeeFromShift(employeeID, workDayID))
                 {
-                    lbxWorkersOnShift.Items.RemoveAt(lbxWorkersOnShift.SelectedIndex);
+                    lbxWorkersOnShift.Items.RemoveAt(selectedIndex);
                     MessageBox.Show("Successfully removed the worker from shift schedule", "Remove Worker Notification", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.passedListView.Items.Clear();
+                    this.passedListView.Items.RemoveAt(selectedIndex);
+                    this.workersOnShiftID.Remove(employeeID);
                 } else
                 {
                     MessageBox.Show("Failed to remove the worker from the worker on shift schedule!", "Remove Worker Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                
-            }
-        }
-
-        private void btnSaveSchedule_Click(object sender, EventArgs e)
-        {
-            if (lbxWorkersOnShift.Items.Count > 1)
-            {
-                MessageBox.Show("No more than one employee is allowed to work on shift!");
-            } else
-            {
-                MessageBox.Show("Successfully saved !");
             }
         }
 
@@ -119,7 +112,7 @@ namespace MediaBazaarSolution
             foreach(Employee employee in employeeList)
             {
                 lbxWorkersOnShift.Items.Add(employee);
-               
+                workersOnShiftID.Add(employee.ID);
             }
         }
 

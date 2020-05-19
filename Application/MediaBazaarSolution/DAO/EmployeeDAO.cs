@@ -146,7 +146,7 @@ namespace MediaBazaarSolution.DAO
         public List<Employee> GetAllEmployeesOnShift(int workDayID)
         {
 
-            string query = "SELECT * FROM employee WHERE employee_id = (SELECT employee_id FROM schedule WHERE work_day_id = " + workDayID + ")";
+            string query = "SELECT * FROM employee WHERE employee_id IN (SELECT employee_id FROM schedule WHERE work_day_id = " + workDayID + ")";
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);

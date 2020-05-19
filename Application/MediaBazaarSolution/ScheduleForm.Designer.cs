@@ -32,7 +32,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnAddWorker = new System.Windows.Forms.Button();
             this.btnRemoveWorker = new System.Windows.Forms.Button();
-            this.btnSaveSchedule = new System.Windows.Forms.Button();
             this.lbxAvailableWorkers = new System.Windows.Forms.ListBox();
             this.lbxWorkersOnShift = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
@@ -79,17 +78,6 @@
             this.btnRemoveWorker.UseVisualStyleBackColor = true;
             this.btnRemoveWorker.Click += new System.EventHandler(this.btnRemoveWorker_Click);
             // 
-            // btnSaveSchedule
-            // 
-            this.btnSaveSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveSchedule.Location = new System.Drawing.Point(183, 340);
-            this.btnSaveSchedule.Name = "btnSaveSchedule";
-            this.btnSaveSchedule.Size = new System.Drawing.Size(102, 34);
-            this.btnSaveSchedule.TabIndex = 6;
-            this.btnSaveSchedule.Text = "Save";
-            this.btnSaveSchedule.UseVisualStyleBackColor = true;
-            this.btnSaveSchedule.Click += new System.EventHandler(this.btnSaveSchedule_Click);
-            // 
             // lbxAvailableWorkers
             // 
             this.lbxAvailableWorkers.FormattingEnabled = true;
@@ -113,12 +101,12 @@
             this.ClientSize = new System.Drawing.Size(487, 396);
             this.Controls.Add(this.lbxWorkersOnShift);
             this.Controls.Add(this.lbxAvailableWorkers);
-            this.Controls.Add(this.btnSaveSchedule);
             this.Controls.Add(this.btnRemoveWorker);
             this.Controls.Add(this.btnAddWorker);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "ScheduleForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ScheduleForm";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -130,7 +118,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnAddWorker;
         private System.Windows.Forms.Button btnRemoveWorker;
-        private System.Windows.Forms.Button btnSaveSchedule;
         private System.Windows.Forms.ListBox lbxAvailableWorkers;
         private System.Windows.Forms.ListBox lbxWorkersOnShift;
     }

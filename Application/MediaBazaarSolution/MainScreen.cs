@@ -45,12 +45,13 @@ namespace MediaBazaarSolution
             InitializeComponent();
 
             //scheduleForm = new ScheduleForm();
-            employeeAddForm = new EmployeeAddForm(this);
 
             indecis = new List<int>();
             categories = new List<string>();
             employees = new List<string>();
             LoadAll();
+            LoadScheduleTables();
+
 
             this.userFirstName = userFirstName;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
@@ -80,7 +81,6 @@ namespace MediaBazaarSolution
             LoadAllItems();
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
-            LoadScheduleTables();
             DisplayDateFromMondayToSunday();
         }
         private void LoadAllItems()
@@ -253,6 +253,8 @@ namespace MediaBazaarSolution
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
+            employeeAddForm = new EmployeeAddForm(this);
+
             employeeAddForm.Show();
         }
 
@@ -518,11 +520,14 @@ namespace MediaBazaarSolution
 
                 if (employeeOnShiftList.Count > 0)
                 {
-                    Employee employee = employeeOnShiftList[0];
+                    for (int j = 0; j < employeeOnShiftList.Count; ++j)
+                    {
+                        Employee employee = employeeOnShiftList[j];
 
-                    ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
-                    lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
-                    lv.Items.Add(lvItem);
+                        ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
+                        lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
+                        lv.Items.Add(lvItem);
+                    }
                 }
                 //Subscribe the method Lv_Click to the event when a listview is clicked
                 lv.ColumnClick += Lv_Click;
@@ -541,7 +546,7 @@ namespace MediaBazaarSolution
             scheduleForm = new ScheduleForm(this, workDayID, ref passedListView);
             //MessageBox.Show(workDayID.ToString());
             
-            scheduleForm.Show();
+            scheduleForm.ShowDialog();
         }
 
         public void DisplayDateFromMondayToSunday()

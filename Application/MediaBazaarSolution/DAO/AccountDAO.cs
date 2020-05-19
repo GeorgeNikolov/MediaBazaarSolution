@@ -35,7 +35,7 @@ namespace MediaBazaarSolution.DAO
         public bool LoginValid(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT * FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin'";
+            string query = "SELECT * FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin' ";
 
             DataTable result = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
 

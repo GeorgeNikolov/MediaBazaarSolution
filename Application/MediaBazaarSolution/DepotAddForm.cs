@@ -31,6 +31,7 @@ namespace MediaBazaarSolution
         {
             
             string itemName = tbxItemName.Text;
+            bool IsNotValidItemName = int.TryParse(tbxItemName.Text, out int itemNameInt);
             string itemCategory = (cbxCategory.SelectedItem as Category).Name;
             bool IsValidAmount = int.TryParse(tbxInStock.Text, out int itemInStock);
             bool IsValidPrice = decimal.TryParse(tbxPrice.Text, out decimal price);
@@ -39,6 +40,10 @@ namespace MediaBazaarSolution
             if (String.IsNullOrEmpty(itemName) || String.IsNullOrWhiteSpace(itemName))
             {
                 MessageBox.Show("The name is not valid!", "Invalid Item Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (IsNotValidItemName)
+            {
+                MessageBox.Show("Item Name should be a string", "Invalid Item Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (String.IsNullOrEmpty(itemCategory) || String.IsNullOrWhiteSpace(itemCategory))
             {
