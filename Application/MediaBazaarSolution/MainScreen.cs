@@ -18,9 +18,9 @@ namespace MediaBazaarSolution
 {
     public partial class MainScreen : Form
     {
-        private ScheduleForm scheduleForm;
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
+        private ScheduleAddForm scheduleAddForm;
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
@@ -33,11 +33,22 @@ namespace MediaBazaarSolution
 
         private string userFirstName;
 
+        //This 2-dimensional list will hold 6x7 button references so we can change the corresponding date in each button depending on the current month of date
+        private List<List<Button>> matrix;
+
+        List<string> dayOfWeek = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
         public string UserFirstName { 
             get 
             {
                 return this.userFirstName;    
             }
+        }
+
+        public List<List<Button>> Matrix
+        {
+            get { return this.matrix; }
+            private set { this.matrix = value; }
         }
 
         public MainScreen(string userFirstName)
@@ -50,8 +61,6 @@ namespace MediaBazaarSolution
             categories = new List<string>();
             employees = new List<string>();
             LoadAll();
-            LoadScheduleTables();
-
 
             this.userFirstName = userFirstName;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
@@ -81,7 +90,7 @@ namespace MediaBazaarSolution
             LoadAllItems();
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
-            DisplayDateFromMondayToSunday();
+            LoadMatrixSchedule();
         }
         private void LoadAllItems()
         {
@@ -159,10 +168,7 @@ namespace MediaBazaarSolution
         #endregion
 
         #region Events
-        private void btnEditSchedule_Click(object sender, EventArgs e)
-        {
-            scheduleForm.Show();
-        }
+        
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -501,73 +507,143 @@ namespace MediaBazaarSolution
         // Dummy methods for statistics page
         Func<ChartPoint, string> label = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
 
-        private void lvMondayMorning_Click(object sender, EventArgs e)
+        const int daysInWeek = 7;
+        const int numOfLines = 6;
+        private void LoadMatrixSchedule()
         {
-            scheduleForm.Show();
-        }
-
-        private void LoadScheduleTables()
-        {
-            for(int i = 1; i <= 15; i++)
-            {
-                List<Employee> employeeOnShiftList = EmployeeDAO.Instance.GetAllEmployeesOnShift(i);
-
-                ListView lv = new ListView() { Width = 200, Height = 93 };
-                lv.View = View.Details;
-                lv.FullRowSelect = true;
-                lv.Columns.Add("ID", 30);
-                lv.Columns.Add("Name", 170);
-
-                if (employeeOnShiftList.Count > 0)
-                {
-                    for (int j = 0; j < employeeOnShiftList.Count; ++j)
-                    {
-                        Employee employee = employeeOnShiftList[j];
-
-                        ListViewItem lvItem = new ListViewItem(employee.ID.ToString());
-                        lvItem.SubItems.Add(employee.FirstName + " " + employee.LastName);
-                        lv.Items.Add(lvItem);
-                    }
-                }
-                //Subscribe the method Lv_Click to the event when a listview is clicked
-                lv.ColumnClick += Lv_Click;
-
-                lv.Tag = i;
-                flpScheduleTable.Controls.Add(lv);
-
-            }
-        }
-
-        private void Lv_Click(object sender, EventArgs e)
-        {
-            int workDayID = (int)(sender as ListView).Tag;
-            ListView passedListView = sender as ListView;
-
-            scheduleForm = new ScheduleForm(this, workDayID, ref passedListView);
-            //MessageBox.Show(workDayID.ToString());
             
-            scheduleForm.ShowDialog();
+            Button oldBtn = new Button() { Width = 0, Height = 0, Location = new Point(-6, 0) };
+            Matrix = new List<List<Button>>();
+
+            for (int i = 0; i < numOfLines; i++)
+            {
+                Matrix.Add(new List<Button>());
+                for(int j = 0; j < daysInWeek; j++)
+                {
+                    Button btn = new Button() { Width = 137, Height = 73 };
+                    btn.Location = new Point(oldBtn.Location.X + oldBtn.Width + 6, oldBtn.Location.Y);
+                    
+                    pnlMatrix.Controls.Add(btn);
+                    Matrix[i].Add(btn);
+
+                    oldBtn = btn;
+                }
+
+                oldBtn = new Button() { Width = 0, Height = 0, Location = new Point(-6, oldBtn.Location.Y + 74) };
+            }
+
+            SetDefaultDate();
         }
 
-        public void DisplayDateFromMondayToSunday()
+        private void AddNumberToMatrixButtons(DateTime date)
         {
-            DateTime today = DateTime.Today;
-            int currentDayOfWeek = (int)today.DayOfWeek;
-            DateTime sunday = today.AddDays(-currentDayOfWeek);
-            DateTime monday = sunday.AddDays(1);
-            // If we started on Sunday, we should actually have gone *back*
-            // 6 days instead of forward 1...
-            if (currentDayOfWeek == 0)
-            {
-                monday = monday.AddDays(-7);
-            }
-            var dates = Enumerable.Range(0, 5).Select(days => monday.AddDays(days)).ToList();
+            ClearMatrix();
 
-            lblMonday.Text = "Monday \n" + dates[0].ToShortDateString();
-            lblTuesday.Text = "Tuesday \n" + dates[1].ToShortDateString();
-            lblWednesday.Text = "Wednesday \n" + dates[2].ToShortDateString();
-            lblThursday.Text = "Thursday \n" + dates[3].ToShortDateString();
-            lblFriday.Text = "Friday \n" + dates[4].ToShortDateString();
+            DateTime useDate = new DateTime(date.Year, date.Month, 1);
+            int line = 0;
+            for (int i = 1; i <= numberOfDaysInMonth(date); i++)
+            {
+                int column = dayOfWeek.IndexOf(useDate.DayOfWeek.ToString());
+
+                Button btn = Matrix[line][column];
+                btn.Text = i.ToString();
+                btn.Tag = useDate.ToString("dd/MM/yyyy");
+                //We need to deregister all existing events before registering a new one to make sure that only one event is registered
+                btn.Click -= Btn_Click;
+                btn.Click += Btn_Click;
+                if (column == 6)
+                {
+                    line++;
+                }
+
+                //This will mark the selected date
+                if (AreEqualDates(useDate, date))
+                {
+                    btn.BackColor = Color.Yellow;
+                }
+
+                //This will mark the current date
+                if (AreEqualDates(useDate, DateTime.Now))
+                {
+                    btn.BackColor = Color.Cyan;
+                }
+
+                
+                useDate = useDate.AddDays(1);
+            }
+        }
+
+        private void Btn_Click(object sender, EventArgs e)
+        {
+            string date = (sender as Button).Tag.ToString();
+            //MessageBox.Show(date);
+            scheduleAddForm = new ScheduleAddForm(date);
+            scheduleAddForm.Show();
+        }
+
+        private void ClearMatrix()
+        {
+            for (int i = 0; i < numOfLines; i++)
+            {
+                for (int j = 0; j < daysInWeek; j++)
+                {
+                    Button btn = Matrix[i][j];
+                    btn.Text = "";
+                    btn.BackColor = Color.White;
+                }
+            }
+        }
+
+        private int numberOfDaysInMonth(DateTime date)
+        {
+            switch (date.Month)
+            {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    return 31;
+                case 2:
+                    if ((date.Year % 4 == 0 && date.Year % 100 != 0) || date.Year % 400 == 0)
+                        return 29;
+                    else
+                        return 28;
+                default:
+                    return 30;
+            }
+        }
+
+        private bool AreEqualDates(DateTime dateA, DateTime dateB)
+        {
+            return dateA.Year == dateB.Year && dateA.Month == dateB.Month && dateA.Day == dateB.Day;
+        }
+
+        private void SetDefaultDate()
+        {
+            dtpDate.Value = DateTime.Now;
+        }
+
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            AddNumberToMatrixButtons((sender as DateTimePicker).Value);
+        }
+
+        private void btnNextMonth_Click(object sender, EventArgs e)
+        {
+            dtpDate.Value = dtpDate.Value.AddMonths(1);
+        }
+
+        private void btnPreviousMonth_Click(object sender, EventArgs e)
+        {
+            dtpDate.Value = dtpDate.Value.AddMonths(-1);
+        }
+
+        private void btnToday_Click(object sender, EventArgs e)
+        {
+            dtpDate.Value = DateTime.Now;
         }
     }
 }

@@ -126,7 +126,6 @@ C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Appl
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.LogInScreen.resources
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.MainScreen.resources
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.Properties.Resources.resources
-C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleForm.resources
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.GenerateResource.cache
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.CopyComplete
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.exe
@@ -223,3 +222,4 @@ C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolu
 C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.CopyComplete
 C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.exe
 C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.pdb
+C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleAddForm.resources

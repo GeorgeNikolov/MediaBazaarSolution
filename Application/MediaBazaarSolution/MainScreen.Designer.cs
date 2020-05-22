@@ -31,15 +31,13 @@
             this.lblWelcome = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
-            this.flpScheduleTable = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblFriday = new System.Windows.Forms.Label();
-            this.lblThursday = new System.Windows.Forms.Label();
-            this.lblWednesday = new System.Windows.Forms.Label();
-            this.lblTuesday = new System.Windows.Forms.Label();
-            this.lblMonday = new System.Windows.Forms.Label();
-            this.lblEvening = new System.Windows.Forms.Label();
-            this.lblAfternoon = new System.Windows.Forms.Label();
-            this.lblMorning = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlMatrix = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnMonday = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnToday = new System.Windows.Forms.Button();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.EmployeesTab = new System.Windows.Forms.TabPage();
             this.btnReloadEmployees = new System.Windows.Forms.Button();
             this.btnSearchEmployee = new System.Windows.Forms.Button();
@@ -71,8 +69,19 @@
             this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnTuesday = new System.Windows.Forms.Button();
+            this.btnWednesday = new System.Windows.Forms.Button();
+            this.btnThursday = new System.Windows.Forms.Button();
+            this.btnFriday = new System.Windows.Forms.Button();
+            this.btnSaturday = new System.Windows.Forms.Button();
+            this.btnSunday = new System.Windows.Forms.Button();
+            this.btnPreviousMonth = new System.Windows.Forms.Button();
+            this.btnNextMonth = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.EmployeesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).BeginInit();
             this.DepotTab.SuspendLayout();
@@ -89,7 +98,7 @@
             // 
             this.lblWelcome.AutoSize = true;
             this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.Location = new System.Drawing.Point(477, 19);
+            this.lblWelcome.Location = new System.Drawing.Point(531, 9);
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(330, 37);
             this.lblWelcome.TabIndex = 1;
@@ -103,127 +112,93 @@
             this.Tabs.Controls.Add(this.DepotTab);
             this.Tabs.Controls.Add(this.StatisticsTab);
             this.Tabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Tabs.Location = new System.Drawing.Point(9, 69);
+            this.Tabs.Location = new System.Drawing.Point(10, 48);
             this.Tabs.Margin = new System.Windows.Forms.Padding(2);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(1383, 531);
+            this.Tabs.Size = new System.Drawing.Size(1383, 610);
             this.Tabs.TabIndex = 2;
             // 
             // ScheduleTab
             // 
             this.ScheduleTab.BackColor = System.Drawing.Color.Transparent;
-            this.ScheduleTab.Controls.Add(this.flpScheduleTable);
-            this.ScheduleTab.Controls.Add(this.lblFriday);
-            this.ScheduleTab.Controls.Add(this.lblThursday);
-            this.ScheduleTab.Controls.Add(this.lblWednesday);
-            this.ScheduleTab.Controls.Add(this.lblTuesday);
-            this.ScheduleTab.Controls.Add(this.lblMonday);
-            this.ScheduleTab.Controls.Add(this.lblEvening);
-            this.ScheduleTab.Controls.Add(this.lblAfternoon);
-            this.ScheduleTab.Controls.Add(this.lblMorning);
+            this.ScheduleTab.Controls.Add(this.panel2);
+            this.ScheduleTab.Controls.Add(this.panel1);
             this.ScheduleTab.Location = new System.Drawing.Point(4, 29);
             this.ScheduleTab.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleTab.Name = "ScheduleTab";
             this.ScheduleTab.Padding = new System.Windows.Forms.Padding(2);
-            this.ScheduleTab.Size = new System.Drawing.Size(1375, 498);
+            this.ScheduleTab.Size = new System.Drawing.Size(1375, 577);
             this.ScheduleTab.TabIndex = 0;
             this.ScheduleTab.Text = "Schedule";
             // 
-            // flpScheduleTable
+            // panel2
             // 
-            this.flpScheduleTable.Location = new System.Drawing.Point(139, 83);
-            this.flpScheduleTable.Name = "flpScheduleTable";
-            this.flpScheduleTable.Size = new System.Drawing.Size(1221, 379);
-            this.flpScheduleTable.TabIndex = 25;
+            this.panel2.Controls.Add(this.pnlMatrix);
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Location = new System.Drawing.Point(3, 33);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1369, 544);
+            this.panel2.TabIndex = 1;
             // 
-            // lblFriday
+            // pnlMatrix
             // 
-            this.lblFriday.AutoSize = true;
-            this.lblFriday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFriday.Location = new System.Drawing.Point(991, 23);
-            this.lblFriday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblFriday.Name = "lblFriday";
-            this.lblFriday.Size = new System.Drawing.Size(138, 24);
-            this.lblFriday.TabIndex = 24;
-            this.lblFriday.Text = "Friday <date>";
+            this.pnlMatrix.Location = new System.Drawing.Point(203, 91);
+            this.pnlMatrix.Name = "pnlMatrix";
+            this.pnlMatrix.Size = new System.Drawing.Size(995, 453);
+            this.pnlMatrix.TabIndex = 1;
             // 
-            // lblThursday
+            // panel3
             // 
-            this.lblThursday.AutoSize = true;
-            this.lblThursday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblThursday.Location = new System.Drawing.Point(790, 23);
-            this.lblThursday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblThursday.Name = "lblThursday";
-            this.lblThursday.Size = new System.Drawing.Size(167, 24);
-            this.lblThursday.TabIndex = 23;
-            this.lblThursday.Text = "Thursday <date>";
+            this.panel3.Controls.Add(this.btnNextMonth);
+            this.panel3.Controls.Add(this.btnPreviousMonth);
+            this.panel3.Controls.Add(this.btnSunday);
+            this.panel3.Controls.Add(this.btnSaturday);
+            this.panel3.Controls.Add(this.btnFriday);
+            this.panel3.Controls.Add(this.btnThursday);
+            this.panel3.Controls.Add(this.btnWednesday);
+            this.panel3.Controls.Add(this.btnTuesday);
+            this.panel3.Controls.Add(this.btnMonday);
+            this.panel3.Location = new System.Drawing.Point(4, 4);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1362, 81);
+            this.panel3.TabIndex = 0;
             // 
-            // lblWednesday
+            // btnMonday
             // 
-            this.lblWednesday.AutoSize = true;
-            this.lblWednesday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWednesday.Location = new System.Drawing.Point(574, 23);
-            this.lblWednesday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblWednesday.Name = "lblWednesday";
-            this.lblWednesday.Size = new System.Drawing.Size(190, 24);
-            this.lblWednesday.TabIndex = 22;
-            this.lblWednesday.Text = "Wednesday <date>";
+            this.btnMonday.Location = new System.Drawing.Point(199, 3);
+            this.btnMonday.Name = "btnMonday";
+            this.btnMonday.Size = new System.Drawing.Size(137, 74);
+            this.btnMonday.TabIndex = 0;
+            this.btnMonday.Text = "Monday";
+            this.btnMonday.UseVisualStyleBackColor = true;
             // 
-            // lblTuesday
+            // panel1
             // 
-            this.lblTuesday.AutoSize = true;
-            this.lblTuesday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTuesday.Location = new System.Drawing.Point(376, 23);
-            this.lblTuesday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTuesday.Name = "lblTuesday";
-            this.lblTuesday.Size = new System.Drawing.Size(160, 24);
-            this.lblTuesday.TabIndex = 21;
-            this.lblTuesday.Text = "Tuesday <date>";
+            this.panel1.Controls.Add(this.btnToday);
+            this.panel1.Controls.Add(this.dtpDate);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1369, 27);
+            this.panel1.TabIndex = 0;
             // 
-            // lblMonday
+            // btnToday
             // 
-            this.lblMonday.AutoSize = true;
-            this.lblMonday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMonday.Location = new System.Drawing.Point(159, 23);
-            this.lblMonday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMonday.Name = "lblMonday";
-            this.lblMonday.Size = new System.Drawing.Size(154, 24);
-            this.lblMonday.TabIndex = 20;
-            this.lblMonday.Text = "Monday <date>";
+            this.btnToday.Location = new System.Drawing.Point(796, 1);
+            this.btnToday.Name = "btnToday";
+            this.btnToday.Size = new System.Drawing.Size(90, 26);
+            this.btnToday.TabIndex = 1;
+            this.btnToday.Text = "Today";
+            this.btnToday.UseVisualStyleBackColor = true;
+            this.btnToday.Click += new System.EventHandler(this.btnToday_Click);
             // 
-            // lblEvening
+            // dtpDate
             // 
-            this.lblEvening.AutoSize = true;
-            this.lblEvening.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEvening.Location = new System.Drawing.Point(22, 319);
-            this.lblEvening.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblEvening.Name = "lblEvening";
-            this.lblEvening.Size = new System.Drawing.Size(87, 24);
-            this.lblEvening.TabIndex = 19;
-            this.lblEvening.Text = "Evening";
-            // 
-            // lblAfternoon
-            // 
-            this.lblAfternoon.AutoSize = true;
-            this.lblAfternoon.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAfternoon.Location = new System.Drawing.Point(22, 216);
-            this.lblAfternoon.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblAfternoon.Name = "lblAfternoon";
-            this.lblAfternoon.Size = new System.Drawing.Size(101, 24);
-            this.lblAfternoon.TabIndex = 18;
-            this.lblAfternoon.Text = "Afternoon";
-            // 
-            // lblMorning
-            // 
-            this.lblMorning.AutoSize = true;
-            this.lblMorning.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMorning.Location = new System.Drawing.Point(22, 106);
-            this.lblMorning.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMorning.Name = "lblMorning";
-            this.lblMorning.Size = new System.Drawing.Size(87, 24);
-            this.lblMorning.TabIndex = 2;
-            this.lblMorning.Text = "Morning";
+            this.dtpDate.Location = new System.Drawing.Point(489, 1);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(282, 26);
+            this.dtpDate.TabIndex = 0;
+            this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
             // EmployeesTab
             // 
@@ -238,7 +213,7 @@
             this.EmployeesTab.Margin = new System.Windows.Forms.Padding(2);
             this.EmployeesTab.Name = "EmployeesTab";
             this.EmployeesTab.Padding = new System.Windows.Forms.Padding(2);
-            this.EmployeesTab.Size = new System.Drawing.Size(1375, 498);
+            this.EmployeesTab.Size = new System.Drawing.Size(1375, 577);
             this.EmployeesTab.TabIndex = 1;
             this.EmployeesTab.Text = "Employees";
             this.EmployeesTab.UseVisualStyleBackColor = true;
@@ -246,7 +221,7 @@
             // btnReloadEmployees
             // 
             this.btnReloadEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReloadEmployees.Location = new System.Drawing.Point(630, 432);
+            this.btnReloadEmployees.Location = new System.Drawing.Point(630, 486);
             this.btnReloadEmployees.Name = "btnReloadEmployees";
             this.btnReloadEmployees.Size = new System.Drawing.Size(100, 35);
             this.btnReloadEmployees.TabIndex = 11;
@@ -285,7 +260,7 @@
             // btnAddEmployee
             // 
             this.btnAddEmployee.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddEmployee.Location = new System.Drawing.Point(921, 432);
+            this.btnAddEmployee.Location = new System.Drawing.Point(924, 486);
             this.btnAddEmployee.Name = "btnAddEmployee";
             this.btnAddEmployee.Size = new System.Drawing.Size(100, 35);
             this.btnAddEmployee.TabIndex = 7;
@@ -296,7 +271,7 @@
             // btnDeleteEmployee
             // 
             this.btnDeleteEmployee.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteEmployee.Location = new System.Drawing.Point(771, 432);
+            this.btnDeleteEmployee.Location = new System.Drawing.Point(777, 486);
             this.btnDeleteEmployee.Name = "btnDeleteEmployee";
             this.btnDeleteEmployee.Size = new System.Drawing.Size(100, 35);
             this.btnDeleteEmployee.TabIndex = 6;
@@ -333,7 +308,7 @@
             this.DepotTab.Margin = new System.Windows.Forms.Padding(2);
             this.DepotTab.Name = "DepotTab";
             this.DepotTab.Padding = new System.Windows.Forms.Padding(2);
-            this.DepotTab.Size = new System.Drawing.Size(1375, 498);
+            this.DepotTab.Size = new System.Drawing.Size(1375, 577);
             this.DepotTab.TabIndex = 2;
             this.DepotTab.Text = "Depot";
             this.DepotTab.UseVisualStyleBackColor = true;
@@ -341,7 +316,7 @@
             // btnReloadItems
             // 
             this.btnReloadItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReloadItems.Location = new System.Drawing.Point(710, 409);
+            this.btnReloadItems.Location = new System.Drawing.Point(709, 478);
             this.btnReloadItems.Name = "btnReloadItems";
             this.btnReloadItems.Size = new System.Drawing.Size(100, 35);
             this.btnReloadItems.TabIndex = 12;
@@ -374,7 +349,7 @@
             // btnDeleteItem
             // 
             this.btnDeleteItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteItem.Location = new System.Drawing.Point(864, 409);
+            this.btnDeleteItem.Location = new System.Drawing.Point(866, 478);
             this.btnDeleteItem.Name = "btnDeleteItem";
             this.btnDeleteItem.Size = new System.Drawing.Size(100, 35);
             this.btnDeleteItem.TabIndex = 5;
@@ -385,7 +360,7 @@
             // btnAddProduct
             // 
             this.btnAddProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddProduct.Location = new System.Drawing.Point(1026, 409);
+            this.btnAddProduct.Location = new System.Drawing.Point(1026, 478);
             this.btnAddProduct.Name = "btnAddProduct";
             this.btnAddProduct.Size = new System.Drawing.Size(100, 35);
             this.btnAddProduct.TabIndex = 4;
@@ -448,7 +423,7 @@
             this.StatisticsTab.Margin = new System.Windows.Forms.Padding(2);
             this.StatisticsTab.Name = "StatisticsTab";
             this.StatisticsTab.Padding = new System.Windows.Forms.Padding(2);
-            this.StatisticsTab.Size = new System.Drawing.Size(1375, 498);
+            this.StatisticsTab.Size = new System.Drawing.Size(1375, 577);
             this.StatisticsTab.TabIndex = 3;
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
@@ -571,12 +546,86 @@
             this.PrPrice.Name = "PrPrice";
             this.PrPrice.Width = 125;
             // 
+            // btnTuesday
+            // 
+            this.btnTuesday.Location = new System.Drawing.Point(342, 4);
+            this.btnTuesday.Name = "btnTuesday";
+            this.btnTuesday.Size = new System.Drawing.Size(137, 74);
+            this.btnTuesday.TabIndex = 1;
+            this.btnTuesday.Text = "Tuesday";
+            this.btnTuesday.UseVisualStyleBackColor = true;
+            // 
+            // btnWednesday
+            // 
+            this.btnWednesday.Location = new System.Drawing.Point(485, 4);
+            this.btnWednesday.Name = "btnWednesday";
+            this.btnWednesday.Size = new System.Drawing.Size(137, 74);
+            this.btnWednesday.TabIndex = 2;
+            this.btnWednesday.Text = "Wednesday";
+            this.btnWednesday.UseVisualStyleBackColor = true;
+            // 
+            // btnThursday
+            // 
+            this.btnThursday.Location = new System.Drawing.Point(628, 4);
+            this.btnThursday.Name = "btnThursday";
+            this.btnThursday.Size = new System.Drawing.Size(137, 74);
+            this.btnThursday.TabIndex = 3;
+            this.btnThursday.Text = "Thursday";
+            this.btnThursday.UseVisualStyleBackColor = true;
+            // 
+            // btnFriday
+            // 
+            this.btnFriday.Location = new System.Drawing.Point(771, 4);
+            this.btnFriday.Name = "btnFriday";
+            this.btnFriday.Size = new System.Drawing.Size(137, 74);
+            this.btnFriday.TabIndex = 4;
+            this.btnFriday.Text = "Friday";
+            this.btnFriday.UseVisualStyleBackColor = true;
+            // 
+            // btnSaturday
+            // 
+            this.btnSaturday.Location = new System.Drawing.Point(914, 4);
+            this.btnSaturday.Name = "btnSaturday";
+            this.btnSaturday.Size = new System.Drawing.Size(137, 74);
+            this.btnSaturday.TabIndex = 5;
+            this.btnSaturday.Text = "Saturday";
+            this.btnSaturday.UseVisualStyleBackColor = true;
+            // 
+            // btnSunday
+            // 
+            this.btnSunday.Location = new System.Drawing.Point(1057, 4);
+            this.btnSunday.Name = "btnSunday";
+            this.btnSunday.Size = new System.Drawing.Size(137, 74);
+            this.btnSunday.TabIndex = 6;
+            this.btnSunday.Text = "Sunday";
+            this.btnSunday.UseVisualStyleBackColor = true;
+            // 
+            // btnPreviousMonth
+            // 
+            this.btnPreviousMonth.Location = new System.Drawing.Point(3, 3);
+            this.btnPreviousMonth.Name = "btnPreviousMonth";
+            this.btnPreviousMonth.Size = new System.Drawing.Size(137, 74);
+            this.btnPreviousMonth.TabIndex = 7;
+            this.btnPreviousMonth.Text = "Previous Month ";
+            this.btnPreviousMonth.UseVisualStyleBackColor = true;
+            this.btnPreviousMonth.Click += new System.EventHandler(this.btnPreviousMonth_Click);
+            // 
+            // btnNextMonth
+            // 
+            this.btnNextMonth.Location = new System.Drawing.Point(1222, 3);
+            this.btnNextMonth.Name = "btnNextMonth";
+            this.btnNextMonth.Size = new System.Drawing.Size(137, 74);
+            this.btnNextMonth.TabIndex = 8;
+            this.btnNextMonth.Text = "Next Month";
+            this.btnNextMonth.UseVisualStyleBackColor = true;
+            this.btnNextMonth.Click += new System.EventHandler(this.btnNextMonth_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1404, 612);
+            this.ClientSize = new System.Drawing.Size(1404, 655);
             this.Controls.Add(this.Tabs);
             this.Controls.Add(this.lblWelcome);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -584,7 +633,9 @@
             this.Text = "Hello";
             this.Tabs.ResumeLayout(false);
             this.ScheduleTab.ResumeLayout(false);
-            this.ScheduleTab.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.EmployeesTab.ResumeLayout(false);
             this.EmployeesTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).EndInit();
@@ -606,13 +657,6 @@
         private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.TabControl Tabs;
         private System.Windows.Forms.TabPage ScheduleTab;
-        private System.Windows.Forms.Label lblFriday;
-        private System.Windows.Forms.Label lblThursday;
-        private System.Windows.Forms.Label lblWednesday;
-        private System.Windows.Forms.Label lblTuesday;
-        private System.Windows.Forms.Label lblMonday;
-        private System.Windows.Forms.Label lblEvening;
-        private System.Windows.Forms.Label lblMorning;
         private System.Windows.Forms.TabPage EmployeesTab;
         private System.Windows.Forms.TabPage DepotTab;
         private System.Windows.Forms.Button btnAddProduct;
@@ -644,7 +688,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PrName;
         private System.Windows.Forms.DataGridViewTextBoxColumn PrSold;
         private System.Windows.Forms.DataGridViewTextBoxColumn PrPrice;
-        private System.Windows.Forms.FlowLayoutPanel flpScheduleTable;
-        private System.Windows.Forms.Label lblAfternoon;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlMatrix;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnMonday;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnToday;
+        private System.Windows.Forms.DateTimePicker dtpDate;
+        private System.Windows.Forms.Button btnSunday;
+        private System.Windows.Forms.Button btnSaturday;
+        private System.Windows.Forms.Button btnFriday;
+        private System.Windows.Forms.Button btnThursday;
+        private System.Windows.Forms.Button btnWednesday;
+        private System.Windows.Forms.Button btnTuesday;
+        private System.Windows.Forms.Button btnNextMonth;
+        private System.Windows.Forms.Button btnPreviousMonth;
     }
 }
