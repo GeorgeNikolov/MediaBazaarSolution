@@ -1,24 +1,353 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500&display=swap');
 
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    
 }
 
 body{
     background: white;
+    font-family: 'Open Sans', sans-serif;
 }
 
-header{
-    margin-bottom: 25px;
+/* ***************** Generic Styling **************** */
+.font {
+    font-family: 'Josefin Sans', sans-serif;
 }
+
+.default-cursor {
+    cursor: default;
+}
+
+.center {
+    text-align: center;
+}
+
+.button {
+    border-radius: 500px;
+    outline: none;
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.color {
+    color: #fefdfd;
+    background-color: #39cccc;
+}
+
+.border-color {
+    border-color: #39cccc;
+}
+
+.off-color {
+    color: #7c7efb;
+}
+
+.tooltip span {
+    display: none;
+}
+
+
+/* ***************** End of Generic Styling ************* */
+
+/* ****************** Calendar Table Styling ************** */
+table, td, th {
+    border: 1px solid #232323;
+}
+
+table {
+    margin: 14px auto;
+    border-collapse: collapse;
+}
+
+#calendar {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+}
+
+
+#calendar thead tr:first-child th div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#calendar h4 {
+    margin: 0;
+    padding: 0.7vh 0 0.1vh;
+    font-size: 1.4vw;
+    font-weight: 300;
+}
+
+#calendar h3 {
+    font-size: 2.4vw;
+    font-weight: 700;
+    margin: 0;
+    padding: 0 1.9vw;
+    display: inline-block;
+}
+
+#calendar .weekday {
+    font-size: 1.6vw;
+    font-weight: 300;
+    padding: 8px 0 5px;
+    border-bottom: 1px solid white !important;
+}
+
+#calendar .icon {
+    font-size: 1.3vw;
+    transition: all 0.3s;
+}
+
+#calendar .icon:hover {
+    opacity: 0.6;
+}
+
+#calendar tbody td {
+    height: 5.1vw;
+    width: 5.1vw;
+    font-size: 0.7vw;
+    font-weight: 600;
+    vertical-align: top;
+    padding: 0.5vw;
+    transition: all .3s ease;
+}
+
+#calendar tbody td:hover {
+    font-size: 1.2vw;
+}
+
+#calendar #current-day {
+    background-color: #e1e1e1;
+}
+
+#calendar img {
+    width: 3.7vw;
+    vertical-align: top;
+    position: relative;
+    top: 0.5vw;
+} 
+
+/* Choosing all td containing the class color */
+#calendar tbody tr td[class*="color"] {
+    border-right: 1px solid white;
+}
+
+#calendar tbody tr td[class*="color"]:first-child {
+    border-left-color: inherit;
+}
+
+#calendar tbody tr td[class*="color"]:last-child {
+    border-right-color: inherit;
+}
+
+#calendar tbody tr:nth-child(5) td[class*="color"] {
+    border-bottom-color: white;
+}
+
+#calendar tbody tr:last-child td[class*="color"] {
+    border-bottom-color: inherit;
+}
+
+#calendar tbody .prev-month-last-day:not(:last-child) {
+    border-right: 1px solid black !important;
+}
+
+/* ******************* End of Calendar Table Styling ******** */
+
+/* ******************** Dialog Styling ******************* */
+dialog {
+    height: 100%;
+    width: 100%;
+    border: none;
+    padding: 0;
+    background-color: rgba(29, 29, 29, 0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.fade-in {
+    animation-name: fade-in;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+}
+
+.fade-out {
+    animation-name: fade-out;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes fade-in{
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out{
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+/* ********************** End of Dialog Styling ************ */
+
+/* ********************** Popup Styling ******************** */
+
+.popup {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48vw;
+    margin: 22vh auto 0;
+    background-color: #FEFDFD;
+    border-radius: 10px;
+}
+
+/* ********************** End of Popup Styling *************** */
+
+/******************* Make Note Styling *******************/
+#schedule-post h4 {
+    margin: 32px 0 18px;
+    font-size: calc(16px + 1.6vw);
+    font-weight: 300;
+}
+
+#schedule-post #schedule-post-details {
+    height: 340px;
+    width: 42vw;
+    font-size: 2.6vw;
+    padding: 14px;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+}
+
+#schedule-post .got-it-button {
+    display: inline;
+    margin: 24px 0 20px;
+    padding: 10px 26px;
+    font-size: calc(12px + 0.6vw);
+    font-weight: 400;
+    transition: all .3s;
+}
+
+#schedule-post #got-it-button {
+    border: 3px solid #222;
+}
+
+#schedule-post #got-it-button:hover {
+    color: white;
+    background-color: #222;
+}
+
+
+/******************** End of Make Note Styling ***********/
+
+/* ****************** Responsiveness Styling *************/
+@media (orientation: landscape) {
+    .tooltip:hover {
+        cursor: help;
+        position: relative;
+    }
+    
+    .tooltip:hover span {
+        display: block;
+        font-size: 1vw;
+        padding: 6px;
+        /* This will make HTML count for spaces without collapsing them */
+        white-space: pre-wrap;
+        width: 12vw;
+        z-index: 100;
+        background: #ededed;
+        color: black;
+        border-radius: 6px;
+        left: 2vw;
+        top: 4vw;
+        position: absolute;
+    
+    }
+}
+
+@media (orientation: portrait) {
+
+    #calendar {
+        width: 100%;
+        display: block;
+        margin-top: 3.6vh;
+    }
+
+    #calendar h4 {
+        padding: 1.2vw 0 0.2vw;
+        font-size: 2.8vw;
+    }
+
+    #calendar h3 {
+        font-size: 3.8vw;
+        padding: 1.5vw 2vw 0.8vw;
+    }
+
+    #calendar .icon {
+        font-size: 2.9vw;
+    }
+
+    #calendar .weekday {
+        font-size: 2.5vw;
+    }
+
+    #calendar tbody td {
+        height: 9.8vw;
+        width: 9.8vw;
+        font-size: 1.6vw;
+        padding: 0.8vw;
+    }
+
+    #calendar img {
+        width: 7.4vw;
+        top: 0.7vw;
+    }
+
+    dialog {
+        width: 100%;
+        height: 100%;
+    }
+    .popup {
+        width: 75vw;
+    }
+
+    #schedule-post #schedule-post-details {
+        width: 62vw;
+        height: 24vh;
+        font-size: 4vh;
+    }
+}
+
+/* ******************** End of responsiveness Styling ******* */
+
 
 .link{
   text-decoration: none;
   display: inline-block;
   transition: all 0.5s ease;
   color: inherit;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: bold;
 }
 
@@ -70,13 +399,13 @@ header{
 
 
 .nav-left img{
-      width: 80px;
-      height: auto;
-      margin-right: 30px;
+    width: 80px;
+    height: auto;
+    margin-right: 30px;
 }
 
 .nav-left h2{
-        color: white;
+    color: white;
 }
 
 .signout{
@@ -161,34 +490,7 @@ header{
         transform: rotate(180deg);
     }
 }
-/* Table */
 
-#schedule {
-    overflow-x:auto;
-}
-
-#schedule table {
-    font-size: 1.7rem;
-    border-style: solid;
-    border-width: 5px;
-    padding: 10px;
-    margin: 250px auto 0;
-    max-width: 500px;
-}
-
-
-
-#schedule th, td {
-    padding: 10px;
-    text-align: center;
-
-}
-
-@media (max-width: 620px) {
-    #schedule table {
-        font-size: 1.1rem;
-    }
-}
 
 /* ******************* LOGIN PAGE STYLING ****************** */
 
@@ -325,7 +627,6 @@ header{
 
 #stock th, td {
     padding: 10px;
-    text-align: center;
     font-size: 1.2rem;
 }
 

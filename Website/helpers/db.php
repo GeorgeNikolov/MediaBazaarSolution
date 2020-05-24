@@ -1,12 +1,12 @@
 <?php
 
-$dsn = 'mysql:host=studmysql01.fhict.local;dbname=dbi411472';
-$username = "dbi411472";
-$password = "Pny67]yNJD";
+// $dsn = 'mysql:host=studmysql01.fhict.local;dbname=dbi411472';
+// $username = "dbi411472";
+// $password = "Pny67]yNJD";
 
-// $dsn = 'mysql:host=localhost;dbname=website_sem2';
-// $username = "root";
-// $password = "";
+$dsn = 'mysql:host=localhost;dbname=website_sem2';
+$username = "root";
+$password = "";
 
 // $dsn = 'mysql:host=studmysql01.fhict.local;dbname=dbi425406';
 // $username = "dbi425406";
