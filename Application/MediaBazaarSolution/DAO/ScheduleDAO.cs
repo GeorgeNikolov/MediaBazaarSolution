@@ -54,10 +54,10 @@ namespace MediaBazaarSolution.DAO
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] {employeeID, date, time, taskName}) > 0;
         }
 
-        public bool DeleteSchedule(int employeeID, string date, string time)
+        public bool DeleteSchedule(int employeeID, string date, string time, string taskName)
         {
-            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && time = @time )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employeeID, date, time }) > 0;
+            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && time = @time && task_name = @taskName )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employeeID, date, time, taskName }) > 0;
         }
 
         public bool GetSchedule(int employeeID, string date, string time, string taskName)

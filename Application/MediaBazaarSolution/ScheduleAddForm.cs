@@ -118,7 +118,7 @@ namespace MediaBazaarSolution
 
         private void btnDeleteSchedule_Click(object sender, EventArgs e)
         {
-            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, time))
+            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, time, taskName))
             {
                 MessageBox.Show("Successfully deleted the schedule item", "Successful deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 FillDgvSchedule();
