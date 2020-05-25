@@ -1,5 +1,7 @@
-<?php require_once('includes/header.php') ?>
-<?php require_once('helpers/db.php') ?>
+<?php require_once('includes/header.php'); ?>
+<?php require_once('helpers/db.php'); ?>
+<?php require_once('includes/navbar.php'); ?>
+
 <?php
   session_start();
   if (isset($_SESSION)) {
@@ -46,8 +48,8 @@
   }
 
  ?>
-
-    <main class="personal-info">
+<main>
+    <section id="personal-info">
       <div class="profile">
         <img src="<?php if ($image != ""){echo "img/".$image;} else {echo "img/default-avatar.png";} ?>" alt="LOGO">
         <h3>Username: <?php echo $username; ?></h6>
@@ -102,7 +104,7 @@
           </div>
         </form>
       </div>
-    </main>
+            </section>
+            </main>
   </body>
-
-<?php require_once('includes/footer.php'); ?>
+</html>

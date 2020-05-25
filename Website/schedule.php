@@ -1,6 +1,7 @@
 <?php require_once('includes/header.php'); ?>
 <?php require_once('helpers/db.php'); ?>
 <?php require_once('helpers/functions.php'); ?>
+<?php require_once('includes/navbar.php'); ?>
 <?php
   session_start();
   if (isset($_SESSION['employee_id'])) {
@@ -35,10 +36,11 @@
     <?php }
   }
   ?>
-  
+
+<main>
   <section id="schedule">
     <div id="calendar">
-        <table>
+        <table class="schedule-table">
             <thead class="color">
                 <tr>
                     <th colspan="7" class="border-color">
@@ -148,5 +150,6 @@
     <script type="text/javascript" src="js/reading_notes.js"></script>
     <?php getNoteData(); ?>
     <script type="text/javascript" src="js/start.js"></script>
+</main>
   </body>
-<?php require_once('includes/footer.php'); ?>
+</html>

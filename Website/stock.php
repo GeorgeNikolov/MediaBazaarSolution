@@ -1,6 +1,7 @@
 <?php require_once('includes/header.php'); ?>
 <?php require_once('helpers/db.php'); ?>
-<body>
+<?php require_once('includes/navbar.php'); ?>
+  <main>
   <div class="side-search">
     <form class="side-search-form" method="post">
       <input id="id-input" type="text" onkeyup="searchID()" placeholder="Search by ID">
@@ -58,7 +59,6 @@
     </table>
 
   </div>
-
+        </main>
 </body>
-
-<?php require_once('includes/footer.php') ?>
+</hmtl>
