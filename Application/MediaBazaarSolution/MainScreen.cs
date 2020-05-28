@@ -645,5 +645,7 @@ namespace MediaBazaarSolution
         {
             dtpDate.Value = DateTime.Now;
         }
+
+        
     }
 }

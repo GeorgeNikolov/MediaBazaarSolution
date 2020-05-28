@@ -34,8 +34,8 @@ namespace MediaBazaarSolution.DAO
         //set the constructor to private so that it will not be instantiated because of its protection level
         private DataProvider() { }
 
-        //private string connectionString = @"Server=studmysql01.fhict.local;Uid=dbi425406;Database=dbi425406;Pwd=1234;";
-        private string connectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=website_sem2;";
+        private string connectionString = @"Server=studmysql01.fhict.local;Uid=dbi425406;Database=dbi425406;Pwd=1234;";
+        //private string connectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=website_sem2;";
 
         //This method will return a DataTable based on the value returned by the query
         //This method will be used for the SELECT statement
