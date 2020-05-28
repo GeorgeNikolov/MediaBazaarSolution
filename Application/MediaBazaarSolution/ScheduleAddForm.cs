@@ -18,15 +18,20 @@ namespace MediaBazaarSolution
 
         private int employeeID;
         private string date;
-        private string time;
+        private string startTime;
+        private string endTime;
         private string taskName;
-        public ScheduleAddForm(string date)
+
+        private Button referencedBtn;
+        public ScheduleAddForm(string date, ref Button btn)
         {
             InitializeComponent();
+            this.referencedBtn = btn;
             employeeIDList = new List<int>();
 
             this.date = date;
-            dtpTime.CustomFormat = "HH:mm";
+            dtpStartTime.CustomFormat = "HH:mm";
+            dtpEndTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
             FillEmployeesComboBox();
             tbxDate.Text = date;
@@ -61,31 +66,39 @@ namespace MediaBazaarSolution
             //Convert selected date as string to datetime datatype
             DateTime myDate = DateTime.ParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //Create a new DateTime variable made up of selected date + selected time of day
-            DateTime newDateTime = myDate.Date + dtpTime.Value.TimeOfDay;
+            DateTime startTimeInDetails = myDate.Date + dtpStartTime.Value.TimeOfDay;
+            DateTime endTimeInDetails = myDate.Date + dtpEndTime.Value.TimeOfDay;
             
             if(cbbxEmployees.SelectedIndex < 0)
             {
                 MessageBox.Show("Please select an employee to add", "Select Employee Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else if (newDateTime.AddMinutes(1) < DateTime.Now)
+            } else if (startTimeInDetails.AddMinutes(1) < DateTime.Now)
             {
-                MessageBox.Show("You cannot choose a date in the past", "Choosing past date warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else if (String.IsNullOrEmpty(tbxTaskName.Text))
+                MessageBox.Show("You cannot set schedule in the past", "Choosing past date warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            } 
+            else if (endTimeInDetails < startTimeInDetails)
+            {
+                MessageBox.Show("End time happens before start time!", "Inconsistent time duration warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (String.IsNullOrEmpty(tbxTaskName.Text))
             {
                 MessageBox.Show("Invalid task name!", "Task name error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } 
             else
             {
                 int employeeID = (cbbxEmployees.SelectedItem as Employee).ID;
-                string time = dtpTime.Value.ToString("HH:mm");
+                string startTime = dtpStartTime.Value.ToString("HH:mm");
+                string endTime = dtpEndTime.Value.ToString("HH:mm");
                 string taskName = tbxTaskName.Text;
-                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, taskName))
+                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, startTime, endTime, taskName))
                 {
                     MessageBox.Show("The same schedule item has been put into the list!", "Duplicate schedule item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, time, taskName))
+                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, startTime, endTime, taskName))
                 {
                     MessageBox.Show("Successfully added the employee on shift !", "Successful added schedule", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     FillDgvSchedule();
+                    this.referencedBtn.BackColor = Color.LightYellow;
                 } else
                 {
                     MessageBox.Show("Fail to add the employee on shift !", "Fail to add schedule", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -101,7 +114,8 @@ namespace MediaBazaarSolution
 
         private void AddScheduleBinding()
         {
-            dtpTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "Time"));
+            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "StartTime"));
+            dtpEndTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "EndTime"));
             tbxTaskName.DataBindings.Add(new Binding("Text", dgvSchedule.DataSource, "TaskName"));
         }
 
@@ -118,10 +132,15 @@ namespace MediaBazaarSolution
 
         private void btnDeleteSchedule_Click(object sender, EventArgs e)
         {
-            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, time, taskName))
+            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, startTime, endTime, taskName))
             {
                 MessageBox.Show("Successfully deleted the schedule item", "Successful deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 FillDgvSchedule();
+
+                if(dgvSchedule.Rows.Count <= 0)
+                {
+                    this.referencedBtn.BackColor = Color.White;
+                }
             }
         }
 
@@ -132,16 +151,19 @@ namespace MediaBazaarSolution
                 int selectedRowIndex = dgvSchedule.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = dgvSchedule.Rows[selectedRowIndex];
                 employeeID = Convert.ToInt32(selectedRow.Cells["EmployeeID"].Value);
-                time = selectedRow.Cells["Time"].Value.ToString();
+                startTime = selectedRow.Cells["StartTime"].Value.ToString();
+                endTime = selectedRow.Cells["EndTime"].Value.ToString();
                 taskName = selectedRow.Cells["TaskName"].Value.ToString();
             }
         }
 
         private void btnUpdateSchedule_Click(object sender, EventArgs e)
         {
-            string oldTime = this.time;
+            string oldStartTime = this.startTime;
+            string oldEndTime = this.endTime;
             string oldTaskName = this.taskName;
-            string newTime = dtpTime.Value.ToString("HH:mm");
+            string newStartTime = dtpStartTime.Value.ToString("HH:mm");
+            string newEndTime = dtpEndTime.Value.ToString("HH:mm");
             string newTaskName = tbxTaskName.Text;
 
             if (employeeID != (cbbxEmployees.SelectedItem as Employee).ID)
@@ -150,7 +172,7 @@ namespace MediaBazaarSolution
                 return;
             }
 
-            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, oldTaskName, newTime, newTaskName, employeeID, date))
+            if (ScheduleDAO.Instance.UpdateSchedule(oldStartTime, oldEndTime, oldTaskName, newStartTime, newEndTime, newTaskName, employeeID, date))
             {
                 MessageBox.Show("Succesfully updated the schedule!", "Successful updation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillDgvSchedule();

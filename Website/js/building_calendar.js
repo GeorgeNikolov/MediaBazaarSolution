@@ -147,7 +147,7 @@ function getUID(month, year, day) {
 function appendSpriteToCellAndTooltip(uid, elem) {
     var imageAlreadyAdded = false;
     for(let i = 0; i < schedule_posts.length; i++) { 
-        if(uid == schedule_posts[i].id) {
+        if(uid == schedule_posts[i].id && schedule_posts[i].status == 0) {
             if(!imageAlreadyAdded) {
                 elem.innerHTML += `<img src='img/note${schedule_posts[i].note_num}.png'>`;
                 imageAlreadyAdded = true;

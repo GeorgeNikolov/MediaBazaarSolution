@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvSchedule = new System.Windows.Forms.DataGridView();
             this.btnAddSchedule = new System.Windows.Forms.Button();
             this.btnDeleteSchedule = new System.Windows.Forms.Button();
@@ -40,8 +40,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tbxTaskName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.dtpTime = new System.Windows.Forms.DateTimePicker();
+            this.dtpStartTime = new System.Windows.Forms.DateTimePicker();
             this.btnUpdateSchedule = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,14 +51,14 @@
             // 
             this.dgvSchedule.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSchedule.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSchedule.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSchedule.Location = new System.Drawing.Point(12, 12);
             this.dgvSchedule.Name = "dgvSchedule";
             this.dgvSchedule.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -160,20 +162,20 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label3.Location = new System.Drawing.Point(777, 201);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 20);
+            this.label3.Size = new System.Drawing.Size(86, 20);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Time:";
+            this.label3.Text = "Start Time:";
             // 
-            // dtpTime
+            // dtpStartTime
             // 
-            this.dtpTime.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.dtpTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.dtpTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTime.Location = new System.Drawing.Point(781, 240);
-            this.dtpTime.Name = "dtpTime";
-            this.dtpTime.ShowUpDown = true;
-            this.dtpTime.Size = new System.Drawing.Size(115, 24);
-            this.dtpTime.TabIndex = 16;
+            this.dtpStartTime.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.dtpStartTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpStartTime.Location = new System.Drawing.Point(781, 240);
+            this.dtpStartTime.Name = "dtpStartTime";
+            this.dtpStartTime.ShowUpDown = true;
+            this.dtpStartTime.Size = new System.Drawing.Size(115, 24);
+            this.dtpStartTime.TabIndex = 16;
             // 
             // btnUpdateSchedule
             // 
@@ -186,13 +188,36 @@
             this.btnUpdateSchedule.UseVisualStyleBackColor = true;
             this.btnUpdateSchedule.Click += new System.EventHandler(this.btnUpdateSchedule_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label4.Location = new System.Drawing.Point(937, 201);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 20);
+            this.label4.TabIndex = 18;
+            this.label4.Text = " End Time:";
+            // 
+            // dtpEndTime
+            // 
+            this.dtpEndTime.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.dtpEndTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.dtpEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpEndTime.Location = new System.Drawing.Point(941, 240);
+            this.dtpEndTime.Name = "dtpEndTime";
+            this.dtpEndTime.ShowUpDown = true;
+            this.dtpEndTime.Size = new System.Drawing.Size(115, 24);
+            this.dtpEndTime.TabIndex = 19;
+            // 
             // ScheduleAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 462);
+            this.Controls.Add(this.dtpEndTime);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnUpdateSchedule);
-            this.Controls.Add(this.dtpTime);
+            this.Controls.Add(this.dtpStartTime);
             this.Controls.Add(this.tbxTaskName);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
@@ -225,7 +250,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbxTaskName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dtpTime;
+        private System.Windows.Forms.DateTimePicker dtpStartTime;
         private System.Windows.Forms.Button btnUpdateSchedule;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dtpEndTime;
     }
 }

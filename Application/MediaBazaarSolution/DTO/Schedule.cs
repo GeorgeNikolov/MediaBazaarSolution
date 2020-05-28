@@ -13,7 +13,8 @@ namespace MediaBazaarSolution.DTO
         private string employeeFirstName;
         private string employeeLastName;
         private string date;
-        private string time;
+        private string startTime;
+        private string endTime;
         private string taskName;
 
         public Schedule(DataRow row)
@@ -22,17 +23,19 @@ namespace MediaBazaarSolution.DTO
             this.employeeFirstName = row["first_name"].ToString();
             this.employeeLastName = row["last_name"].ToString();
             this.Date = row["date"].ToString();
-            this.Time = row["time"].ToString();
+            this.StartTime = row["start_time"].ToString();
+            this.EndTime = row["end_time"].ToString();
             this.taskName = row["task_name"].ToString();
         }
 
-        public Schedule(int employeeID, string employeeFirstName, string employeeLastName, string date, string time, string taskName)
+        public Schedule(int employeeID, string employeeFirstName, string employeeLastName, string date, string startTime, string endTime, string taskName)
         {
             this.employeeID = employeeID;
             this.employeeFirstName = employeeFirstName;
             this.employeeLastName = employeeLastName;
             this.Date = date;
-            this.Time = time;
+            this.startTime = startTime;
+            this.endTime = endTime;
             this.taskName = taskName;
         }
 
@@ -42,6 +45,7 @@ namespace MediaBazaarSolution.DTO
        
         public string TaskName { get => taskName; set => taskName = value; }
         public string Date { get => date; set => date = value; }
-        public string Time { get => time; set => time = value; }
+        public string StartTime { get => startTime; set => startTime = value; }
+        public string EndTime { get => endTime; set => endTime = value; }
     }
 }

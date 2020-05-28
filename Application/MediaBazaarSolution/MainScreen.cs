@@ -568,6 +568,11 @@ namespace MediaBazaarSolution
                     btn.BackColor = Color.Cyan;
                 }
 
+                //Check if there are already some existing schedules in the date
+                if (ScheduleDAO.Instance.countAllScheduleOfTheDate(useDate.ToString("dd/MM/yyyy")) > 0)
+                {
+                    btn.BackColor = Color.LightYellow;
+                }
                 
                 useDate = useDate.AddDays(1);
             }
@@ -576,8 +581,10 @@ namespace MediaBazaarSolution
         private void Btn_Click(object sender, EventArgs e)
         {
             string date = (sender as Button).Tag.ToString();
-            //MessageBox.Show(date);
-            scheduleAddForm = new ScheduleAddForm(date);
+            Button btn = sender as Button;
+            
+            //Pass the reference of the current button to the scheduleAddForm
+            scheduleAddForm = new ScheduleAddForm(date, ref btn);
             scheduleAddForm.Show();
         }
 

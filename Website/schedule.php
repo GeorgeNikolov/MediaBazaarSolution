@@ -17,21 +17,24 @@
     $task_name = "";
     while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
         $id = $row['date'];
-        $time = $row['time'];
+        $start_time = $row['start_time'];
+        $end_time = $row['end_time'];
         $task_name = $row['task_name'];
-        $message = $id."  at ".$time.": ".$task_name."\n";
+        $status = $row['status'];
+        $message = "From ".$start_time." to ".$end_time.": ".$task_name;
+        $schedule_id = $row['schedule_id'];
+
         ?>
             <script type="text/javascript">
                 schedule_post = {
                     id: <?php echo json_encode($id); ?>,
                     note_num: Math.floor(Math.random() * 5) + 1,
                     note: <?php echo json_encode($message); ?>,
+                    status: <?php echo json_encode($status); ?>,
+                    schedule_id: <?php echo json_encode($schedule_id); ?>,
                 }
 
                 schedule_posts.push(schedule_post);
-                
-                
-                
             </script>
     <?php }
   }
@@ -126,10 +129,15 @@
         <dialog id="modal">
         <div id="schedule-post">
             <div class="popup">
-                <h4>Your schedule in the day</h4>
-                <textarea id="schedule-post-details" class="font" name="schedule-post-details"></textarea>
+                <h4>Your schedule on <span id="current-selected-date"></span></h4>
+                <!-- <textarea id="schedule-post-details" class="font" name="schedule-post-details"></textarea> -->
+                <ul id="todo-list">
+                    <!-- List of Todo's will be generated form js code -->
+                </ul>
                 <div>
                     <button class="button font got-it-button" id="got-it-button" onclick="gotItButtonClicked();">Got it!</button>
+                    <button class="button font completed-todos-button" id="completed-todos-button" onclick="completedTodosButtonClicked();">Completed tasks (<span id="numCompletedTasks"></span>)</button>
+                    <button class="button font undone-todos-button" id="undone-todos-button" onclick="undoneTodosButtonClicked();">Undone tasks (<span id="numUndoneTasks"></span>)</button>
                 </div>
             </div>
         </div>
@@ -142,7 +150,7 @@
     
   </section>
     
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/data.js"></script>
     <script type="text/javascript" src="js/date.js"></script>
     <script type="text/javascript" src="js/building_calendar.js"></script>
@@ -150,6 +158,7 @@
     <script type="text/javascript" src="js/reading_notes.js"></script>
     <?php getNoteData(); ?>
     <script type="text/javascript" src="js/start.js"></script>
+    <script type="text/javascript" src="js/complete_button.js"></script>
 </main>
   </body>
 </html>
