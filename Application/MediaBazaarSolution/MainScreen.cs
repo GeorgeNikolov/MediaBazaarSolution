@@ -346,7 +346,7 @@ namespace MediaBazaarSolution
                     int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
 
                     //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
-                    if (currentColumnIndex == 1)
+                    if (currentColumnIndex == 1) 
                     {
                         queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentItemCellValue.ToString());
                     }
@@ -646,6 +646,24 @@ namespace MediaBazaarSolution
             dtpDate.Value = DateTime.Now;
         }
 
-        
+        private void cbShowCompleted_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrdersTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblSortAlerts_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
