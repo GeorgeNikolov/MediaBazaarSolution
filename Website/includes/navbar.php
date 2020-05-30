@@ -31,6 +31,12 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a href="mailbox.php" class="nav-link">
+                <img src="https://img.icons8.com/fluent/48/000000/mail.png"/>
+                <span class="link-text">Mailbox</span>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a href="personalinfo.php" class="nav-link">
@@ -38,7 +44,6 @@
                 <span class="link-text">Personal Info</span>
             </a>
         </li>
-
 
         <li class="nav-item">
             <a href="signout.php" class="nav-link">
