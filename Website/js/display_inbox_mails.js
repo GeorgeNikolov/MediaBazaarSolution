@@ -183,6 +183,9 @@ function displayDefaultEmailContent() {
     const emailContent = document.getElementsByClassName("email-content")[0];
     emailContent.innerText = "";
 
+    var defaultEmailContentDiv = document.createElement("div");
+    defaultEmailContentDiv.setAttribute("id", "defaultEmailContentDiv");
+
     var tempImg = document.createElement("img");
     tempImg.setAttribute("src", "img/logo.png");
 
@@ -192,9 +195,11 @@ function displayDefaultEmailContent() {
     var tempP = document.createElement("p");
     tempP.innerText = "Here at LogiK, we developed an internal mailing system where you can exchange information with your administrators straight from the website you are accessing.";
 
-    emailContent.appendChild(tempImg);
-    emailContent.appendChild(tempH2);
-    emailContent.appendChild(tempP);
+    defaultEmailContentDiv.appendChild(tempImg);
+    defaultEmailContentDiv.appendChild(tempH2);
+    defaultEmailContentDiv.appendChild(tempP);
+
+    emailContent.append(defaultEmailContentDiv);
 }
 
 function indicateSelectedEmailItem(elem) {

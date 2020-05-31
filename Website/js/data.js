@@ -28,3 +28,9 @@ var receivedMails = [];
 var deletedMails = [];
 
 var currentTab;
+
+//Containing the info of all available info
+var allAdmins = [];
+
+//Contain the employee_id of the selected receiver when composing mail
+var selectedReceiver;

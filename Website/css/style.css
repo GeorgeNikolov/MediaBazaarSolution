@@ -34,6 +34,7 @@
     margin: 0;
     padding: 0;
 }
+
 body{
     color: black;
     background: var(--gradient);
@@ -43,6 +44,7 @@ body{
     animation: bg-animation 20s ease infinite;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 /* background body animation */
@@ -81,7 +83,6 @@ main {
     background-color: var(--bg-primary);
     transition: width 200ms ease;
     z-index: 100;
-    overflow: auto;
 }
 
 .navbar-nav {
@@ -154,6 +155,7 @@ main {
         bottom: 0;
         width: 100vw;
         height: 5rem;
+        overflow: auto;
     }
 
     .logo {
@@ -970,9 +972,10 @@ dialog {
 
 .mailbox-wrapper {
     box-shadow: 0 4px 20px rgba(51, 51, 51, .2);
-    overflow: auto;
+    overflow: hidden;
     width: 1300px;
     border-radius: 5px;
+    position: relative;
 }
 
 #sidebar {
@@ -980,6 +983,7 @@ dialog {
     float: left;
     height: var(--app-height);
     width: var(--sidebar-width);
+    position: relative;
 }
 
 #sidebar-inboxes {
@@ -1130,6 +1134,15 @@ dialog {
     width: 65%;
 }
 
+#defaultEmailContentDiv {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+
 .email-content img {
     width: 200px;
     border-radius: 10px;
@@ -1139,6 +1152,7 @@ dialog {
 
 .email-content h2 {
     text-align: center;
+    color: white;
 }
 
 .email-content p {
@@ -1184,3 +1198,196 @@ dialog {
 .delete-btn:hover {
     color: #e23e57;
 }
+
+/* Style the mail composer */
+#mail-composer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 500px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    transform: scale(0);
+    transition-duration: 700ms;
+    box-shadow: 0 4px 20px rgba(51, 51, 51, .2);
+}
+
+.composer-header {
+    background: #222;
+    font-size: 14px;
+    padding: 10px;
+    color: white;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.composer-header .close-btn {
+    background: transparent;
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    font-size: 20px;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.composer-body {
+    padding: 8px;
+}
+
+.opened-mail {
+    transform: scale(1);
+}
+
+.composer-body input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    outline: none;
+}
+
+.input-to {
+    position: relative;
+
+}
+
+.input-message {
+    width: 100%;
+    height: 360px;
+    border: none;
+    outline: none;
+    margin-top: 3px;
+    font-family: sans-serif;
+    padding-top: 10px;
+    resize: none;
+}
+
+.autocomplete-list {
+    position: absolute;
+    border: 1px solid #b6b6b6;
+    width: 70%;
+    left: 5%;
+    background: white;
+    box-shadow: 0 4px 10px rgba(51, 51, 51, .2);
+    border-radius: 5px;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 5px 10px;
+}
+
+.nameAsTag {
+    border: 1px solid #eee;
+    border-radius: 20px;
+}
+
+.autocomplete-item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+
+.autocomplete-item:hover {
+    background-color: #eee;
+}
+
+/* Style the send button */
+.send-btn-container {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.send-btn {
+    position: relative;
+    width: 110px;
+    padding: 10px;
+    padding-right: 50px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #1da1f2;
+    border: none;
+    border-radius: 3px;
+    transition: background-color .3s ease;
+    overflow: visible;
+    cursor: pointer;
+    transition: all var(--transition-speed) linear;
+}
+
+
+.send-btn:hover {
+    background-color: #2565ae;
+}
+
+.send-btn:hover svg{
+    transform: rotate(370deg);
+    transition: transform var(--transition-speed);
+}
+
+.send-btn:focus {
+    outline: none;
+}
+
+.send-btn svg {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 30px;
+    width: auto;
+    transition: transform var(--transition-speed);
+    outline: none;
+}
+
+.send-btn svg path {
+    fill: white;
+}
+
+.send-btn.clicked {
+    background: #4BB543;
+    animation: bounce-in .3s;
+    cursor: default;
+}
+
+.send-btn.clicked svg {
+    animation: flyaway 1.3s linear;
+    top: -80px;
+    right: -1000px;
+}
+
+.send-btn.clicked svg path {
+    fill: #6aaa3b;
+}
+
+@keyframes flyaway {
+    0%   { transform: rotate(10deg);
+           top: 5px;
+           right: 25px;
+           height: 30px; }
+    5%   { transform: rotate(10deg);
+           top: 5px;
+           right: 0px;
+           height: 30px; }
+    20%   { transform: rotate(-20deg);
+            top: 13px;
+            right: -130px;
+            height: 45px; }  
+    40%   { transform: rotate(10deg);
+            top: -40px;
+            right: -280px;
+            opacity: 1; }
+    100% { transform: rotate(60deg);
+           top: -200px;
+           right: -1000px;
+           height: 0;
+           opacity: 0; }
+  }
+  
+  @keyframes bounce-in {
+    0% { padding-right: 30px; }
+    40% { padding-right: 6px; }
+    50% { padding-left: 30px; }
+    100% { padding-left: 6px; }
+  }
+  

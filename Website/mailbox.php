@@ -79,6 +79,32 @@
         <?php }
     }
 
+    function getAdmins() {
+        global $con;
+        
+        $res = $con->query("SELECT * FROM employee WHERE employee_type = 'admin'");
+
+        while($row = $res->fetch(PDO::FETCH_ASSOC)) {
+            $employee_id = $row["employee_id"];
+            $first_name = $row["first_name"];
+            $last_name = $row["last_name"];
+            $name = $first_name." ".$last_name;
+            ?>
+            <script type="text/javascript">
+                    admin = {
+                        employee_id: <?php echo json_encode($employee_id); ?>,
+                        first_name: <?php echo json_encode($first_name); ?>,
+                        last_name: <?php echo json_encode($last_name) ?>,
+                        name: <?php echo json_encode($name) ?>,
+                    }
+
+                    allAdmins.push(admin);
+
+                    
+            </script>
+        <?php }
+    }
+
 ?>
 <main>
     <section id="mailbox">
@@ -88,7 +114,7 @@
                 <div id="sidebar">
                     <!-- Sidebar compose -->
                     <div class="sidebar-compose">
-                        <a href="#" class="compose-btn">
+                        <a href="#" class="compose-btn" onclick="openMailComposer();">
                             <span>Compose</span>
                             <i class="fa fa-plus-circle"></i>
                         </a>
@@ -122,6 +148,7 @@
                             </a>
                         </li>
                     </ul>
+
                 </div>
 
                 <!-- Inbox Container -->
@@ -137,7 +164,37 @@
                     </div>
                 </div>
             </div>
+
+            <div id="mail-composer">
+                <div class="composer-header">
+                    <h3 class="composer-title">New Mail</h3>
+                    <span class="close-btn" onclick="closeMailComposer();">
+                        <i class="fa fa-window-close"></i>
+                    </span>
+                </div>
+                <div class="composer-body">
+                    <input class="input-to" type="text" placeholder="To:" oninput="autoComplete();">
+                    <div class="autocomplete-list">
+                        
+                    </div>
+                    <input class="input-subject" type="text" placeholder="Subject:">
+                    <textarea class="input-message" cols="30" rows="10"></textarea>
+
+                    <!-- Send Button -->
+                    <div class="send-btn-container">
+                        <button class="send-btn" onclick="sendMail();">
+                            <span class="send-text">Send</span>
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path id="paper-plane-icon" d="M462,54.955L355.371,437.187l-135.92-128.842L353.388,167l-179.53,124.074L50,260.973L462,54.955zM202.992,332.528v124.517l58.738-67.927L202.992,332.528z"></path> 
+                            </svg>
+                        </button>
+                    </div>
+                    
+                </div>
+                
+            </div>
         </div>
+
+        
     </section>
 
 </main>
@@ -145,9 +202,11 @@
     <?php 
         getMailReceived(); 
         getMailSent();
+        getAdmins();
     ?>
     <script src="js/display_inbox_mails.js"></script>
     <script src="js/display_sent_mails.js"></script>
     <script src="js/display_deleted_mails.js"></script>
+    <script src="js/mail_composer.js"></script>
 </body>
 </html>
