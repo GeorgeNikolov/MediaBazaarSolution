@@ -37,10 +37,26 @@ namespace MediaBazaarSolution.DAO
         public List<Schedule> GetEmployeesOnShiftByDate(string date)
         {
             List<Schedule> scheduleList = new List<Schedule>();
-            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name FROM schedule s INNER JOIN employee e ON s.employee_id = e.employee_id WHERE s.date = '" + date + "'";
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name " +
+                "FROM schedule s INNER JOIN employee e ON s.employee_id = e.employee_id WHERE s.date = @date";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { date });
             
             foreach(DataRow row in data.Rows)
+            {
+                Schedule schedule = new Schedule(row);
+                scheduleList.Add(schedule);
+            }
+            return scheduleList;
+        }
+        //Gets all the depot workers that are under a specific manager.
+        public List<Schedule> GetDepotWorkersOnShiftByDate(string date,int managerId)
+        {
+            List<Schedule> scheduleList = new List<Schedule>();
+            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name " +
+                "FROM schedule s INNER JOIN employee e ON s.employee_id = e.employee_id WHERE e.employee_type = 'employee' AND e.manager_id = @managerId AND s.date = @date";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerId, date});
+
+            foreach (DataRow row in data.Rows)
             {
                 Schedule schedule = new Schedule(row);
                 scheduleList.Add(schedule);
@@ -79,8 +95,8 @@ namespace MediaBazaarSolution.DAO
 
         public int countAllScheduleOfTheDate(string date)
         {
-            string query = "SELECT * FROM schedule WHERE date = " + "'" + date + "'";
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            string query = "SELECT * FROM schedule WHERE date = @date";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { date});
             return data.Rows.Count;
         }
     }

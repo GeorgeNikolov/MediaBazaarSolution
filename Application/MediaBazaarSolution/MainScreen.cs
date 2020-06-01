@@ -24,6 +24,7 @@ namespace MediaBazaarSolution
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
+        private List<TabPage> tabPages;
         
         private int itemID;
         private int employeeID;
@@ -32,6 +33,8 @@ namespace MediaBazaarSolution
         private object oldEmployeeCellValue;
 
         private string userFirstName;
+        private string userType;
+        private int managerId;
 
         //This 2-dimensional list will hold 6x7 button references so we can change the corresponding date in each button depending on the current month of date
         private List<List<Button>> matrix;
@@ -44,6 +47,19 @@ namespace MediaBazaarSolution
                 return this.userFirstName;    
             }
         }
+        public string UserType { 
+            get
+            {
+                return this.userType;
+            }
+        }
+        public int ManagerId
+        {
+            get
+            {
+                return this.managerId;
+            }
+        }
 
         public List<List<Button>> Matrix
         {
@@ -51,7 +67,7 @@ namespace MediaBazaarSolution
             private set { this.matrix = value; }
         }
 
-        public MainScreen(string userFirstName)
+        public MainScreen(string userFirstName,string userType, int managerId)
         {
             InitializeComponent();
 
@@ -60,9 +76,13 @@ namespace MediaBazaarSolution
             indecis = new List<int>();
             categories = new List<string>();
             employees = new List<string>();
+            tabPages = new List<TabPage>();
             LoadAll();
+            
 
             this.userFirstName = userFirstName;
+            this.userType = userType;
+            this.managerId = managerId;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
             depotAddForm = new DepotAddForm(this);
 
@@ -89,8 +109,9 @@ namespace MediaBazaarSolution
         {
             LoadAllItems();
             LoadItemCategoriesInComboBox();
-            LoadAllEmployees();
             LoadMatrixSchedule();
+            //LoadTabPages();
+            
         }
         private void LoadAllItems()
         {
@@ -138,6 +159,21 @@ namespace MediaBazaarSolution
                 {
                     employees.Add(employee.LastName);
                 }       
+            }
+        }
+        private void LoadAllDepotWorkers()
+        {
+            List<Employee> employeeList = EmployeeDAO.Instance.GetAllDepotWorkers(this.ManagerId);
+            dgvEmployees.DataSource = employeeList;
+
+            employees.Clear();
+
+            foreach (Employee employee in employeeList)
+            {
+                if (!employees.Contains(employee.LastName))
+                {
+                    employees.Add(employee.LastName);
+                }
             }
         }
 
@@ -501,6 +537,15 @@ namespace MediaBazaarSolution
             }
         }
 
+        //TODO implement the method at a later point.
+        //private void LoadTabPages()
+        //{
+        //    foreach (TabPage tab in Tabs.TabPages)
+        //    {
+        //        tabPages.Add(tab);
+        //    }
+        //}
+
         #endregion
 
 
@@ -584,7 +629,7 @@ namespace MediaBazaarSolution
             Button btn = sender as Button;
             
             //Pass the reference of the current button to the scheduleAddForm
-            scheduleAddForm = new ScheduleAddForm(date, ref btn);
+            scheduleAddForm = new ScheduleAddForm(date, ref btn, this.UserType, this.ManagerId);
             scheduleAddForm.Show();
         }
 
@@ -651,6 +696,18 @@ namespace MediaBazaarSolution
         private void btnToday_Click(object sender, EventArgs e)
         {
             dtpDate.Value = DateTime.Now;
+        }
+
+        private void MainScreen_Load(object sender, EventArgs e)
+        {
+            if(String.Compare(this.UserType,"admin") == 0)
+            {
+                LoadAllEmployees();
+            }
+            else
+            {
+                LoadAllDepotWorkers();
+            }
         }
     }
 }

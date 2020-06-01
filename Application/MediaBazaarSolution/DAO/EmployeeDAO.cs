@@ -48,6 +48,21 @@ namespace MediaBazaarSolution.DAO
             return employeeList;
 
         }
+        //Method for extracting only depot workers from the database.
+        public List<Employee> GetAllDepotWorkers(int managerId)
+        {
+            List<Employee> employeeList = new List<Employee>();
+
+            string query = "SELECT * FROM employee WHERE employee_type = 'employee' AND manager_id = @managerId";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerId });
+
+            foreach (DataRow row in data.Rows)
+            {
+                Employee employee = new Employee(row);
+                employeeList.Add(employee);
+            }
+            return employeeList;
+        }
 
         public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage)
         {
@@ -127,20 +142,6 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "UPDATE employee SET address = @address WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { address }) > 0;
-        }
-
-        public List<Employee> GetAllEmployeesOnly()
-        {
-            string query = "SELECT * FROM employee WHERE employee_type = 'employee'";
-            List<Employee> employeeList = new List<Employee>();
-
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach(DataRow row in data.Rows)
-            {
-                Employee employee = new Employee(row);
-                employeeList.Add(employee);
-            }
-            return employeeList;
         }
 
         public List<Employee> GetAllEmployeesOnShift(int workDayID)

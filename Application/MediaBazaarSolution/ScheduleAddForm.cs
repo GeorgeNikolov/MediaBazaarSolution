@@ -21,15 +21,19 @@ namespace MediaBazaarSolution
         private string startTime;
         private string endTime;
         private string taskName;
-
+        private string userType;
+        private int managerId;
+        
         private Button referencedBtn;
-        public ScheduleAddForm(string date, ref Button btn)
+        public ScheduleAddForm(string date, ref Button btn, string userType, int managerId)
         {
             InitializeComponent();
             this.referencedBtn = btn;
             employeeIDList = new List<int>();
 
             this.date = date;
+            this.userType = userType;
+            this.managerId = managerId;
             dtpStartTime.CustomFormat = "HH:mm";
             dtpEndTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
@@ -46,18 +50,41 @@ namespace MediaBazaarSolution
 
         public void FillDgvSchedule()
         {
-            dgvSchedule.DataSource = ScheduleDAO.Instance.GetEmployeesOnShiftByDate(this.date);
+            if(String.Compare(this.userType, "admin") == 0)
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetEmployeesOnShiftByDate(this.date);
+            }
+            else
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetDepotWorkersOnShiftByDate(this.date,this.managerId);
+            }
         }
 
         public void FillEmployeesComboBox()
         {
             employeeIDList.Clear();
-            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployeesOnly();
-            cbbxEmployees.DataSource = employeeList;
-
-            foreach(Employee e in employeeList)
+            List<Employee> employeeList;
+            if (String.Compare(this.userType, "admin") == 0)
             {
-                employeeIDList.Add(e.ID);
+                employeeList = EmployeeDAO.Instance.GetAllEmployees();
+                cbbxEmployees.DataSource = employeeList;
+            }
+            else
+            {
+                employeeList = EmployeeDAO.Instance.GetAllDepotWorkers(this.managerId);
+                cbbxEmployees.DataSource = employeeList;
+            }
+            
+            if(employeeList.Count == 0)
+            {
+                MessageBox.Show("No employees assigned!", "No employees!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                foreach (Employee e in employeeList)
+                {
+                    employeeIDList.Add(e.ID);
+                }
             }
         }
 
