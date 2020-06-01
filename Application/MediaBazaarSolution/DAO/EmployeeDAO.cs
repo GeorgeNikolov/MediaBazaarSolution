@@ -158,5 +158,14 @@ namespace MediaBazaarSolution.DAO
 
             return employeeList;
         }
+
+        public string GetFirstNameAndLastNameFromID(int ID)
+        {
+            string query1 = "SELECT first_name FROM employee WHERE employee_id = " + ID;
+            string query2 = "SELECT last_name FROM employee WHERE employee_id = " + ID;
+
+            return DataProvider.Instance.ExecuteScalar(query1).ToString() + " " + DataProvider.Instance.ExecuteScalar(query2);
+        }
+        
     }
 }

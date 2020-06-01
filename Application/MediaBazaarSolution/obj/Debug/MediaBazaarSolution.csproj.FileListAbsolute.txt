@@ -223,3 +223,4 @@ C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolu
 C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.exe
 C:\Users\colin\Documents\Fontys\S2\Project\Version 8\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.pdb
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleAddForm.resources
+C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.SendMail.resources
