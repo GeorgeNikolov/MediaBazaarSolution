@@ -13,6 +13,7 @@ using MediaBazaarSolution.DAO;
 using MediaBazaarSolution.DTO;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Microsoft.VisualBasic;
 
 namespace MediaBazaarSolution
 {
@@ -91,6 +92,7 @@ namespace MediaBazaarSolution
             LoadItemCategoriesInComboBox();
             LoadAllEmployees();
             LoadMatrixSchedule();
+            LoadAlerts(rbPriority.Checked);
         }
         private void LoadAllItems()
         {
@@ -139,6 +141,12 @@ namespace MediaBazaarSolution
                     employees.Add(employee.LastName);
                 }       
             }
+        }
+
+        private void LoadAlerts(bool sortAlertsByPriority)
+        { 
+            List<Alert> alertList = RestockDAO.Instance.LoadAlerts(sortAlertsByPriority);
+            dgvAlerts.DataSource = alertList;
         }
 
         private void SearchItemByCategory(string categoryWanted)
@@ -383,6 +391,7 @@ namespace MediaBazaarSolution
                         else
                         {
                             queryIsSuccess = ItemDAO.Instance.UpdateItemAmount(currentItemId, (int)currentItemCellValue);
+                            LoadAlerts(rbPriority.Checked);
                         }
                     }
                     else if (currentColumnIndex == 4)
@@ -663,6 +672,34 @@ namespace MediaBazaarSolution
 
         private void lblSortAlerts_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void rbPriority_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbPriority.Checked)
+            {
+                LoadAlerts(true);
+            }
+        }
+
+        private void rbTime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbTime.Checked)
+            {
+                LoadAlerts(false);
+            }
+        }
+
+        private void btnMakeOrder_Click(object sender, EventArgs e)
+        {
+            string value = Interaction.InputBox("Input Dialog", "Please enter an item id");
+            {
+                int id = Convert.ToInt32(value);
+                value = Interaction.InputBox("Input Dialog", "Please enter an amount");
+                int amount = Convert.ToInt32(value);
+                RestockDAO.Instance.AddOrder(id, amount);
+            }
 
         }
     }

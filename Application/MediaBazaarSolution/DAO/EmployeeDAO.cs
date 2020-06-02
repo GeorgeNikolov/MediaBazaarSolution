@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MediaBazaarSolution.DTO;
 using MediaBazaarSolution.Helper;
+using System.Windows;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -103,6 +104,8 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "UPDATE employee SET email = @email WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { email }) > 0;
+            
+            
         }
 
         public bool UpdateEmployeePhone(int id, string phone)
