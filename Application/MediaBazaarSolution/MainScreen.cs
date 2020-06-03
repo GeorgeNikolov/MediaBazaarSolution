@@ -780,32 +780,69 @@ namespace MediaBazaarSolution
 
             pnlMailContent.Controls.Add(btn);
 
+            if(this.currentTab == 0)
+            {
+                Button btn1 = new Button();
+                btn1.Text = "Reply";
+                btn1.Width = 70;
+                btn1.Height = 40;
+                btn1.Location = new Point(600, 490);
+                btn1.Click += ReplyMail;
+                btn1.Tag = mid;
+
+                pnlMailContent.Controls.Add(btn1);
+            }
+
+        }
+
+        private void ReplyMail(object sender, EventArgs e)
+        {
+            int mid = Convert.ToInt32((sender as Button).Tag);
+            foreach(Mail m in allMails)
+            {
+                if (m.ID == mid)
+                {
+                    SendMail sm = new SendMail(this.adminID, m.Sender, m.Subject);
+                    sm.Show();
+                    break;
+                }
+            }
         }
 
         private void DeleteMailFromAdmin(object sender, EventArgs e)
         {
             int mid = Convert.ToInt32((sender as Button).Tag);
-            if (this.currentTab == 0)
-
-            if(MailDAO.Instance.DeleteMailFromAdmin(mid))
+            if (this.currentTab != 2)
             {
-                MessageBox.Show("Successfully deleted the mail!", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                UpdateAllMailsList();
-                pnlMailContent.Controls.Clear();
-
-                switch (currentTab)
+                if (MailDAO.Instance.DeleteMailFromAdmin(mid))
                 {
-                    case 0:
-                        FillReceivedMails();
-                        break;
-                    case 1:
-                        FillSentMails();
-                        break;
-                    default:
-                        FillDeletedMails();
-                        break;
+                    MessageBox.Show("Successfully deleted the mail!", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    switch (currentTab)
+                    {
+                        case 0:
+                            FillReceivedMails();
+                            break;
+                        default:
+                            FillSentMails();
+                            break;
+                        
+                    }
+                }
+            } else
+            {
+                if (MailDAO.Instance.DeleteMailFromAdminForever(mid))
+                {
+                    MessageBox.Show("Successfully deleted the mail forever !", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    FillDeletedMails();
                 }
             }
+            
         }
 
         private void FillReceivedMails()
@@ -814,7 +851,7 @@ namespace MediaBazaarSolution
 
             foreach (Mail m in this.allMails)
             {
-                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0)
+                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0 )
                 {
                     Button btn = new Button() { Width = 285, Height = 72 };
                     string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
@@ -852,7 +889,7 @@ namespace MediaBazaarSolution
             flpMailList.Controls.Clear();
             foreach (Mail m in this.allMails)
             {
-                if (m.DeletedFromAdmin == 1)
+                if (m.DeletedFromAdmin == 1 && m.DeletedFromAdminForever == 0)
                 {
                     Button btn = new Button() { Width = 285, Height = 72 };
 
@@ -873,7 +910,7 @@ namespace MediaBazaarSolution
             
             foreach(Mail m in this.allMails)
             {
-                if (m.Status == 0)
+                if (m.Status == 0 && m.Receiver == this.adminID)
                 {
                     unreadMailExist = true;
                     break;

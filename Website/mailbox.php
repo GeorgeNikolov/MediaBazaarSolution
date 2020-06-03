@@ -10,7 +10,7 @@
     function getMailReceived() {
         global $con;
         global $employee_id;
-        $res = $con->query("SELECT m.mail_id, m.subject, e.first_name, e.last_name, m.content, m.date, m.status, m.deletedFromEmployee FROM mail m INNER JOIN employee e ON m.sender = e.employee_id WHERE m.receiver = '$employee_id' ORDER BY m.mail_id DESC");
+        $res = $con->query("SELECT m.mail_id, m.subject, e.first_name, e.last_name, m.content, m.date, m.status, m.deletedFromEmployee, m.deletedFromEmployeeForever FROM mail m INNER JOIN employee e ON m.sender = e.employee_id WHERE m.receiver = '$employee_id' ORDER BY m.mail_id DESC");
 
         while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
             $mail_id = $row["mail_id"];
@@ -21,6 +21,7 @@
             $date = $row["date"];
             $status = $row["status"];
             $deletedFromEmployee = $row["deletedFromEmployee"];
+            $deletedFromEmployeeForever = $row["deletedFromEmployeeForever"];
             $sender = $first_name." ".$last_name;
             ?>
                 <script type="text/javascript">
@@ -32,9 +33,10 @@
                         status: <?php echo json_encode($status); ?>,
                         sender: <?php echo json_encode($sender); ?>,
                         deletedFromEmployee: <?php echo json_encode($deletedFromEmployee); ?>,
-                        
+                        deletedFromEmployeeForever: <?php echo json_encode($deletedFromEmployeeForever); ?>,
                     }
 
+                    
                     receivedMails.push(receivedMail);
                     
                 </script>
@@ -44,7 +46,7 @@
     function getMailSent() {
         global $con;
         global $employee_id;
-        $res = $con->query("SELECT m.mail_id, m.subject, e.first_name, e.last_name, m.content, m.date, m.status, m.deletedFromEmployee FROM mail m INNER JOIN employee e ON m.receiver = e.employee_id WHERE m.sender = '$employee_id' ORDER BY m.mail_id DESC");
+        $res = $con->query("SELECT m.mail_id, m.subject, e.first_name, e.last_name, m.content, m.date, m.status, m.deletedFromEmployee, m.deletedFromEmployeeForever FROM mail m INNER JOIN employee e ON m.receiver = e.employee_id WHERE m.sender = '$employee_id' ORDER BY m.mail_id DESC");
 
         $res1 = $con->query("SELECT * FROM employee WHERE employee_id = '$employee_id'");
         $row1 = $res1->fetch(PDO::FETCH_ASSOC);
@@ -59,6 +61,7 @@
             $date = $row["date"];
             $status = $row["status"];
             $deletedFromEmployee = $row["deletedFromEmployee"];
+            $deletedFromEmployeeForever = $row["deletedFromEmployeeForever"];
             $receiver = $first_name." ".$last_name;
 
             ?>
@@ -72,6 +75,7 @@
                         receiver: <?php echo json_encode($receiver); ?>,
                         sender: <?php echo json_encode($sender); ?>,
                         deletedFromEmployee: <?php echo json_encode($deletedFromEmployee); ?>,
+                        deletedFromEmployeeForever: <?php echo json_encode($deletedFromEmployeeForever); ?>,
                     }
 
                     sentMails.push(sentMail);
@@ -178,7 +182,7 @@
                         
                     </div>
                     <input class="input-subject" type="text" placeholder="Subject:">
-                    <textarea class="input-message" cols="30" rows="10"></textarea>
+                    <textarea class="input-message" cols="66" rows="25"></textarea>
 
                     <!-- Send Button -->
                     <div class="send-btn-container">

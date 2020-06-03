@@ -148,10 +148,15 @@ function sendMail() {
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         flyAway();
+        // setTimeout(function() {
+        //     location.reload();
+        // }, 1000);
       }
     };
-    xmlhttp.open("GET", "sendMail.php?receiver=" + selectedReceiver + "&subject=" + inputSubject.value + "&content=" + inputMessage.value, true);
-    xmlhttp.send();
+    
+    xmlhttp.open("POST", "sendMail.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("receiver=" + selectedReceiver + "&subject=" + inputSubject.value + "&content=" + inputMessage.value);
 }
 
 function resetAllInputValues() {
@@ -163,3 +168,4 @@ function resetAllInputValues() {
     inputSubject.value = "";
     inputMessage.value = "";
 }
+

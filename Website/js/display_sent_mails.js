@@ -6,7 +6,7 @@ function fillSentMails(elem = null) {
     emailList.innerText = "";
 
     for(var i = 0; i < sentMails.length; i++) {
-        if (sentMails[i].deletedFromEmployee == 0) {
+        if (sentMails[i].deletedFromEmployee == 0 && sentMails[i].deletedFromEmployeeForever == 0) {
             // Create email item
             var emailItem = document.createElement("div");
             emailItem.classList.add("email-item");

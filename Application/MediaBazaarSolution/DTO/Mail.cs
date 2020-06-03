@@ -16,6 +16,7 @@ namespace MediaBazaarSolution.DTO
         private int receiver;
         private string date;
         private int deletedFromAdmin;
+        private int deletedFromAdminForever;
         private int status;
 
         public Mail(DataRow row)
@@ -28,9 +29,10 @@ namespace MediaBazaarSolution.DTO
             this.Status = Convert.ToInt32(row["status"]);
             this.Receiver = Convert.ToInt32(row["receiver"]);
             this.Sender = Convert.ToInt32(row["sender"]);
+            this.DeletedFromAdminForever = Convert.ToInt32(row["deletedFromAdminForever"]);
         }
 
-        public Mail(int ID, string subject, string content, int receiver, int sender, string date, int deletedFromAdmin, int status)
+        public Mail(int ID, string subject, string content, int receiver, int sender, string date, int deletedFromAdmin, int status, int deletedFromAdminForever)
         {
             this.ID = ID;
             this.Subject = subject;
@@ -40,6 +42,7 @@ namespace MediaBazaarSolution.DTO
             this.Date = date;
             this.DeletedFromAdmin = deletedFromAdmin;
             this.status = status;
+            this.DeletedFromAdminForever = deletedFromAdminForever;
         }
       
 
@@ -52,5 +55,6 @@ namespace MediaBazaarSolution.DTO
         public int Sender { get => sender; set => sender = value; }
         public int Receiver { get => receiver; set => receiver = value; }
         public int ID { get => iD; set => iD = value; }
+        public int DeletedFromAdminForever { get => deletedFromAdminForever; set => deletedFromAdminForever = value; }
     }
 }

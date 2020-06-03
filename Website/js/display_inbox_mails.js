@@ -16,7 +16,7 @@ function fillReceivedMails(elem = null) {
     emailList.innerText = "";
 
     for(var i = 0; i < receivedMails.length; i++) {
-        if (receivedMails[i].deletedFromEmployee == 0) {
+        if (receivedMails[i].deletedFromEmployeeForever == 0 && receivedMails[i].deletedFromEmployee == 0) {
             // Create email item
             var emailItem = document.createElement("div");
             emailItem.classList.add("email-item");
@@ -111,6 +111,16 @@ function getEmailItemContentInbox(elem) {
     deleteBtn.appendChild(trashIcon);
     deleteBtn.setAttribute("onclick", "removeTheSelectedItemFromEmployeeInbox(this);");
     deleteBtn.setAttribute("data-mid", elem.dataset.mid);
+
+    //Create reply button 
+    var replyBtn = document.createElement("span");
+    replyBtn.classList.add("reply-btn");
+    var replyIcon = document.createElement("i");
+    replyIcon.classList.add("fa");
+    replyIcon.classList.add("fa-reply");
+    replyBtn.appendChild(replyIcon);
+    replyBtn.setAttribute("onclick", "replySelectedMail(this);");
+    replyBtn.setAttribute("data-mid", elem.dataset.mid);
     
 
     //Create email content time
@@ -126,6 +136,7 @@ function getEmailItemContentInbox(elem) {
     //Add these to the email content header
     emailContentHeader.appendChild(emailContentSubject);
     emailContentHeader.appendChild(deleteBtn);
+    emailContentHeader.appendChild(replyBtn);
     emailContentHeader.appendChild(emailContentTime);
     emailContentHeader.appendChild(emailContentFrom);
 
@@ -264,4 +275,23 @@ function resetAllTabs() {
             sidebarInboxes[i].classList.remove("currently-active");
         }
     }
+}
+
+function replySelectedMail(elem) {
+    openMailComposer();
+
+    for(var i = 0; i < receivedMails.length; i++) {
+        if (receivedMails[i].mail_id == elem.dataset.mid) {
+            document.getElementsByClassName("input-to")[0].value = receivedMails[i].sender;
+            document.getElementsByClassName("input-subject")[0].value = receivedMails[i].subject;
+
+            for(var j = 0; j < allAdmins.length; j++) {
+                if (allAdmins[j].name == receivedMails[i].sender) {
+                    selectedReceiver = allAdmins[j].employee_id;
+                }
+            }
+        }
+    }
+
+
 }

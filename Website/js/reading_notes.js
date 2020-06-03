@@ -12,6 +12,15 @@ function dayClicked(elem) {
 
 function gotItButtonClicked() {
     document.getElementById("modal").classList.add("fade-out");
+    //Hide undone todos button
+
+    setTimeout(function(){
+        document.getElementById("completed-todos-button").style.display = "inline";
+    
+        //Show the completed todos button
+        document.getElementById("undone-todos-button").style.display = "none";
+    }, 1000);
+    
 }
 
 function havingScheduleOnTheDay(elem) {

@@ -1199,6 +1199,20 @@ dialog {
     color: #e23e57;
 }
 
+.reply-btn {
+    cursor: pointer;
+    margin: -5px;
+    padding: 5px;
+    position: absolute;
+    right: 50px;
+    top: 18px;
+    transition: color .1s linear;
+}
+
+.reply-btn:hover {
+    color: #7e57c2;
+}
+
 /* Style the mail composer */
 #mail-composer {
     position: absolute;
@@ -1241,7 +1255,9 @@ dialog {
     transform: scale(1);
 }
 
-.composer-body input {
+
+.input-to {
+    position: relative;
     width: 100%;
     padding: 10px 0;
     border: none;
@@ -1249,9 +1265,12 @@ dialog {
     outline: none;
 }
 
-.input-to {
-    position: relative;
-
+.input-subject {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    outline: none;
 }
 
 .input-message {
@@ -1261,8 +1280,10 @@ dialog {
     outline: none;
     margin-top: 3px;
     font-family: sans-serif;
-    padding-top: 10px;
     resize: none;
+    padding-top: 5px;
+    padding-left: 0;
+    line-height: 1.1rem; 
 }
 
 .autocomplete-list {

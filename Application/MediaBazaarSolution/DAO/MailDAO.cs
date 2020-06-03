@@ -66,5 +66,11 @@ namespace MediaBazaarSolution.DAO
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { subject, content, date, sender, receiver}) > 0;
         }
 
+        public bool DeleteMailFromAdminForever(int mailID)
+        {
+            string query = "UPDATE mail SET deletedFromAdminForever = 1 WHERE mail_id = " + mailID;
+            return DataProvider.Instance.ExecuteNonQuery(query) > 0;
+        }
+
     }
 }

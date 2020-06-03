@@ -2,7 +2,7 @@
 updateDeletedMails();
 
 
-function fillDeletedMails(elem) {
+function fillDeletedMails(elem = null) {
     //Display default email content when user changes tab
     displayDefaultEmailContent();
 
@@ -50,7 +50,9 @@ function fillDeletedMails(elem) {
         emailList.appendChild(emailItem);
     }
 
-    indicateActiveTab(elem);
+    if (elem != null) {
+        indicateActiveTab(elem);
+    }
 }
 
 function updateDeletedMails() {
@@ -58,14 +60,14 @@ function updateDeletedMails() {
     deletedMails = [];
     //Put all the received mails that are deleted by the employee to the deleted emails array
     for(var i = 0; i < receivedMails.length; i++) {
-        if (receivedMails[i].deletedFromEmployee == 1) {
+        if (receivedMails[i].deletedFromEmployee == 1 && receivedMails[i].deletedFromEmployeeForever == 0) {
             deletedMails.push(receivedMails[i]);
         }
     }
 
     //Put all the sent mails that are deleted by the employee to the deleted emails array
     for(var i = 0; i < sentMails.length; i++) {
-        if (sentMails[i].deletedFromEmployee == 1) {
+        if (sentMails[i].deletedFromEmployee == 1 && sentMails[i].deletedFromEmployeeForever == 0) {
             deletedMails.push(sentMails[i]);
         }
     }
@@ -113,6 +115,8 @@ function getEmailItemContentDeleted(elem) {
     trashIcon.classList.add("fa");
     trashIcon.classList.add("fa-trash");
     deleteBtn.appendChild(trashIcon);
+    deleteBtn.setAttribute("onclick", "removeTheMailForever(this);")
+    deleteBtn.setAttribute("data-mid", elem.dataset.mid);
 
     //Create email content time
     var emailContentTime = document.createElement("div");
@@ -152,3 +156,22 @@ function getEmailItemContentDeleted(elem) {
     indicateSelectedEmailItem(elem);
 }
 
+function removeTheMailForever(elem) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        //Doing nothing
+      }
+    };
+    xmlhttp.open("GET", "./updateDeletedFromEmployeeForever.php?mid=" + elem.dataset.mid, true);
+    xmlhttp.send();
+
+    for(var i = 0; i < deletedMails.length; i++) {
+        if (deletedMails[i].mail_id == elem.dataset.mid) {
+            deletedMails[i].deletedFromEmployeeForever = 1;
+        }
+    }
+
+    updateDeletedMails();
+    fillDeletedMails();
+}

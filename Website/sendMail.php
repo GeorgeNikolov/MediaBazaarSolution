@@ -9,11 +9,11 @@
     date_default_timezone_set('Europe/Amsterdam');
 
     //Get the schedule id from the get method
-    $receiver = $_GET["receiver"];
-    $subject = $_GET["subject"];
-    $content = $_GET["content"];
-    //Get the current timestammp from the country
-    $date = date('m/d/Y h:i:s a', time());
+    $receiver = $_POST["receiver"];
+    $subject = $_POST["subject"];
+    $content = $_POST["content"];
+
+    $date = date('d/m/Y h:i', time());
     
     $query = "INSERT INTO mail SET subject = ?, content = ?, date = '$date', sender = '$employee_id', receiver = '$receiver'";
 
