@@ -42,10 +42,8 @@ body{
     padding: 0;
     background-size: 400%;
     animation: bg-animation 20s ease infinite;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
 }
+
 
 /* background body animation */
 @keyframes bg-animation {
@@ -62,7 +60,7 @@ body{
 }
 
 body::-webkit-scrollbar {
-    width: 1rem;
+    width: .8rem;
 }
 
 body::-webkit-scrollbar-track {
@@ -70,7 +68,7 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--gradient);
+    background: linear-gradient(to right, #2980b9, #2c3e50);
     border-radius: 5rem;
 }
 
@@ -795,57 +793,236 @@ dialog {
 }
 
 /* ******************** Depot Styling ************************** */
-#stock {
-    overflow-x:auto;
-}
-
-#stock table {
-    font-size: 1.7rem;
-    border-style: solid;
-    border-width: 5px;
-    padding: 10px;
-    margin: 250px auto 0;
-    width: 900px;
-}
-
-#stock th, td {
-    padding: 10px;
-    font-size: 1.2rem;
-}
-
-.side-search{
-    text-align: center;
-}
-.side-search form{
+/* Searchbar Styling */
+.depot {
+    display: block;
     text-align: center;
 }
 
-.side-search form input[type=text] {
-    width: 300px;
-    padding: 5px;
-    border: 1px solid black;
+#search-area {
+    margin: 3.5rem auto;
+    margin-bottom: 1rem;
+    position: relative;
+    width: 30rem;
 }
 
-.side-search form input[type=submit]{
-    padding: 5px;
-    font-size: 12px;
-    transition: all 0.5s ease;
+#search-input {
+    padding: 7px 12px;
+    font-size: 1.1rem;
+    color: #141418;
+    outline: none;
+    border-radius: 5px;
+    width: 100%;
+    position: relative;
+    transition: all .3s ease;
+}
+
+#search-input:hover {
+    transform: translateY(-5px);
+    box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
+}
+
+/* Filter area styling */
+#filter-area {
+    width: 20rem;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 3rem;
+}
+
+.filter-input {
+    border-radius: 5px;
+    font-size: 1rem!important;
+    border: 2px solid black;
+    padding: 5px 12px;
+    color: #34393d;
+    text-align: center;
+    background-color: white;
+    cursor: default;
+}
+
+#filter-area:hover .filter-options {
+    display: block;
+}
+
+#filter-area:hover .filter-icon {
+    transform: rotate(180deg);
+}
+
+.filter-icon {
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    font-size: 1.5rem!important;
+    transition: all .3s;
+}
+
+.filter-options {
+    list-style: none;
+    padding: 2px;
+    text-align: center;
+    position: absolute;
+    top: 30px;
+    margin-top: 5px;
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+    border: 2px solid black;
+    display: none;
+    transition: all .3s ease;
+    animation: startDropDown .4s ease-out;
+}
+
+
+.filter-options li {
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: all .3s ease;
     cursor: pointer;
 }
 
-.side-search form input[type=submit]:hover{
-    background: orange;
+.filter-options li:hover {
+    background-color: #4facfe;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 5px 5px 20px rgba(8, 180, 223, 0.85);
 }
 
-#id-error{
-    text-align: center!important;
-    margin-bottom: 10px;
+.filter-options li:active {
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 5px rgba(8, 180, 223, 0.85);
 }
 
+@keyframes startDropDown {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
 
-@media (max-width: 620px) {
-    #stock table {
-        font-size: 1.1rem;
+    80% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+/* Depot item table styling */
+
+.depot-table {
+    margin: auto;
+    min-width: 300px;
+    width: 60%;
+    border-collapse: collapse;
+}
+
+.depot-table tr:first-child {
+    border-top: none;
+    background: #428bca;
+    color: #fff;
+}
+
+.depot-table tr {
+    border-top: 1px solid #ddd!important;
+    border-bottom: 1px solid #ddd!important;
+    background-color: #f5f9fc;
+    transition: all .3s ease;
+}
+
+.depot-table tr:nth-child(odd):not(:first-child) {
+    background-color: #ebf3f9;
+}
+
+.depot-table th {
+    display: none;
+    border: none !important;
+}
+
+.depot-table td {
+    display: block;
+    border: none!important;
+    font-weight: bold;
+    transition: all .3s ease;
+}
+
+.depot-table td:first-child {
+    margin-top: .5em;
+}
+
+.depot-table td:last-child {
+    margin-bottom: .5em;
+}
+
+.depot-table td:before {
+    content: attr(data-th) ": ";
+    font-weight: bold;
+    width: 120px;
+    display: inline-block;
+    color: #000;
+}
+
+.depot-table th,
+.depot-table td {
+    text-align: left;
+}
+
+.depot-table {
+    color: #333;
+    border-radius: .4em;
+    /* overflow-y: scroll; */
+}
+
+.depot-table tr {
+    border-color: #bfbfbf;
+}
+
+.depot-table th,
+.depot-table td {
+    padding: .5em 1em;
+}
+
+@media screen and (max-width: 601px) {
+    .depot-table tr:nth-child(2) {
+        border-top: none;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .depot-table tr:hover:not(:first-child) {
+        background-color: #d8e7f3;
+    }
+
+    .depot-table tr:hover {
+        transform: translateY(-5px);
+        box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
+    }
+
+    .depot-table td:before {
+        display: none;
+    }
+
+    .depot-table th,
+    .depot-table td {
+        display: table-cell;
+        padding: .25em .5em;
+    }
+
+    .depot-table td:first-child,
+    .depot-table th:first-child {
+        padding-left: 0;
+    }
+
+    .depot-table td:last-child,
+    .depot-table th:last-child {
+        padding-right: 0;
+    }
+
+    .depot-table th,
+    .depot-table td {
+        padding: 1em !important;
     }
 }
 
