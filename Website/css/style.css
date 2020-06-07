@@ -74,6 +74,7 @@ body::-webkit-scrollbar-thumb {
 
 main {
     margin-left: 7rem;
+    min-height: 100vh;
 }
 
 .navbar {
@@ -490,6 +491,10 @@ dialog {
 #schedule-post #undone-todos-button:hover {
     color: #00BFFF;
     background-color: white;
+}
+
+#co-workers {
+    list-style: none;
 }
 
 #todo-list {
@@ -917,6 +922,7 @@ dialog {
     min-width: 300px;
     width: 60%;
     border-collapse: collapse;
+    border: none;
 }
 
 .depot-table tr:first-child {
@@ -1038,16 +1044,68 @@ dialog {
 }
 
 
-.profile img{
+#profile img{
     width: 250px;
+    background: transparent; 
 }
 
-.profile{
+#profile{
     line-height: 2rem;
+    background: rgb(34,193,195);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(81,122,255,1) 88%);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all .3s ease-out;
+    color: white;
 }
 
-.profile h4{
+#profile:hover {
+    box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
+    transform: translateY(-5px);
+}
+
+#profile h4{
     margin-top: 50px;
+}
+
+#choose-img-btn {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#choose-img-lbl {
+    padding: 7px;
+    background-color: #7FDBFF;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all .3s ease-out;
+}
+
+#choose-img-lbl:hover {
+    background-color: #00BFFF;
+}
+
+.upload-img-btn {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 20px auto 5px;
+    color: white;
+    background-color: #ff5252;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+}
+
+.upload-img-btn:hover {
+    background-color: #e53935;
 }
 
 .update-info {
@@ -1069,12 +1127,25 @@ dialog {
 }
 
 .update-info:hover{
-    background: white;
-    border: 1px solid #2b98f0;
+    background: #0099CC;
 }
 
 .update-info:hover a{
     color: #2b98f0;
+}
+
+#details {
+    background: rgb(34,193,195);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(81,122,255,1) 88%);
+    border-radius: 10px;
+    padding: 30px; 
+    color: white;
+    transition: all .3s ease;
+}
+
+#details:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
 }
 
 #details form{
@@ -1124,9 +1195,8 @@ dialog {
 }
 
 #details input[type=submit]:hover{
-    background: white;
-    border: 1px solid #2b98f0;
-    color: #2b98f0;
+    background: #7FDBFF;
+    color: white;
 }
 
 

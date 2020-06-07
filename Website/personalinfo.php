@@ -50,14 +50,14 @@
  ?>
 <main>
     <section id="personal-info">
-      <div class="profile">
+      <div id="profile">
         <img src="<?php if ($image != ""){echo "img/".$image;} else {echo "img/default-avatar.png";} ?>" alt="LOGO">
         <h3>Username: <?php echo $username; ?></h6>
         <h3><?php echo $first_name." ".$last_name; ?></h6>
         <h4>Change your profile image</h4>
         <form class="" action="personalinfo.php" method="post" enctype="multipart/form-data">
           <input type="File" name="image" value=""> <br>
-          <input type="submit" name="submit-avatar" value="Change Image">
+          <input type="submit" name="submit-avatar" value="Upload Image" class="upload-img-btn">
         </form>
       </div>
       <div id="details">

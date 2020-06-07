@@ -33,8 +33,14 @@ function havingScheduleOnTheDay(elem) {
 }
 
 function buildTodoList() {
+    //List of todo's 
     const todoList = document.getElementById("todo-list");
     todoList.innerText = "";
+
+    //List of coworkers
+    const coWorkersList = document.getElementById("co-workers");
+    coWorkersList.innerText = "";
+    
     for(let i = 0; i < schedule_posts.length; i++) {
         if (schedule_posts[i].id == currentUID && schedule_posts[i].status == 0) {
             //Create LI with class todo-item
@@ -64,6 +70,19 @@ function buildTodoList() {
 
             // Add the LI to the UL (todo-list)
             todoList.appendChild(todoItem);
+        }
+    }
+
+    for (var i = 0; i < coWorkers.length; i++) {
+        if (coWorkers[i].date == currentUID) {
+            //Create a new LI element
+            var coWorkerItem = document.createElement("li");
+            
+            //Assign the name of each coworker to the LI element
+            coWorkerItem.innerText = coWorkers[i].first_name + " " + coWorkers[i].last_name;
+
+            //Add the LI element to the co-workers list
+            coWorkersList.appendChild(coWorkerItem);
         }
     }
 }

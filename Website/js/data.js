@@ -11,6 +11,8 @@ var data = {
     },
     
 };
+//Contains the first name and last name of coworkers 
+var coWorkers = [];
 
 //Contains all the schedule table records
 var schedule_posts = [];
