@@ -12,6 +12,8 @@ function fillFilterInput(elem) {
         filterInput.innerText = "ID";
     } else if (elem.innerText == "Name") {
         filterInput.innerText = "Name";
+    } else if (elem.innerText == "Category") {
+        filterInput.innerText = "Category";
     }
 }
 
@@ -20,6 +22,8 @@ function updateDepotItemTable() {
         searchByID();
     } else if (filterInput.innerText == "Name") {
         searchByName();
+    } else if (filterInput.innerText == "Category") {
+        searchByCategory();
     }
 }
 
@@ -54,6 +58,30 @@ function searchByName() {
 
     for (var i = 0; i < tr.length; i++) {
         var td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          var txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.transform = "translate(0)";
+            tr[i].style.opacity = 1;
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.transform = "translateX(-200px)";
+            tr[i].classList.add("eliminated");
+            tr[i].style.opacity = 0;
+          }
+        }
+    }
+    setTimeout(removeRowHavingEliminatedClass, 300);
+}
+
+function searchByCategory() {
+    var filter = searchInput.value.toUpperCase();
+    var tr = document.getElementsByClassName("depot-item-row");
+
+    clearEliminatedClass();
+
+    for (var i = 0; i < tr.length; i++) {
+        var td = tr[i].getElementsByTagName("td")[3];
         if (td) {
           var txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {

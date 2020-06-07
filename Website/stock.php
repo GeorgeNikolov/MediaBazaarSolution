@@ -16,6 +16,7 @@
         <ul class="filter-options">
           <li onclick="fillFilterInput(this);">ID</li>
           <li onclick="fillFilterInput(this);">Name</li>
+          <li onclick="fillFilterInput(this);">Category</li>
         </ul>
       </div>
 
