@@ -31,13 +31,14 @@ namespace MediaBazaarSolution.DAO
         }
             private RestockDAO() { }
     
-        public List<Alert> LoadAlerts(bool sortAlertsByPriority)
+        public List<Alert> LoadAlerts()
         {
-            string query = "SELECT d.item_id, d.amount, l.limit FROM depot_item as d, limits as l" +
-                           "WHERE d.item_id = l.item_id AND d.amount <= l.limit";
+            string query = "SELECT dp.item_id as item_id , dp.amount as stock ,l.min_stock as min_stock " +
+                    "FROM `depot_item` AS dp " +
+                    "LEFT JOIN limits AS l " +
+                    "ON dp.item_id = l.item_id " +
+                    "WHERE dp.item_id = l.item_id";
 
-            if (sortAlertsByPriority)
-                query += " ORDER BY priority";
 
             List<Alert> alertList = new List<Alert>();
 
@@ -50,7 +51,6 @@ namespace MediaBazaarSolution.DAO
                 alertList.Add(alert);
             }
 
-
             return alertList;
         }
 
@@ -60,8 +60,8 @@ namespace MediaBazaarSolution.DAO
             if(!showCompletedOrders)
             query += "WHERE status = 'incomplete'";
 
-            List<Order> orderList = new List<Order>();
 
+            List<Order> orderList = new List<Order>();
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
 
@@ -75,19 +75,13 @@ namespace MediaBazaarSolution.DAO
             return orderList;
         }
 
-        public bool AddOrder(int item_id, int amount)
+        public bool AddOrder(int item_id, int amount, string status)
         {
-            string query = "INSERT INTO orders(item_id, amount, status)" +
-                           "VALUES( @item_id , @amount, 'incomplete' )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, amount, "incomplete" }) > 0;
+            string query = "INSERT INTO orders(item_id, amount, status) " +
+                           "VALUES( @item_id , @amount , @status )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, amount, status }) > 0;
         }
 
-        public bool AddAlert(int item_id)
-        { //Validate if alert is real (if stock < min_stock)
-            string query = "INSERT INTO alerts(item_id, stock, min_stock , priority)" +
-                           "VALUES( @item_id , (SELECT amount FROM depot_item WHERE item_id = @item_id ), (SELECT min_stock FROM limits WHERE item_id= @item_id ))";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id }) > 0;
-        }
 
         public bool AddLimit(int item_id, int limit)
         {
@@ -96,5 +90,40 @@ namespace MediaBazaarSolution.DAO
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, limit })> 0;
         }
 
+        public bool DeleteLimit(int id)
+        {
+            string query = "DELETE FROM limits WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query) > 0;
+        }
+
+        public bool DeleteOrder(int id)
+        {
+            string query = "DELETE FROM orders WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query) > 0;
+        }
+
+        public bool ToggleOrderStatus(int id, string status)
+        {
+            string toggleString = "";
+            switch (status)
+            {
+                case "incomplete":
+                    toggleString = "complete";
+                    break;
+
+                case "complete":
+                    toggleString = "incomplete";
+                    break;
+            }
+
+            string query = $"UPDATE orders SET status = '{toggleString}' WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {  }) > 0;
+        }
+
+        public bool ChangeAmount(int id, int amount)
+        {
+            string query = "UPDATE orders SET amount = @amount WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { amount }) > 0;
+        }
     }
 }
