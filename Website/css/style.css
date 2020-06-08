@@ -1036,7 +1036,6 @@ dialog {
 
 #personal-info{
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     width: 100%;
@@ -1047,17 +1046,19 @@ dialog {
 #profile img{
     width: 250px;
     background: transparent; 
+    border-radius: 50%;
 }
 
 #profile{
+    width: 1024px;
+    max-width: 1024px;
     line-height: 2rem;
-    background: rgb(34,193,195);
-    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(81,122,255,1) 88%);
     padding: 15px;
     border-radius: 10px;
     text-align: center;
     transition: all .3s ease-out;
     color: white;
+    background-image: linear-gradient(to right top, #36d1dc, #00c2e7, #00b1ef, #0c9def, #5b86e5);
 }
 
 #profile:hover {
@@ -1069,134 +1070,55 @@ dialog {
     margin-top: 50px;
 }
 
-#choose-img-btn {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-}
-
-#choose-img-lbl {
-    padding: 7px;
-    background-color: #7FDBFF;
-    color: black;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all .3s ease-out;
-}
-
-#choose-img-lbl:hover {
-    background-color: #00BFFF;
-}
-
-.upload-img-btn {
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin: 20px auto 5px;
-    color: white;
-    background-color: #ff5252;
-    transition: all .3s ease;
-    cursor: pointer;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1rem;
-}
-
-.upload-img-btn:hover {
-    background-color: #e53935;
-}
-
-.update-info {
-    padding: 4px;
-    border-radius: 5px;
-    margin: 30px auto 5px;
-    background: #2b98f0;
-    border-style: none;
-    color: white;
-    transition: 0.5s;
-    cursor: pointer;
-    display: block;
-
-}
-
-.update-info a{
-    font-size: 17px;
-    font-weight: normal;
-}
-
-.update-info:hover{
-    background: #0099CC;
-}
-
-.update-info:hover a{
-    color: #2b98f0;
-}
-
-#details {
-    background: rgb(34,193,195);
-    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(81,122,255,1) 88%);
-    border-radius: 10px;
-    padding: 30px; 
-    color: white;
-    transition: all .3s ease;
-}
-
-#details:hover {
-    transform: translateY(-10px);
-    box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
-}
-
-#details form{
-    max-width: 1000px;
-    padding: 2px;
-    margin: 2px auto 15px;
-}
-
-#details p{
-    margin: 5px 0;
-    text-align: left;
+#profile p{
+    margin: 10px 0;
+    text-align: center;
     padding-bottom: 5px;
     padding-top: 20px;
 }
 
-#details label{
+#profile label{
     font-weight: 200;
 }
 
-#details input{
+#profile input:not(:first-child)
+{
     display: block;
     padding: 8px;
     border: 1px solid black;
-    width: 100%;
+    width: 400px;
+    max-width: 500px;
     outline: none;
     font-size: 1rem;
     transition: all 0.5s ;
     margin-top: 5px;
-}
-
-#details input:focus{
-    border-bottom: 2px solid #2b98f0;
-}
-#details img{
-    width: 130px;
-    margin-top: 30px;
-}
-
-#details input[type=submit] {
-    padding: 12px;
-    border: none;
-    background: #2b98f0;
-    color: white;
     border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.5s;
+    margin: 0 auto;
 }
 
-#details input[type=submit]:hover{
-    background: #7FDBFF;
-    color: white;
+.update-changes-btn {
+    padding: 10px!important;
+    border-radius: 100px;
+    border: none!important;
+    margin: 40px auto 5px!important;
+    color: black;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    background-image: linear-gradient(to right top, #dcdc36, #c3e52f, #a3ee33, #77f742, #0eff58);
+    font-weight: bold;
+    width: 150px !important;
+}
+
+.update-changes-btn:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
+}
+
+.update-changes-btn:focus {
+    transform: translateY(0);
+    box-shadow: 3px 3px 5px rgba(29, 29, 29, 0.85);
 }
 
 
@@ -1272,12 +1194,13 @@ dialog {
     margin-bottom: 10px;
     padding: 15px;
     text-decoration: none;
-    transition: background .1s linear;
+    transition: all .1s linear;
     width: 100%;
 }
 
 #sidebar-inboxes li a:hover {
     background: #404549;
+    border-left: 3px solid white;
 }
 
 #sidebar-inboxes .fa {
@@ -1294,13 +1217,21 @@ dialog {
     text-decoration: none;
     padding: 30px 15px;
     text-align: center;
-    transition: all .1s linear;
+    transition: all .3s linear;
     width: 100%;
-    background: linear-gradient(to right, #009fc4, #0c7ead);
+    /* background: linear-gradient(to right, #0575E6, #00F260); */
+    background: linear-gradient(to right, #457fca, #5691c8);
+    background-size: 300%;
+    background-position: left;
 }
 
 .compose-btn .fa {
     margin-left: 10px;
+    
+}
+
+.compose-btn:hover {
+    background-position-x: right;
 }
 
 /* Email list */
@@ -1328,7 +1259,8 @@ dialog {
 }
 
 .email-list .email-item.selected {
-    color: var(--blue-1);
+    /* color: var(--blue-1); */
+    color: #457fca;
 }
 
 .email-item-subject {
@@ -1409,9 +1341,11 @@ dialog {
 }
 
 .email-content-header {
-    background: #f5f5f5;
+    background: linear-gradient(to right, #457fca, #5691c8);
+    /* background: #f5f5f5; */
     border-bottom: 1px solid #eee;
     padding: 10px 15px;
+    color: white;
 }
 
 .email-content-subject {
@@ -1420,12 +1354,14 @@ dialog {
 }
 
 .email-content-time {
-    color: #878787;
+    /* color: #878787; */
+    color: white;
     float: right;
 }
 
 .email-content-from {
-    color: #878787;
+    /* color: #878787; */
+    color: white;
 }
 
 .email-content-message {
@@ -1475,7 +1411,8 @@ dialog {
 }
 
 .composer-header {
-    background: #222;
+    /* background: #222; */
+    background: linear-gradient(to right, #457fca, #5691c8);
     font-size: 14px;
     padding: 10px;
     color: white;
@@ -1490,7 +1427,7 @@ dialog {
     top: 7px;
     right: 10px;
     font-size: 20px;
-    color: #ddd;
+    color: white;
     cursor: pointer;
 }
 
