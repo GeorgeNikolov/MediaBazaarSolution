@@ -20,9 +20,7 @@ namespace MediaBazaarSolution
             InitializeComponent();
             this.parentForm = parent;
 
-            cbbxType.Items.Add("Employee");
-            cbbxType.Items.Add("Admin");
-            cbbxType.SelectedIndex = 0;
+            LoadUserTypes();
         }
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
@@ -34,7 +32,7 @@ namespace MediaBazaarSolution
             string email = tbxEmail.Text;
             string phone = tbxPhone.Text;
             string address = tbxPlace.Text;
-            string type = (cbbxType.SelectedIndex == 0) ? "employee" : "admin";
+            string type = cbbxType.SelectedItem.ToString();
             string hourlyWageString = tbxRate.Text;
             
 
@@ -105,6 +103,23 @@ namespace MediaBazaarSolution
         private bool checkEmail(string input)
         {
             return Regex.IsMatch(input, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        }
+        //The method loads the types of users the currently logged employee can add based on his position in the company.
+        //Managers --> Employees
+        //Admins --> Admins, Managers, Employees
+        private void LoadUserTypes()
+        {
+            if(String.Compare(parentForm.UserType, "admin") == 0)
+            {
+                cbbxType.Items.Add("Admin");
+                cbbxType.Items.Add("Manager");
+                cbbxType.Items.Add("Employee");
+            }
+            else
+            {
+                cbbxType.Items.Add("Employee");
+            }
+            cbbxType.SelectedIndex = 0;
         }
     }
 }

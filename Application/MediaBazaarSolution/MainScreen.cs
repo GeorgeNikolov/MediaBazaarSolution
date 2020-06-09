@@ -21,10 +21,12 @@ namespace MediaBazaarSolution
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
+        private EmployeeEditForm employeeEditForm;
+
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
-        private List<TabPage> tabPages;
+        private  List<TabPage> tabPages;
         
         private int itemID;
         private int employeeID;
@@ -118,6 +120,7 @@ namespace MediaBazaarSolution
             //Load all available items in the database to the depot datagridview
             List<Item> itemList = ItemDAO.Instance.LoadAllItems();
             dgvDepot.DataSource = itemList;
+            dgvDepot.ReadOnly = true;
 
             indecis.Clear();
             categories.Clear();
@@ -145,11 +148,12 @@ namespace MediaBazaarSolution
             cbxItemCategory.SelectedIndex = 0;
         }
 
-        private void LoadAllEmployees()
+        public void LoadAllEmployees()
         {
 
             List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
             dgvEmployees.DataSource = employeeList;
+            dgvEmployees.ReadOnly = true;
 
             employees.Clear();
 
@@ -161,10 +165,11 @@ namespace MediaBazaarSolution
                 }       
             }
         }
-        private void LoadAllDepotWorkers()
+        public void LoadAllDepotWorkers()
         {
             List<Employee> employeeList = EmployeeDAO.Instance.GetAllDepotWorkers(this.ManagerId);
             dgvEmployees.DataSource = employeeList;
+            dgvEmployees.ReadOnly = true;
 
             employees.Clear();
 
@@ -351,7 +356,7 @@ namespace MediaBazaarSolution
 
         private void btnReloadEmployees_Click(object sender, EventArgs e)
         {
-            LoadAllEmployees();
+            MainScreen_Load(this, e);
         }
 
 
@@ -381,7 +386,6 @@ namespace MediaBazaarSolution
                     int currentColumnIndex = dgvDepot.CurrentCell.ColumnIndex;
                     int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
 
-                    //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
                     if (currentColumnIndex == 1)
                     {
                         queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentItemCellValue.ToString());
@@ -466,85 +470,7 @@ namespace MediaBazaarSolution
             oldEmployeeCellValue = dgvEmployees.CurrentCell.Value;
         }
 
-
-        private void dgvEmployees_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            object currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
-
-            bool queryIsSuccess = false;
-
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that employee?", "Edit Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (dialogResult == DialogResult.Yes)
-            {
-                if (currentEmployeeCellValue == null)
-                {
-                    MessageBox.Show("Enter a valid parameter!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
-                }
-                else
-                {
-                    currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
-                    int currentColumnIndex = dgvEmployees.CurrentCell.ColumnIndex;
-                    int currentEmployeeId = Convert.ToInt32(dgvEmployees.Rows[e.RowIndex].Cells[0].Value);
-
-                    if (currentColumnIndex == 1)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeFirstName(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                    else if (currentColumnIndex == 2)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeLastName(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                    else if (currentColumnIndex == 3)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeUsername(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                    else if (currentColumnIndex == 4)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeEmail(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    } else if (currentColumnIndex == 5)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeePhone(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                    else if (currentColumnIndex == 6)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeHourlyWage(currentEmployeeId, Convert.ToDouble(currentEmployeeCellValue));
-                    }
-                    else if (currentColumnIndex == 7)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeType(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                    else if (currentColumnIndex == 8)
-                    {
-                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeAddress(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    }
-                }
-            }
-            else
-            {
-                dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
-                return;
-            }
-
-            if (queryIsSuccess)
-            {
-                MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                LoadAll();
-            }
-            else
-            {
-                MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        //TODO implement the method at a later point.
-        //private void LoadTabPages()
-        //{
-        //    foreach (TabPage tab in Tabs.TabPages)
-        //    {
-        //        tabPages.Add(tab);
-        //    }
-        //}
+        
 
         #endregion
 
@@ -708,6 +634,22 @@ namespace MediaBazaarSolution
             {
                 LoadAllDepotWorkers();
             }
+        }
+
+        private void btnEmployeeEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployees.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dgvEmployees.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = dgvEmployees.Rows[selectedRowIndex];
+                employeeEditForm = new EmployeeEditForm(this, selectedRow);
+                employeeEditForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("No employee selected!");
+            }
+            
         }
     }
 }

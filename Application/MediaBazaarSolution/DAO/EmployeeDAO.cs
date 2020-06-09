@@ -13,7 +13,7 @@ namespace MediaBazaarSolution.DAO
     {
         private static EmployeeDAO instance;
 
-        public static EmployeeDAO Instance 
+        public static EmployeeDAO Instance
         {
             get
             {
@@ -37,10 +37,12 @@ namespace MediaBazaarSolution.DAO
         {
             List<Employee> employeeList = new List<Employee>();
 
-            string query = "SELECT * FROM employee";
+            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.employee_type,e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name FROM employee AS e " +
+                "LEFT JOIN department AS d ON e.department_id = d.id " +
+                "ORDER BY e.employee_id";
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -53,7 +55,8 @@ namespace MediaBazaarSolution.DAO
         {
             List<Employee> employeeList = new List<Employee>();
 
-            string query = "SELECT * FROM employee WHERE employee_type = 'employee' AND manager_id = @managerId";
+            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.employee_type,e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name FROM employee AS e " +
+                "LEFT JOIN department AS d ON e.department_id = d.id WHERE e.employee_type = 'employee' AND e.manager_id = @managerId";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerId });
 
             foreach (DataRow row in data.Rows)
@@ -71,7 +74,7 @@ namespace MediaBazaarSolution.DAO
             string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address)" +
                            "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address )";
 
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place}) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place }) > 0;
         }
 
         public bool DeleteEmployee(int id)
@@ -151,13 +154,28 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
             }
 
             return employeeList;
+        }
+
+        public bool UpdateEmployeeDepartment(int id, string newDepartment)
+        {
+            string query = "UPDATE employee " +
+                           "SET department_id = (SELECT d.id FROM department d WHERE d.d_name = @newDepartment ) " +
+                           "WHERE employee_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newDepartment }) > 0;
+        }
+        public bool UpdateEmployeeManager(int id, string newManager)
+        {
+            string query = "UPDATE employee e " +
+                           "SET e.manager_id = (SELECT d.manager_id FROM department d WHERE d.d_name = @newDepartment ) " +
+                           "WHERE employee_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newManager }) > 0;
         }
     }
 }
