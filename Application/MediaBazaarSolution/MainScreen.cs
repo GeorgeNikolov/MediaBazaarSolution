@@ -102,6 +102,7 @@ namespace MediaBazaarSolution
             LoadAllEmployees();
             LoadMatrixSchedule();
             LoadAlerts();
+            LoadOrders();
         }
         private void LoadAllItems()
         {
@@ -684,6 +685,7 @@ namespace MediaBazaarSolution
             {
                 showCompletedOrders = false;
             }
+            LoadOrders();
         }
 
 
@@ -743,6 +745,7 @@ namespace MediaBazaarSolution
             int id = Convert.ToInt32(tbLimitId.Text);
             int limit = (int) nUPMinStock.Value;
             RestockDAO.Instance.AddLimit(id, limit);
+            LoadAlerts();
         }
 
         private void btnCancelOrder_Click(object sender, EventArgs e)
@@ -770,5 +773,7 @@ namespace MediaBazaarSolution
             RestockDAO.Instance.ChangeAmount(id, amount);
             LoadOrders();
         }
+
+     
     }
 }

@@ -20,7 +20,7 @@ namespace MediaBazaarSolution.DTO
             this.iD = (int)row["item_id"];
             this.stock = (int)row["stock"];
             this.limit = (int)row["min_stock"];
-            this.priority = Priority;
+            SetPriority();
         }
 
         public Alert(int iD, int stock, int limit)
@@ -28,25 +28,13 @@ namespace MediaBazaarSolution.DTO
             this.iD = iD;
             this.stock = stock;
             this.limit = limit;
-            this.priority = Priority;
+            SetPriority();
         }
 
         public int ID { get => this.iD; set => this.iD = value; }
         public int Stock { get => this.stock; set => this.stock = value; }
         public int Limit { get => this.limit; set => this.limit = value; }
-        public string Priority { get => this.priority; 
-            set
-            {
-                if (this.limit - this.stock >= 50 && this.limit != 0)
-                {
-                    this.priority = "HIGH";
-                }
-                else if (this.limit - this.stock >= 0)
-                {
-                    this.priority = "REG";
-                }
-            } 
-        }
+        public string Priority { get => this.priority;}
 
         public int CompareTo(Alert other)
         {
@@ -54,22 +42,22 @@ namespace MediaBazaarSolution.DTO
             {
                 if(this.iD < other.iD)
                 {
-                    return 1;
+                    return -1;
                 }
                 else
                 {
-                    return -1;
+                    return 1;
                 }
             }
             else
             {
                 if(this.priority == "HIGH" && other.priority == "REG")
                 {
-                    return 1;
+                    return -1;
                 }
                 else if(this.priority == "REG" && other.priority == "HIGH")
                 {
-                    return -1;
+                    return 1;
                 }
             }
             return 0;
@@ -77,7 +65,19 @@ namespace MediaBazaarSolution.DTO
 
         public override string ToString()
         {
-            return $"{this.iD}: Minimum stock =  {this.limit} , Current Stock = {this.stock}, Alert Priority: {this.priority}";
+            return $"{this.iD}: Min =  {this.limit} , Now = {this.stock}, Priority: {this.Priority}";
+        }
+
+        private void SetPriority()
+        {
+            if(this.stock - this.limit >= 50)
+                {
+                    this.priority = "HIGH";
+                }
+                else 
+                {
+                    this.priority = "REG";
+                }
         }
 }
 }

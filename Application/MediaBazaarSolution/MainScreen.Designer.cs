@@ -92,9 +92,9 @@
             this.cbShowCompleted = new System.Windows.Forms.CheckBox();
             this.btnChangeAmount = new System.Windows.Forms.Button();
             this.lblOrders = new System.Windows.Forms.Label();
+            this.btnCancelOrder = new System.Windows.Forms.Button();
             this.lblAlerts = new System.Windows.Forms.Label();
             this.btnChangeStatus = new System.Windows.Forms.Button();
-            this.btnCancelOrder = new System.Windows.Forms.Button();
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
@@ -654,9 +654,9 @@
             this.OrdersTab.Controls.Add(this.gbRestockView);
             this.OrdersTab.Controls.Add(this.btnChangeAmount);
             this.OrdersTab.Controls.Add(this.lblOrders);
+            this.OrdersTab.Controls.Add(this.btnCancelOrder);
             this.OrdersTab.Controls.Add(this.lblAlerts);
             this.OrdersTab.Controls.Add(this.btnChangeStatus);
-            this.OrdersTab.Controls.Add(this.btnCancelOrder);
             this.OrdersTab.Controls.Add(this.btnRemoveLimit);
             this.OrdersTab.Controls.Add(this.btnMakeOrder);
             this.OrdersTab.Controls.Add(this.dgvOrders);
@@ -672,10 +672,10 @@
             // 
             this.lbxAlerts.FormattingEnabled = true;
             this.lbxAlerts.ItemHeight = 20;
-            this.lbxAlerts.Location = new System.Drawing.Point(59, 74);
+            this.lbxAlerts.Location = new System.Drawing.Point(13, 74);
             this.lbxAlerts.Margin = new System.Windows.Forms.Padding(2);
             this.lbxAlerts.Name = "lbxAlerts";
-            this.lbxAlerts.Size = new System.Drawing.Size(288, 384);
+            this.lbxAlerts.Size = new System.Drawing.Size(317, 384);
             this.lbxAlerts.TabIndex = 18;
             // 
             // gbSetLimit
@@ -685,18 +685,18 @@
             this.gbSetLimit.Controls.Add(this.lblSetMinStock);
             this.gbSetLimit.Controls.Add(this.nUPMinStock);
             this.gbSetLimit.Controls.Add(this.lbSetLimitId);
-            this.gbSetLimit.Location = new System.Drawing.Point(999, 315);
+            this.gbSetLimit.Location = new System.Drawing.Point(949, 335);
             this.gbSetLimit.Margin = new System.Windows.Forms.Padding(2);
             this.gbSetLimit.Name = "gbSetLimit";
             this.gbSetLimit.Padding = new System.Windows.Forms.Padding(2);
-            this.gbSetLimit.Size = new System.Drawing.Size(355, 166);
+            this.gbSetLimit.Size = new System.Drawing.Size(337, 218);
             this.gbSetLimit.TabIndex = 17;
             this.gbSetLimit.TabStop = false;
             this.gbSetLimit.Text = "Set Item Limit";
             // 
             // btnSetLimit
             // 
-            this.btnSetLimit.Location = new System.Drawing.Point(223, 97);
+            this.btnSetLimit.Location = new System.Drawing.Point(106, 164);
             this.btnSetLimit.Margin = new System.Windows.Forms.Padding(2);
             this.btnSetLimit.Name = "btnSetLimit";
             this.btnSetLimit.Size = new System.Drawing.Size(119, 36);
@@ -707,7 +707,7 @@
             // 
             // tbLimitId
             // 
-            this.tbLimitId.Location = new System.Drawing.Point(23, 97);
+            this.tbLimitId.Location = new System.Drawing.Point(64, 96);
             this.tbLimitId.Margin = new System.Windows.Forms.Padding(2);
             this.tbLimitId.Name = "tbLimitId";
             this.tbLimitId.Size = new System.Drawing.Size(68, 26);
@@ -716,7 +716,7 @@
             // lblSetMinStock
             // 
             this.lblSetMinStock.AutoSize = true;
-            this.lblSetMinStock.Location = new System.Drawing.Point(119, 57);
+            this.lblSetMinStock.Location = new System.Drawing.Point(186, 54);
             this.lblSetMinStock.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSetMinStock.Name = "lblSetMinStock";
             this.lblSetMinStock.Size = new System.Drawing.Size(83, 20);
@@ -725,7 +725,7 @@
             // 
             // nUPMinStock
             // 
-            this.nUPMinStock.Location = new System.Drawing.Point(121, 97);
+            this.nUPMinStock.Location = new System.Drawing.Point(190, 97);
             this.nUPMinStock.Margin = new System.Windows.Forms.Padding(2);
             this.nUPMinStock.Name = "nUPMinStock";
             this.nUPMinStock.Size = new System.Drawing.Size(82, 26);
@@ -734,7 +734,7 @@
             // lbSetLimitId
             // 
             this.lbSetLimitId.AutoSize = true;
-            this.lbSetLimitId.Location = new System.Drawing.Point(21, 57);
+            this.lbSetLimitId.Location = new System.Drawing.Point(60, 53);
             this.lbSetLimitId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbSetLimitId.Name = "lbSetLimitId";
             this.lbSetLimitId.Size = new System.Drawing.Size(62, 20);
@@ -747,11 +747,11 @@
             this.gbRestockView.Controls.Add(this.rbSortAlertsByID);
             this.gbRestockView.Controls.Add(this.lblSortAlerts);
             this.gbRestockView.Controls.Add(this.cbShowCompleted);
-            this.gbRestockView.Location = new System.Drawing.Point(999, 90);
+            this.gbRestockView.Location = new System.Drawing.Point(949, 53);
             this.gbRestockView.Margin = new System.Windows.Forms.Padding(2);
             this.gbRestockView.Name = "gbRestockView";
             this.gbRestockView.Padding = new System.Windows.Forms.Padding(2);
-            this.gbRestockView.Size = new System.Drawing.Size(355, 215);
+            this.gbRestockView.Size = new System.Drawing.Size(337, 254);
             this.gbRestockView.TabIndex = 16;
             this.gbRestockView.TabStop = false;
             this.gbRestockView.Text = "Viewing options";
@@ -760,7 +760,7 @@
             // 
             this.rbSortAlertsByPriority.AutoSize = true;
             this.rbSortAlertsByPriority.Checked = true;
-            this.rbSortAlertsByPriority.Location = new System.Drawing.Point(17, 76);
+            this.rbSortAlertsByPriority.Location = new System.Drawing.Point(40, 91);
             this.rbSortAlertsByPriority.Margin = new System.Windows.Forms.Padding(2);
             this.rbSortAlertsByPriority.Name = "rbSortAlertsByPriority";
             this.rbSortAlertsByPriority.Size = new System.Drawing.Size(74, 24);
@@ -773,7 +773,7 @@
             // rbSortAlertsByID
             // 
             this.rbSortAlertsByID.AutoSize = true;
-            this.rbSortAlertsByID.Location = new System.Drawing.Point(17, 118);
+            this.rbSortAlertsByID.Location = new System.Drawing.Point(40, 133);
             this.rbSortAlertsByID.Margin = new System.Windows.Forms.Padding(2);
             this.rbSortAlertsByID.Name = "rbSortAlertsByID";
             this.rbSortAlertsByID.Size = new System.Drawing.Size(44, 24);
@@ -785,7 +785,7 @@
             // lblSortAlerts
             // 
             this.lblSortAlerts.AutoSize = true;
-            this.lblSortAlerts.Location = new System.Drawing.Point(13, 42);
+            this.lblSortAlerts.Location = new System.Drawing.Point(36, 57);
             this.lblSortAlerts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSortAlerts.Name = "lblSortAlerts";
             this.lblSortAlerts.Size = new System.Drawing.Size(110, 20);
@@ -795,9 +795,7 @@
             // cbShowCompleted
             // 
             this.cbShowCompleted.AutoSize = true;
-            this.cbShowCompleted.Checked = true;
-            this.cbShowCompleted.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowCompleted.Location = new System.Drawing.Point(17, 167);
+            this.cbShowCompleted.Location = new System.Drawing.Point(40, 195);
             this.cbShowCompleted.Margin = new System.Windows.Forms.Padding(2);
             this.cbShowCompleted.Name = "cbShowCompleted";
             this.cbShowCompleted.Size = new System.Drawing.Size(195, 24);
@@ -808,10 +806,10 @@
             // 
             // btnChangeAmount
             // 
-            this.btnChangeAmount.Location = new System.Drawing.Point(831, 257);
+            this.btnChangeAmount.Location = new System.Drawing.Point(545, 467);
             this.btnChangeAmount.Margin = new System.Windows.Forms.Padding(2);
             this.btnChangeAmount.Name = "btnChangeAmount";
-            this.btnChangeAmount.Size = new System.Drawing.Size(146, 76);
+            this.btnChangeAmount.Size = new System.Drawing.Size(137, 100);
             this.btnChangeAmount.TabIndex = 8;
             this.btnChangeAmount.Text = "Change Amount";
             this.btnChangeAmount.UseVisualStyleBackColor = true;
@@ -820,17 +818,28 @@
             // lblOrders
             // 
             this.lblOrders.AutoSize = true;
-            this.lblOrders.Location = new System.Drawing.Point(639, 29);
+            this.lblOrders.Location = new System.Drawing.Point(583, 29);
             this.lblOrders.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOrders.Name = "lblOrders";
             this.lblOrders.Size = new System.Drawing.Size(57, 20);
             this.lblOrders.TabIndex = 7;
             this.lblOrders.Text = "Orders";
             // 
+            // btnCancelOrder
+            // 
+            this.btnCancelOrder.Location = new System.Drawing.Point(701, 467);
+            this.btnCancelOrder.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCancelOrder.Name = "btnCancelOrder";
+            this.btnCancelOrder.Size = new System.Drawing.Size(126, 100);
+            this.btnCancelOrder.TabIndex = 4;
+            this.btnCancelOrder.Text = "Cancel Order";
+            this.btnCancelOrder.UseVisualStyleBackColor = true;
+            this.btnCancelOrder.Click += new System.EventHandler(this.btnCancelOrder_Click);
+            // 
             // lblAlerts
             // 
             this.lblAlerts.AutoSize = true;
-            this.lblAlerts.Location = new System.Drawing.Point(162, 29);
+            this.lblAlerts.Location = new System.Drawing.Point(141, 29);
             this.lblAlerts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAlerts.Name = "lblAlerts";
             this.lblAlerts.Size = new System.Drawing.Size(50, 20);
@@ -839,32 +848,21 @@
             // 
             // btnChangeStatus
             // 
-            this.btnChangeStatus.Location = new System.Drawing.Point(831, 170);
+            this.btnChangeStatus.Location = new System.Drawing.Point(400, 467);
             this.btnChangeStatus.Margin = new System.Windows.Forms.Padding(2);
             this.btnChangeStatus.Name = "btnChangeStatus";
-            this.btnChangeStatus.Size = new System.Drawing.Size(146, 80);
+            this.btnChangeStatus.Size = new System.Drawing.Size(127, 100);
             this.btnChangeStatus.TabIndex = 5;
             this.btnChangeStatus.Text = "Toggle Status";
             this.btnChangeStatus.UseVisualStyleBackColor = true;
             this.btnChangeStatus.Click += new System.EventHandler(this.btnChangeStatus_Click);
             // 
-            // btnCancelOrder
-            // 
-            this.btnCancelOrder.Location = new System.Drawing.Point(524, 467);
-            this.btnCancelOrder.Margin = new System.Windows.Forms.Padding(2);
-            this.btnCancelOrder.Name = "btnCancelOrder";
-            this.btnCancelOrder.Size = new System.Drawing.Size(296, 100);
-            this.btnCancelOrder.TabIndex = 4;
-            this.btnCancelOrder.Text = "Cancel Order";
-            this.btnCancelOrder.UseVisualStyleBackColor = true;
-            this.btnCancelOrder.Click += new System.EventHandler(this.btnCancelOrder_Click);
-            // 
             // btnRemoveLimit
             // 
-            this.btnRemoveLimit.Location = new System.Drawing.Point(361, 249);
+            this.btnRemoveLimit.Location = new System.Drawing.Point(170, 467);
             this.btnRemoveLimit.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveLimit.Name = "btnRemoveLimit";
-            this.btnRemoveLimit.Size = new System.Drawing.Size(142, 75);
+            this.btnRemoveLimit.Size = new System.Drawing.Size(160, 100);
             this.btnRemoveLimit.TabIndex = 3;
             this.btnRemoveLimit.Text = "Remove Limit";
             this.btnRemoveLimit.UseVisualStyleBackColor = true;
@@ -872,10 +870,10 @@
             // 
             // btnMakeOrder
             // 
-            this.btnMakeOrder.Location = new System.Drawing.Point(59, 467);
+            this.btnMakeOrder.Location = new System.Drawing.Point(13, 467);
             this.btnMakeOrder.Margin = new System.Windows.Forms.Padding(2);
             this.btnMakeOrder.Name = "btnMakeOrder";
-            this.btnMakeOrder.Size = new System.Drawing.Size(288, 100);
+            this.btnMakeOrder.Size = new System.Drawing.Size(153, 100);
             this.btnMakeOrder.TabIndex = 2;
             this.btnMakeOrder.Text = "Make Order";
             this.btnMakeOrder.UseVisualStyleBackColor = true;
@@ -884,13 +882,13 @@
             // dgvOrders
             // 
             this.dgvOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOrders.Location = new System.Drawing.Point(524, 74);
+            this.dgvOrders.Location = new System.Drawing.Point(400, 74);
             this.dgvOrders.Margin = new System.Windows.Forms.Padding(2);
             this.dgvOrders.Name = "dgvOrders";
             this.dgvOrders.RowHeadersWidth = 62;
             this.dgvOrders.RowTemplate.Height = 24;
             this.dgvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOrders.Size = new System.Drawing.Size(296, 389);
+            this.dgvOrders.Size = new System.Drawing.Size(427, 384);
             this.dgvOrders.TabIndex = 1;
             // 
             // MainScreen

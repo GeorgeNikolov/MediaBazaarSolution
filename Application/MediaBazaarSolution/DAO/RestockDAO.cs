@@ -83,11 +83,11 @@ namespace MediaBazaarSolution.DAO
         }
 
 
-        public bool AddLimit(int item_id, int limit)
+        public bool AddLimit(int item_id, int min_stock)
         {
-            string query = "INSERT into limits( item_id, limit)" +
-                           "VALUES( @item_id, @limit)";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, limit })> 0;
+            string query = "INSERT into limits( item_id, min_stock) " +
+                           "VALUES( @item_id , @min_stock )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, min_stock })> 0;
         }
 
         public bool DeleteLimit(int id)
@@ -117,7 +117,7 @@ namespace MediaBazaarSolution.DAO
             }
 
             string query = $"UPDATE orders SET status = '{toggleString}' WHERE item_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {  }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query) > 0;
         }
 
         public bool ChangeAmount(int id, int amount)
