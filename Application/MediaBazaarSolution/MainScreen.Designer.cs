@@ -65,18 +65,15 @@
             this.tbxSearchItemById = new System.Windows.Forms.TextBox();
             this.dgvDepot = new System.Windows.Forms.DataGridView();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
+            this.XAxisCB = new System.Windows.Forms.ComboBox();
+            this.YAxisCB = new System.Windows.Forms.ComboBox();
+            this.PiechartCB = new System.Windows.Forms.ComboBox();
             this.SalesPieChart = new LiveCharts.WinForms.PieChart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.EmID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmWage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StEmployeeDGV = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.StProductDGV = new System.Windows.Forms.DataGridView();
-            this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrdersTab = new System.Windows.Forms.TabPage();
             this.lbxAlerts = new System.Windows.Forms.ListBox();
             this.gbSetLimit = new System.Windows.Forms.GroupBox();
@@ -98,6 +95,7 @@
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
+            this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -110,7 +108,7 @@
             this.StatisticsTab.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StEmployeeDGV)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
             this.OrdersTab.SuspendLayout();
@@ -518,6 +516,10 @@
             // 
             // StatisticsTab
             // 
+            this.StatisticsTab.Controls.Add(this.cartesianChart1);
+            this.StatisticsTab.Controls.Add(this.XAxisCB);
+            this.StatisticsTab.Controls.Add(this.YAxisCB);
+            this.StatisticsTab.Controls.Add(this.PiechartCB);
             this.StatisticsTab.Controls.Add(this.SalesPieChart);
             this.StatisticsTab.Controls.Add(this.tabControl1);
             this.StatisticsTab.Location = new System.Drawing.Point(4, 29);
@@ -529,12 +531,37 @@
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
             // 
+            // XAxisCB
+            // 
+            this.XAxisCB.FormattingEnabled = true;
+            this.XAxisCB.Location = new System.Drawing.Point(870, 538);
+            this.XAxisCB.Name = "XAxisCB";
+            this.XAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.XAxisCB.TabIndex = 4;
+            // 
+            // YAxisCB
+            // 
+            this.YAxisCB.FormattingEnabled = true;
+            this.YAxisCB.Location = new System.Drawing.Point(712, 374);
+            this.YAxisCB.Name = "YAxisCB";
+            this.YAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.YAxisCB.TabIndex = 3;
+            // 
+            // PiechartCB
+            // 
+            this.PiechartCB.FormattingEnabled = true;
+            this.PiechartCB.Location = new System.Drawing.Point(1223, 73);
+            this.PiechartCB.Name = "PiechartCB";
+            this.PiechartCB.Size = new System.Drawing.Size(121, 28);
+            this.PiechartCB.TabIndex = 2;
+            this.PiechartCB.SelectedIndexChanged += new System.EventHandler(this.PiechartCB_SelectedIndexChanged);
+            // 
             // SalesPieChart
             // 
-            this.SalesPieChart.Location = new System.Drawing.Point(870, 59);
+            this.SalesPieChart.Location = new System.Drawing.Point(730, 34);
             this.SalesPieChart.Margin = new System.Windows.Forms.Padding(2);
             this.SalesPieChart.Name = "SalesPieChart";
-            this.SalesPieChart.Size = new System.Drawing.Size(470, 301);
+            this.SalesPieChart.Size = new System.Drawing.Size(470, 223);
             this.SalesPieChart.TabIndex = 1;
             this.SalesPieChart.Text = "pieChart1";
             // 
@@ -546,57 +573,32 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(794, 382);
+            this.tabControl1.Size = new System.Drawing.Size(703, 382);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView3);
+            this.tabPage1.Controls.Add(this.StEmployeeDGV);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(786, 349);
+            this.tabPage1.Size = new System.Drawing.Size(695, 349);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Employees";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView3
+            // StEmployeeDGV
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EmID,
-            this.EmName,
-            this.EmWage});
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(2, 2);
-            this.dataGridView3.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 51;
-            this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(782, 345);
-            this.dataGridView3.TabIndex = 0;
-            // 
-            // EmID
-            // 
-            this.EmID.HeaderText = "ID";
-            this.EmID.MinimumWidth = 6;
-            this.EmID.Name = "EmID";
-            this.EmID.Width = 125;
-            // 
-            // EmName
-            // 
-            this.EmName.HeaderText = "Name";
-            this.EmName.MinimumWidth = 6;
-            this.EmName.Name = "EmName";
-            this.EmName.Width = 125;
-            // 
-            // EmWage
-            // 
-            this.EmWage.HeaderText = "Wage";
-            this.EmWage.MinimumWidth = 6;
-            this.EmWage.Name = "EmWage";
-            this.EmWage.Width = 125;
+            this.StEmployeeDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.StEmployeeDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StEmployeeDGV.Location = new System.Drawing.Point(2, 2);
+            this.StEmployeeDGV.Margin = new System.Windows.Forms.Padding(2);
+            this.StEmployeeDGV.Name = "StEmployeeDGV";
+            this.StEmployeeDGV.RowHeadersWidth = 51;
+            this.StEmployeeDGV.RowTemplate.Height = 24;
+            this.StEmployeeDGV.Size = new System.Drawing.Size(691, 345);
+            this.StEmployeeDGV.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -605,7 +607,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(786, 349);
+            this.tabPage2.Size = new System.Drawing.Size(695, 349);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Products";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -613,39 +615,14 @@
             // StProductDGV
             // 
             this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StProductDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PrName,
-            this.PrSold,
-            this.PrPrice});
             this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.StProductDGV.Location = new System.Drawing.Point(2, 2);
             this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
             this.StProductDGV.Name = "StProductDGV";
             this.StProductDGV.RowHeadersWidth = 51;
             this.StProductDGV.RowTemplate.Height = 24;
-            this.StProductDGV.Size = new System.Drawing.Size(782, 345);
+            this.StProductDGV.Size = new System.Drawing.Size(691, 345);
             this.StProductDGV.TabIndex = 0;
-            // 
-            // PrName
-            // 
-            this.PrName.HeaderText = "Name";
-            this.PrName.MinimumWidth = 6;
-            this.PrName.Name = "PrName";
-            this.PrName.Width = 125;
-            // 
-            // PrSold
-            // 
-            this.PrSold.HeaderText = "Sold";
-            this.PrSold.MinimumWidth = 6;
-            this.PrSold.Name = "PrSold";
-            this.PrSold.Width = 125;
-            // 
-            // PrPrice
-            // 
-            this.PrPrice.HeaderText = "Price";
-            this.PrPrice.MinimumWidth = 6;
-            this.PrPrice.Name = "PrPrice";
-            this.PrPrice.Width = 125;
             // 
             // OrdersTab
             // 
@@ -891,6 +868,14 @@
             this.dgvOrders.Size = new System.Drawing.Size(427, 384);
             this.dgvOrders.TabIndex = 1;
             // 
+            // cartesianChart1
+            // 
+            this.cartesianChart1.Location = new System.Drawing.Point(839, 302);
+            this.cartesianChart1.Name = "cartesianChart1";
+            this.cartesianChart1.Size = new System.Drawing.Size(505, 230);
+            this.cartesianChart1.TabIndex = 5;
+            this.cartesianChart1.Text = "cartesianChart1";
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -916,7 +901,7 @@
             this.StatisticsTab.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StEmployeeDGV)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
             this.OrdersTab.ResumeLayout(false);
@@ -946,7 +931,7 @@
         private System.Windows.Forms.TabPage StatisticsTab;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView StEmployeeDGV;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView StProductDGV;
         private System.Windows.Forms.Button btnDeleteItem;
@@ -961,12 +946,6 @@
         private System.Windows.Forms.Button btnReloadEmployees;
         private System.Windows.Forms.Button btnReloadItems;
         private LiveCharts.WinForms.PieChart SalesPieChart;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmWage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrSold;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrPrice;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel pnlMatrix;
         private System.Windows.Forms.Panel panel3;
@@ -1003,5 +982,9 @@
         private System.Windows.Forms.Label lblSetMinStock;
         private System.Windows.Forms.GroupBox gbSetLimit;
         private System.Windows.Forms.ListBox lbxAlerts;
+        private System.Windows.Forms.ComboBox XAxisCB;
+        private System.Windows.Forms.ComboBox YAxisCB;
+        private System.Windows.Forms.ComboBox PiechartCB;
+        private LiveCharts.WinForms.CartesianChart cartesianChart1;
     }
 }

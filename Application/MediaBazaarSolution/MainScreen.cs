@@ -26,11 +26,13 @@ namespace MediaBazaarSolution
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
+        private StatisticsScreen statisticsScreen;
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
         internal List<Alert> alerts;
         internal List<Order> orders;
+
         
         private int itemID;
         private int employeeID;
@@ -69,6 +71,7 @@ namespace MediaBazaarSolution
             employees = new List<string>();
             alerts = new List<Alert>();
             orders = new List<Order>();
+            statisticsScreen = new StatisticsScreen();
 
             LoadAll();
 
@@ -103,6 +106,7 @@ namespace MediaBazaarSolution
             LoadMatrixSchedule();
             LoadAlerts();
             LoadOrders();
+            LoadStatisticsPage();
         }
         private void LoadAllItems()
         {
@@ -125,6 +129,140 @@ namespace MediaBazaarSolution
                 }
             }
 
+        }
+
+        private void LoadStatisticsPage()
+        {
+            // Load all availible items in the database to the statistics Item datagridview
+            List<Item> itemList = ItemDAO.Instance.LoadAllItems();
+            StProductDGV.DataSource = itemList;
+
+            indecis.Clear();
+            categories.Clear();
+
+            foreach (Item item in itemList)
+            {
+                if (!indecis.Contains(item.ID))
+                {
+                    indecis.Add(item.ID);
+                }
+                if (!categories.Contains(item.Category))
+                {
+                    categories.Add(item.Category);
+                }
+            }
+
+            // Load all availible employees in the database to the statistics employee datagridview
+            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
+            StEmployeeDGV.DataSource = employeeList;
+
+            employees.Clear();
+
+            foreach (Employee employee in employeeList)
+            {
+                if (!employees.Contains(employee.LastName))
+                {
+                    employees.Add(employee.LastName);
+                }
+            }
+
+            LoadPieChartData();
+            LoadPieChart();
+            LoadGraphChart();
+        }
+
+        Func<ChartPoint, string> PieLabel = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
+
+        private void LoadPieChartData()
+        {
+            // Updates the combobox on the statistics page
+            statisticsScreen.UpdatePiechart();
+            PiechartCB.Items.Clear();
+            PiechartCB.Items.Add("All Items");
+            PiechartCB.SelectedIndex = 0;
+            PiechartCB.Items.AddRange(statisticsScreen.GetCategories());
+        }
+
+        private void LoadPieChart()
+        {
+            String[] products;
+            SeriesCollection series = new SeriesCollection();
+
+
+
+            int categoryIndex = 0;
+            int valueIndex = 0;
+            int nameIndex = 0;
+
+
+            // Check where the category and amount column are
+            for (int i = 0; i < StProductDGV.Columns.Count; i++)
+            {
+                if (StProductDGV.Columns[i].Name.Equals("Category"))
+                {
+                    categoryIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Amount"))
+                {
+                    valueIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Name"))
+                {
+                    nameIndex = i;
+                }
+            }
+
+            // Decide to show general data or to show category specific data
+            if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
+            {
+                products = statisticsScreen.GetCategories();
+            }
+            else
+            {
+                List<String> tempList = new List<string>();
+                for (int i = 0; i < StProductDGV.Rows.Count; i++)
+                {
+                    if (StProductDGV.Rows[i].Cells[categoryIndex].Value.Equals(PiechartCB.SelectedItem.ToString()))
+                    {
+                        tempList.Add(StProductDGV.Rows[i].Cells[nameIndex].Value.ToString());
+                    }
+                }
+                products = tempList.ToArray();
+                categoryIndex = nameIndex;
+            }
+            int[] values = new int[products.Length];
+
+            // Add values to the values array, for use in the graph generation
+            for (int n = 0; n < StProductDGV.Rows.Count; n++)
+            {
+                for (int i = 0; i < products.Length; i++)
+                {
+                    if (StProductDGV.Rows[n].Cells[categoryIndex].Value.Equals(products[i]))
+                    {
+                        values[i] += Convert.ToInt32(StProductDGV.Rows[n].Cells[valueIndex].Value);
+                    }
+                }
+            }
+
+            // Generate the series required for the graph
+            for (int i = 0; i < values.Length; i++)
+            {
+                series.Add(new PieSeries() { Title = products[i].ToString(), Values = new ChartValues<int> { values[i] }, DataLabels = true, LabelPoint = PieLabel });
+            }
+
+            // Make the graph
+            SalesPieChart.Series = series;
+            SalesPieChart.Text = "Category Sales";
+            SalesPieChart.LegendLocation = LegendLocation.Right;
+
+            SalesPieChart.Refresh();
+
+        }
+
+        private void LoadGraphChart()
+        {
+
+            statisticsScreen.UpdateGraphchart();
         }
 
         private void LoadItemCategoriesInComboBox()
@@ -529,6 +667,11 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void PiechartCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPieChart();
         }
 
         #endregion
