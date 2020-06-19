@@ -107,6 +107,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\AutoSchedulerDAO.cs" />
     <Compile Include="DAO\RestockDAO.cs" />
     <Compile Include="DTO\Alert.cs" />
     <Compile Include="DTO\Order.cs" />

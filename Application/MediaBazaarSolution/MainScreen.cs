@@ -16,6 +16,7 @@ using LiveCharts.Wpf;
 using Microsoft.VisualBasic;
 using System.Collections.Concurrent;
 using Org.BouncyCastle.Asn1.IsisMtt;
+using MediaBazaarSolution.Scheduling;
 
 namespace MediaBazaarSolution
 {
@@ -332,10 +333,84 @@ namespace MediaBazaarSolution
             }
         }
 
+        private void AddSchedule()
+        {
+            // Method for making the schedule
+
+            // Gets all the managers
+            List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
+            foreach(Employee manager in managers)
+            {
+                // Get the info for the schedule making
+                List<Employee> employees = AutoSchedulerDAO.Instance.GetNecessaryInfo(manager.ID);
+                List<ScheduleUsers> scheduleUsers = new List<ScheduleUsers>();
+
+                // Convert to scheduleUsers format
+                foreach( Employee employee in employees)
+                {
+                    bool[] NoGoBools = ConvertToBools(employee.NoGoSchedule);
+                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, employee.ContractedHours));
+                }
+
+                bool[] availableTimes = new bool[21];
+
+                for(int i = 0; i < 21; i++ )
+                {
+                    availableTimes[i] = false;
+                }
+                // Make the schedule
+                SchedulingSystem schedulingSystem = new SchedulingSystem(scheduleUsers, availableTimes);
+                List<ScheduleUsers> schedule = schedulingSystem.getSchedule().ToList();
+
+                DateTime today = DateTime.Today;
+                int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+                DateTime nextMonday = today.AddDays(daysUntilMonday);
+                
+                // Send the schedule to the Database
+                for( int i = 0; i < 21; i++)
+                {
+                    int daysNeededToBeAdded = (i / 3);
+                    int hoursNeededToBeAdded = 9 + (i % 3);
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded * 4);
+                    if (schedule[i] == null)
+                    {
+                        // Error message
+                    }
+                    else
+                    {
+                        ScheduleDAO.Instance.AddSchedule(schedule[i].ID, date.ToString(), date.AddHours(4).ToString(), "Automatically Scheduled Shift");
+                    }
+                }
+
+            }
+            
+            
+
+
+        }
+
+        private bool[] ConvertToBools(string NoGoSchedule)
+        {
+            bool[] returnValue = new bool[21];
+            string[] collection = NoGoSchedule.Split('-');
+            for(int i = 0; i < 21; i++)
+            {
+                if (collection.Contains(i.ToString()))
+                {
+                    returnValue[i] = true;
+                } else
+                {
+                    returnValue[i] = false;
+                }
+            }
+
+            return returnValue;
+        }
+
         #endregion
 
         #region Events
-        
+
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {

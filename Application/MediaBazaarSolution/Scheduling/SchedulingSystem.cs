@@ -82,20 +82,16 @@ namespace MediaBazaarSolution.Scheduling
                                     break;
                                 }
                             }
-                            if (!done)
-                            {
-                                // Here the error message must come
-                            } else
-                            {
-                                break;
-                            }
+                            
+                            break;
+                            
                         }
                         
                     }
                 }
             }
-
-            return null;
+            
+            return schedule;
         }
 
         public ScheduleUsers[] getSchedule()

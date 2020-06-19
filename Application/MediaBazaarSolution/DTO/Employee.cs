@@ -19,6 +19,8 @@ namespace MediaBazaarSolution.DTO
         private string email;
         private string phone;
         private string address;
+        private string noGoSchedule;
+        private int contractedHours;
         
         //private EmployeeType type;
         private string type;
@@ -33,6 +35,8 @@ namespace MediaBazaarSolution.DTO
         public double HourlyWage { get => hourlyWage; set => hourlyWage = value; }
         public string Type { get => type; set => type = value; }
         public string Address { get => address; set => address = value; }
+        public string NoGoSchedule { get => noGoSchedule; set => noGoSchedule = value; }
+        public int ContractedHours { get => contractedHours; set => contractedHours = value; }
 
         //internal EmployeeType Type { get => type; set { EmployeeType.TryParse(value.ToString(), out this.type); this.Type = type; } }
 
@@ -50,6 +54,8 @@ namespace MediaBazaarSolution.DTO
             //this.Type =  row["employee_type"].ToString();
             this.Type = row["employee_type"].ToString();
             this.hourlyWage = Convert.ToDouble(row["hourly_wage"]);
+            this.ContractedHours = (int)row["ContractedHours"];
+            this.NoGoSchedule = row["NoGoSchedule"].ToString();
         }
 
         public Employee(int id, string firstName, string lastName, string username, string email, string phone, string type, double hourlyWage)
