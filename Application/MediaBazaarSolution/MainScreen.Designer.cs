@@ -65,6 +65,7 @@
             this.tbxSearchItemById = new System.Windows.Forms.TextBox();
             this.dgvDepot = new System.Windows.Forms.DataGridView();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
+            this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.XAxisCB = new System.Windows.Forms.ComboBox();
             this.YAxisCB = new System.Windows.Forms.ComboBox();
             this.PiechartCB = new System.Windows.Forms.ComboBox();
@@ -95,7 +96,7 @@
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
-            this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
+            this.AutoScheduleGeneratorBtn = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -159,6 +160,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.AutoScheduleGeneratorBtn);
             this.panel2.Controls.Add(this.pnlMatrix);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Location = new System.Drawing.Point(3, 33);
@@ -531,6 +533,14 @@
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
             // 
+            // cartesianChart1
+            // 
+            this.cartesianChart1.Location = new System.Drawing.Point(839, 302);
+            this.cartesianChart1.Name = "cartesianChart1";
+            this.cartesianChart1.Size = new System.Drawing.Size(505, 230);
+            this.cartesianChart1.TabIndex = 5;
+            this.cartesianChart1.Text = "cartesianChart1";
+            // 
             // XAxisCB
             // 
             this.XAxisCB.FormattingEnabled = true;
@@ -868,13 +878,15 @@
             this.dgvOrders.Size = new System.Drawing.Size(427, 384);
             this.dgvOrders.TabIndex = 1;
             // 
-            // cartesianChart1
+            // AutoScheduleGeneratorBtn
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(839, 302);
-            this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(505, 230);
-            this.cartesianChart1.TabIndex = 5;
-            this.cartesianChart1.Text = "cartesianChart1";
+            this.AutoScheduleGeneratorBtn.Location = new System.Drawing.Point(1226, 108);
+            this.AutoScheduleGeneratorBtn.Name = "AutoScheduleGeneratorBtn";
+            this.AutoScheduleGeneratorBtn.Size = new System.Drawing.Size(137, 81);
+            this.AutoScheduleGeneratorBtn.TabIndex = 2;
+            this.AutoScheduleGeneratorBtn.Text = "Generate Next Week Schedule";
+            this.AutoScheduleGeneratorBtn.UseVisualStyleBackColor = true;
+            this.AutoScheduleGeneratorBtn.Click += new System.EventHandler(this.AutoScheduleGeneratorBtn_Click);
             // 
             // MainScreen
             // 
@@ -986,5 +998,6 @@
         private System.Windows.Forms.ComboBox YAxisCB;
         private System.Windows.Forms.ComboBox PiechartCB;
         private LiveCharts.WinForms.CartesianChart cartesianChart1;
+        private System.Windows.Forms.Button AutoScheduleGeneratorBtn;
     }
 }

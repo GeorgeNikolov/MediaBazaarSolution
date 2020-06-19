@@ -992,6 +992,9 @@ namespace MediaBazaarSolution
             LoadOrders();
         }
 
-     
+        private void AutoScheduleGeneratorBtn_Click(object sender, EventArgs e)
+        {
+            AddSchedule();
+        }
     }
 }

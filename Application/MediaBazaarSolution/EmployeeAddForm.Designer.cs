@@ -47,6 +47,12 @@
             this.btnAddEmployee = new System.Windows.Forms.Button();
             this.lblEmail = new System.Windows.Forms.Label();
             this.tbxEmail = new System.Windows.Forms.TextBox();
+            this.ContractedHoursTB = new System.Windows.Forms.TextBox();
+            this.NoWorkCB = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblNoGoTimes = new System.Windows.Forms.Label();
+            this.NoWorkLB = new System.Windows.Forms.ListBox();
+            this.AddNoWorkBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFName
@@ -197,7 +203,7 @@
             // 
             // btnAddEmployee
             // 
-            this.btnAddEmployee.Location = new System.Drawing.Point(101, 365);
+            this.btnAddEmployee.Location = new System.Drawing.Point(101, 571);
             this.btnAddEmployee.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddEmployee.Name = "btnAddEmployee";
             this.btnAddEmployee.Size = new System.Drawing.Size(168, 40);
@@ -224,11 +230,94 @@
             this.tbxEmail.Size = new System.Drawing.Size(158, 20);
             this.tbxEmail.TabIndex = 21;
             // 
+            // ContractedHoursTB
+            // 
+            this.ContractedHoursTB.Location = new System.Drawing.Point(50, 399);
+            this.ContractedHoursTB.Margin = new System.Windows.Forms.Padding(2);
+            this.ContractedHoursTB.Name = "ContractedHoursTB";
+            this.ContractedHoursTB.Size = new System.Drawing.Size(77, 20);
+            this.ContractedHoursTB.TabIndex = 25;
+            // 
+            // NoWorkCB
+            // 
+            this.NoWorkCB.FormattingEnabled = true;
+            this.NoWorkCB.Items.AddRange(new object[] {
+            "Monday Morning",
+            "Monday Afternoon",
+            "Monday Evening",
+            "Tuesday Morning",
+            "Tuesday Afternoon",
+            "Tuesday Evening",
+            "Wednesday Morning",
+            "Wednesday Afternoon",
+            "Wednesday Evening",
+            "Thursday Morning",
+            "Thursday Afternoon",
+            "Thursday Evening",
+            "Friday Morning",
+            "Friday Afternoon",
+            "Friday Evening",
+            "Saturday Morning",
+            "Saturday Afternoon",
+            "Saturday Evening",
+            "Sunday Morning",
+            "Sunday Afternoon",
+            "Sunday Evening"});
+            this.NoWorkCB.Location = new System.Drawing.Point(245, 400);
+            this.NoWorkCB.Margin = new System.Windows.Forms.Padding(2);
+            this.NoWorkCB.Name = "NoWorkCB";
+            this.NoWorkCB.Size = new System.Drawing.Size(105, 21);
+            this.NoWorkCB.TabIndex = 24;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(47, 375);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Contracted Hours";
+            // 
+            // lblNoGoTimes
+            // 
+            this.lblNoGoTimes.AutoSize = true;
+            this.lblNoGoTimes.Location = new System.Drawing.Point(242, 375);
+            this.lblNoGoTimes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNoGoTimes.Name = "lblNoGoTimes";
+            this.lblNoGoTimes.Size = new System.Drawing.Size(120, 13);
+            this.lblNoGoTimes.TabIndex = 22;
+            this.lblNoGoTimes.Text = "Times they cannot work";
+            // 
+            // NoWorkLB
+            // 
+            this.NoWorkLB.FormattingEnabled = true;
+            this.NoWorkLB.Location = new System.Drawing.Point(245, 426);
+            this.NoWorkLB.Name = "NoWorkLB";
+            this.NoWorkLB.Size = new System.Drawing.Size(199, 134);
+            this.NoWorkLB.TabIndex = 26;
+            // 
+            // AddNoWorkBtn
+            // 
+            this.AddNoWorkBtn.Location = new System.Drawing.Point(355, 400);
+            this.AddNoWorkBtn.Name = "AddNoWorkBtn";
+            this.AddNoWorkBtn.Size = new System.Drawing.Size(75, 23);
+            this.AddNoWorkBtn.TabIndex = 27;
+            this.AddNoWorkBtn.Text = "Add";
+            this.AddNoWorkBtn.UseVisualStyleBackColor = true;
+            this.AddNoWorkBtn.Click += new System.EventHandler(this.AddNoWorkBtn_Click);
+            // 
             // EmployeeAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 416);
+            this.ClientSize = new System.Drawing.Size(489, 622);
+            this.Controls.Add(this.AddNoWorkBtn);
+            this.Controls.Add(this.NoWorkLB);
+            this.Controls.Add(this.ContractedHoursTB);
+            this.Controls.Add(this.NoWorkCB);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblNoGoTimes);
             this.Controls.Add(this.tbxEmail);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.btnAddEmployee);
@@ -277,5 +366,11 @@
         private System.Windows.Forms.Button btnAddEmployee;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox tbxEmail;
+        private System.Windows.Forms.TextBox ContractedHoursTB;
+        private System.Windows.Forms.ComboBox NoWorkCB;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblNoGoTimes;
+        private System.Windows.Forms.ListBox NoWorkLB;
+        private System.Windows.Forms.Button AddNoWorkBtn;
     }
 }
