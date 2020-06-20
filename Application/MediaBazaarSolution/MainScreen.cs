@@ -368,6 +368,7 @@ namespace MediaBazaarSolution
 
                 for(int i = 0; i < 21; i++ )
                 {
+                    // TODO: change this to make it so it takes the availability of the actual schedule
                     availableTimes[i] = true;
                 }
                 // Make the schedule
