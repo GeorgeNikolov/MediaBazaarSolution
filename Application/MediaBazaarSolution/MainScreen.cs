@@ -22,6 +22,7 @@ namespace MediaBazaarSolution
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
         private EmployeeEditForm employeeEditForm;
+        private DepotEditForm depotEditForm;
 
         internal List<int> indecis;
         internal List<string> categories;
@@ -650,6 +651,21 @@ namespace MediaBazaarSolution
                 MessageBox.Show("No employee selected!");
             }
             
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvDepot.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dgvDepot.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = dgvDepot.Rows[selectedRowIndex];
+                depotEditForm = new DepotEditForm(this, selectedRow);
+                depotEditForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("No employee selected!");
+            }
         }
     }
 }

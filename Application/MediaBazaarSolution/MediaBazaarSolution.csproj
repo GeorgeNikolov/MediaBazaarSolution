@@ -106,6 +106,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepotEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DepotEditForm.Designer.cs">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DepotEditForm.resx">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmployeeEditForm.resx">
       <DependentUpon>EmployeeEditForm.cs</DependentUpon>
     </EmbeddedResource>

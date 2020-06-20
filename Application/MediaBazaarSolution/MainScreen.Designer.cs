@@ -47,6 +47,7 @@
             this.btnToday = new System.Windows.Forms.Button();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.EmployeesTab = new System.Windows.Forms.TabPage();
+            this.btnEmployeeEdit = new System.Windows.Forms.Button();
             this.btnReloadEmployees = new System.Windows.Forms.Button();
             this.btnSearchEmployee = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -77,7 +78,7 @@
             this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnEmployeeEdit = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -310,6 +311,18 @@
             this.EmployeesTab.Text = "Employees";
             this.EmployeesTab.UseVisualStyleBackColor = true;
             // 
+            // btnEmployeeEdit
+            // 
+            this.btnEmployeeEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEmployeeEdit.Location = new System.Drawing.Point(863, 598);
+            this.btnEmployeeEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEmployeeEdit.Name = "btnEmployeeEdit";
+            this.btnEmployeeEdit.Size = new System.Drawing.Size(133, 43);
+            this.btnEmployeeEdit.TabIndex = 12;
+            this.btnEmployeeEdit.Text = "Edit";
+            this.btnEmployeeEdit.UseVisualStyleBackColor = true;
+            this.btnEmployeeEdit.Click += new System.EventHandler(this.btnEmployeeEdit_Click);
+            // 
             // btnReloadEmployees
             // 
             this.btnReloadEmployees.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -393,6 +406,7 @@
             // 
             // DepotTab
             // 
+            this.DepotTab.Controls.Add(this.btnEdit);
             this.DepotTab.Controls.Add(this.btnReloadItems);
             this.DepotTab.Controls.Add(this.label3);
             this.DepotTab.Controls.Add(this.cbxItemCategory);
@@ -414,7 +428,7 @@
             // btnReloadItems
             // 
             this.btnReloadItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReloadItems.Location = new System.Drawing.Point(945, 588);
+            this.btnReloadItems.Location = new System.Drawing.Point(772, 588);
             this.btnReloadItems.Margin = new System.Windows.Forms.Padding(4);
             this.btnReloadItems.Name = "btnReloadItems";
             this.btnReloadItems.Size = new System.Drawing.Size(133, 43);
@@ -651,17 +665,17 @@
             this.PrPrice.Name = "PrPrice";
             this.PrPrice.Width = 125;
             // 
-            // btnEmployeeEdit
+            // btnEdit
             // 
-            this.btnEmployeeEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEmployeeEdit.Location = new System.Drawing.Point(863, 598);
-            this.btnEmployeeEdit.Margin = new System.Windows.Forms.Padding(4);
-            this.btnEmployeeEdit.Name = "btnEmployeeEdit";
-            this.btnEmployeeEdit.Size = new System.Drawing.Size(133, 43);
-            this.btnEmployeeEdit.TabIndex = 12;
-            this.btnEmployeeEdit.Text = "Edit";
-            this.btnEmployeeEdit.UseVisualStyleBackColor = true;
-            this.btnEmployeeEdit.Click += new System.EventHandler(this.btnEmployeeEdit_Click);
+            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEdit.Location = new System.Drawing.Point(964, 588);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(133, 43);
+            this.btnEdit.TabIndex = 13;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // MainScreen
             // 
@@ -748,5 +762,6 @@
         private System.Windows.Forms.Button btnNextMonth;
         private System.Windows.Forms.Button btnPreviousMonth;
         private System.Windows.Forms.Button btnEmployeeEdit;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
