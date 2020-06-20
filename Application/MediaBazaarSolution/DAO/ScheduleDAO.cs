@@ -37,7 +37,7 @@ namespace MediaBazaarSolution.DAO
         public List<Schedule> GetEmployeesOnShiftByDate(string date)
         {
             List<Schedule> scheduleList = new List<Schedule>();
-            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.time, s.task_name FROM schedule s INNER JOIN employee e ON s.employee_id = e.employee_id WHERE s.date = '" + date + "'";
+            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name FROM schedule s INNER JOIN employee e ON s.employee_id = e.employee_id WHERE s.date = '" + date + "'";
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
             
             foreach(DataRow row in data.Rows)
@@ -48,21 +48,21 @@ namespace MediaBazaarSolution.DAO
             return scheduleList;
         }
 
-        public bool AddSchedule(int employeeID, string date, string time, string taskName)
+        public bool AddSchedule(int employeeID, string date, string start_time, string end_time, string taskName)
         {
-            string query = "INSERT INTO schedule (employee_id, date, time, task_name) VALUES( @employeeID , @date , @time , @taskName )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {employeeID, date, time, taskName}) > 0;
+            string query = "INSERT INTO schedule (employee_id, date, start_time, end_time, task_name) VALUES( @employeeID , @date , @start_time , @end_time , @taskName )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {employeeID, date, start_time, end_time, taskName}) > 0;
         }
 
         public bool DeleteSchedule(int employeeID, string date, string time)
         {
-            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && time = @time )";
+            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @_time )";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employeeID, date, time }) > 0;
         }
 
         public bool GetSchedule(int employeeID, string date, string time, string taskName)
         {
-            string query = "SELECT * FROM schedule WHERE employee_id = @employeeID && date = @date && time = @time && task_name = @taskName ";
+            string query = "SELECT * FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @time && task_name = @taskName ";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID, date, time, taskName });
             if (data.Rows.Count > 0)
             {
@@ -71,10 +71,10 @@ namespace MediaBazaarSolution.DAO
             return false;
         }
 
-        public bool UpdateSchedule(string oldTime, string oldTaskName, string newTime, string newTaskName, int employeeID, string date)
+        public bool UpdateSchedule(string oldTime, string oldTaskName, string newTime, string newTaskName, int employeeID, string date, string new_endTime)
         {
-            string query = "UPDATE schedule SET time = @newTime , task_name = @newTaskName WHERE schedule_id = (SELECT schedule_id WHERE employee_id = @employeeID && date = @date && time = @oldTime && task_name = @oldTaskName )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newTime, newTaskName, employeeID, date, oldTime, oldTaskName }) > 0;
+            string query = "UPDATE schedule SET start_time = @newTime, end_time = @new_endTime , task_name = @newTaskName WHERE schedule_id = (SELECT schedule_id WHERE employee_id = @employeeID && date = @date && start_time = @oldTime && task_name = @oldTaskName )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newTime, new_endTime, newTaskName, employeeID, date, oldTime, oldTaskName }) > 0;
         }
     }
 }

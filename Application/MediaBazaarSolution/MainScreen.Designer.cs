@@ -32,6 +32,7 @@
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.AutoScheduleGeneratorBtn = new System.Windows.Forms.Button();
             this.pnlMatrix = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnNextMonth = new System.Windows.Forms.Button();
@@ -65,18 +66,11 @@
             this.tbxSearchItemById = new System.Windows.Forms.TextBox();
             this.dgvDepot = new System.Windows.Forms.DataGridView();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
+            this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
+            this.XAxisCB = new System.Windows.Forms.ComboBox();
+            this.YAxisCB = new System.Windows.Forms.ComboBox();
+            this.PiechartCB = new System.Windows.Forms.ComboBox();
             this.SalesPieChart = new LiveCharts.WinForms.PieChart();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.EmID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EmWage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.StProductDGV = new System.Windows.Forms.DataGridView();
-            this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrdersTab = new System.Windows.Forms.TabPage();
             this.gbOrdersViewing = new System.Windows.Forms.GroupBox();
             this.cbShowCompleted = new System.Windows.Forms.CheckBox();
@@ -98,6 +92,9 @@
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.StProductDGV = new System.Windows.Forms.DataGridView();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.nUPLimitID = new System.Windows.Forms.NumericUpDown();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
@@ -109,17 +106,15 @@
             this.DepotTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).BeginInit();
             this.StatisticsTab.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
             this.OrdersTab.SuspendLayout();
             this.gbOrdersViewing.SuspendLayout();
             this.gbSetLimit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUPMinStock)).BeginInit();
             this.gbgbAlertsViewing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
+            this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,6 +160,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.AutoScheduleGeneratorBtn);
             this.panel2.Controls.Add(this.pnlMatrix);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Location = new System.Drawing.Point(4, 41);
@@ -172,6 +168,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1825, 670);
             this.panel2.TabIndex = 1;
+            // 
+            // AutoScheduleGeneratorBtn
+            // 
+            this.AutoScheduleGeneratorBtn.Location = new System.Drawing.Point(1226, 108);
+            this.AutoScheduleGeneratorBtn.Name = "AutoScheduleGeneratorBtn";
+            this.AutoScheduleGeneratorBtn.Size = new System.Drawing.Size(137, 81);
+            this.AutoScheduleGeneratorBtn.TabIndex = 2;
+            this.AutoScheduleGeneratorBtn.Text = "Generate Next Week Schedule";
+            this.AutoScheduleGeneratorBtn.UseVisualStyleBackColor = true;
+            this.AutoScheduleGeneratorBtn.Click += new System.EventHandler(this.AutoScheduleGeneratorBtn_Click);
             // 
             // pnlMatrix
             // 
@@ -551,6 +557,10 @@
             // 
             // StatisticsTab
             // 
+            this.StatisticsTab.Controls.Add(this.cartesianChart1);
+            this.StatisticsTab.Controls.Add(this.XAxisCB);
+            this.StatisticsTab.Controls.Add(this.YAxisCB);
+            this.StatisticsTab.Controls.Add(this.PiechartCB);
             this.StatisticsTab.Controls.Add(this.SalesPieChart);
             this.StatisticsTab.Controls.Add(this.tabControl1);
             this.StatisticsTab.Location = new System.Drawing.Point(4, 34);
@@ -562,123 +572,54 @@
             this.StatisticsTab.Text = "Statistics";
             this.StatisticsTab.UseVisualStyleBackColor = true;
             // 
+            // cartesianChart1
+            // 
+            this.cartesianChart1.Location = new System.Drawing.Point(839, 302);
+            this.cartesianChart1.Name = "cartesianChart1";
+            this.cartesianChart1.Size = new System.Drawing.Size(505, 230);
+            this.cartesianChart1.TabIndex = 5;
+            this.cartesianChart1.Text = "cartesianChart1";
+            // 
+            // XAxisCB
+            // 
+            this.XAxisCB.FormattingEnabled = true;
+            this.XAxisCB.Items.AddRange(new object[] {
+            "1 year",
+            "6 months",
+            "3 months",
+            "1 month",
+            "2 weeks",
+            "1 week"});
+            this.XAxisCB.Location = new System.Drawing.Point(712, 408);
+            this.XAxisCB.Name = "XAxisCB";
+            this.XAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.XAxisCB.TabIndex = 4;
+            // 
+            // YAxisCB
+            // 
+            this.YAxisCB.FormattingEnabled = true;
+            this.YAxisCB.Location = new System.Drawing.Point(712, 374);
+            this.YAxisCB.Name = "YAxisCB";
+            this.YAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.YAxisCB.TabIndex = 3;
+            // 
+            // PiechartCB
+            // 
+            this.PiechartCB.FormattingEnabled = true;
+            this.PiechartCB.Location = new System.Drawing.Point(1223, 73);
+            this.PiechartCB.Name = "PiechartCB";
+            this.PiechartCB.Size = new System.Drawing.Size(121, 28);
+            this.PiechartCB.TabIndex = 2;
+            this.PiechartCB.SelectedIndexChanged += new System.EventHandler(this.PiechartCB_SelectedIndexChanged);
+            // 
             // SalesPieChart
             // 
-            this.SalesPieChart.Location = new System.Drawing.Point(1160, 73);
-            this.SalesPieChart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SalesPieChart.Location = new System.Drawing.Point(730, 34);
+            this.SalesPieChart.Margin = new System.Windows.Forms.Padding(2);
             this.SalesPieChart.Name = "SalesPieChart";
-            this.SalesPieChart.Size = new System.Drawing.Size(627, 370);
+            this.SalesPieChart.Size = new System.Drawing.Size(470, 223);
             this.SalesPieChart.TabIndex = 1;
             this.SalesPieChart.Text = "pieChart1";
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(5, 6);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1059, 470);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dataGridView3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(1051, 432);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Employees";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView3
-            // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EmID,
-            this.EmName,
-            this.EmWage});
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 2);
-            this.dataGridView3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 51;
-            this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(1045, 428);
-            this.dataGridView3.TabIndex = 0;
-            // 
-            // EmID
-            // 
-            this.EmID.HeaderText = "ID";
-            this.EmID.MinimumWidth = 6;
-            this.EmID.Name = "EmID";
-            this.EmID.Width = 125;
-            // 
-            // EmName
-            // 
-            this.EmName.HeaderText = "Name";
-            this.EmName.MinimumWidth = 6;
-            this.EmName.Name = "EmName";
-            this.EmName.Width = 125;
-            // 
-            // EmWage
-            // 
-            this.EmWage.HeaderText = "Wage";
-            this.EmWage.MinimumWidth = 6;
-            this.EmWage.Name = "EmWage";
-            this.EmWage.Width = 125;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.StProductDGV);
-            this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(1051, 432);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Products";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // StProductDGV
-            // 
-            this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StProductDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PrName,
-            this.PrSold,
-            this.PrPrice});
-            this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StProductDGV.Location = new System.Drawing.Point(3, 2);
-            this.StProductDGV.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.StProductDGV.Name = "StProductDGV";
-            this.StProductDGV.RowHeadersWidth = 51;
-            this.StProductDGV.RowTemplate.Height = 24;
-            this.StProductDGV.Size = new System.Drawing.Size(1045, 428);
-            this.StProductDGV.TabIndex = 0;
-            // 
-            // PrName
-            // 
-            this.PrName.HeaderText = "Name";
-            this.PrName.MinimumWidth = 6;
-            this.PrName.Name = "PrName";
-            this.PrName.Width = 125;
-            // 
-            // PrSold
-            // 
-            this.PrSold.HeaderText = "Sold";
-            this.PrSold.MinimumWidth = 6;
-            this.PrSold.Name = "PrSold";
-            this.PrSold.Width = 125;
-            // 
-            // PrPrice
-            // 
-            this.PrPrice.HeaderText = "Price";
-            this.PrPrice.MinimumWidth = 6;
-            this.PrPrice.Name = "PrPrice";
-            this.PrPrice.Width = 125;
             // 
             // OrdersTab
             // 
@@ -919,6 +860,40 @@
             this.dgvOrders.Size = new System.Drawing.Size(569, 473);
             this.dgvOrders.TabIndex = 1;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.StProductDGV);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Size = new System.Drawing.Size(695, 349);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Products";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // StProductDGV
+            // 
+            this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StProductDGV.Location = new System.Drawing.Point(2, 2);
+            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
+            this.StProductDGV.Name = "StProductDGV";
+            this.StProductDGV.RowHeadersWidth = 51;
+            this.StProductDGV.RowTemplate.Height = 24;
+            this.StProductDGV.Size = new System.Drawing.Size(691, 345);
+            this.StProductDGV.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(4, 5);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(703, 382);
+            this.tabControl1.TabIndex = 0;
+            // 
             // nUPLimitID
             // 
             this.nUPLimitID.Location = new System.Drawing.Point(85, 119);
@@ -949,11 +924,6 @@
             this.DepotTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).EndInit();
             this.StatisticsTab.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
             this.OrdersTab.ResumeLayout(false);
             this.OrdersTab.PerformLayout();
             this.gbOrdersViewing.ResumeLayout(false);
@@ -963,6 +933,9 @@
             this.gbgbAlertsViewing.ResumeLayout(false);
             this.gbgbAlertsViewing.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
+            this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -981,11 +954,6 @@
         private System.Windows.Forms.TextBox tbxSearchItemById;
         private System.Windows.Forms.DataGridView dgvDepot;
         private System.Windows.Forms.TabPage StatisticsTab;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView StProductDGV;
         private System.Windows.Forms.Button btnDeleteItem;
         private System.Windows.Forms.ComboBox cbxItemCategory;
         private System.Windows.Forms.Label label3;
@@ -998,12 +966,6 @@
         private System.Windows.Forms.Button btnReloadEmployees;
         private System.Windows.Forms.Button btnReloadItems;
         private LiveCharts.WinForms.PieChart SalesPieChart;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EmWage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrSold;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrPrice;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel pnlMatrix;
         private System.Windows.Forms.Panel panel3;
@@ -1037,6 +999,14 @@
         private System.Windows.Forms.Label lblSetMinStock;
         private System.Windows.Forms.GroupBox gbSetLimit;
         private System.Windows.Forms.ListBox lbxAlerts;
+        private System.Windows.Forms.ComboBox XAxisCB;
+        private System.Windows.Forms.ComboBox YAxisCB;
+        private System.Windows.Forms.ComboBox PiechartCB;
+        private LiveCharts.WinForms.CartesianChart cartesianChart1;
+        private System.Windows.Forms.Button AutoScheduleGeneratorBtn;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView StProductDGV;
         private System.Windows.Forms.GroupBox gbOrdersViewing;
         private System.Windows.Forms.CheckBox cbShowCompleted;
         private System.Windows.Forms.ComboBox cbxStatus;

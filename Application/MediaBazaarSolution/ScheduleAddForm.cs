@@ -77,12 +77,13 @@ namespace MediaBazaarSolution
             {
                 int employeeID = (cbbxEmployees.SelectedItem as Employee).ID;
                 string time = dtpTime.Value.ToString("HH:mm");
+                string endTime = dtpTime.Value.AddHours(4).ToString("HH:mm");
                 string taskName = tbxTaskName.Text;
                 if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, taskName))
                 {
                     MessageBox.Show("The same schedule item has been put into the list!", "Duplicate schedule item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, time, taskName))
+                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, time, endTime, taskName))
                 {
                     MessageBox.Show("Successfully added the employee on shift !", "Successful added schedule", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     FillDgvSchedule();
@@ -142,6 +143,7 @@ namespace MediaBazaarSolution
             string oldTime = this.time;
             string oldTaskName = this.taskName;
             string newTime = dtpTime.Value.ToString("HH:mm");
+            string newEndTime = dtpTime.Value.AddHours(4).ToString("HH:mm");
             string newTaskName = tbxTaskName.Text;
 
             if (employeeID != (cbbxEmployees.SelectedItem as Employee).ID)
@@ -150,7 +152,7 @@ namespace MediaBazaarSolution
                 return;
             }
 
-            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, oldTaskName, newTime, newTaskName, employeeID, date))
+            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, oldTaskName, newTime, newTaskName, employeeID, date, newEndTime))
             {
                 MessageBox.Show("Succesfully updated the schedule!", "Successful updation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillDgvSchedule();
