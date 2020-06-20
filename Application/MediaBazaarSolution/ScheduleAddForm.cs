@@ -26,7 +26,7 @@ namespace MediaBazaarSolution
             employeeIDList = new List<int>();
 
             this.date = date;
-            dtpTime.CustomFormat = "HH:mm";
+            dtpStartTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
             FillEmployeesComboBox();
             tbxDate.Text = date;
@@ -61,7 +61,7 @@ namespace MediaBazaarSolution
             //Convert selected date as string to datetime datatype
             DateTime myDate = DateTime.ParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //Create a new DateTime variable made up of selected date + selected time of day
-            DateTime newDateTime = myDate.Date + dtpTime.Value.TimeOfDay;
+            DateTime newDateTime = myDate.Date + dtpStartTime.Value.TimeOfDay;
             
             if(cbbxEmployees.SelectedIndex < 0)
             {
@@ -76,10 +76,10 @@ namespace MediaBazaarSolution
             else
             {
                 int employeeID = (cbbxEmployees.SelectedItem as Employee).ID;
-                string time = dtpTime.Value.ToString("HH:mm");
-                string endTime = dtpTime.Value.AddHours(4).ToString("HH:mm");
+                string time = dtpStartTime.Value.ToString("HH:mm");
+                string endTime = dtpStartTime.Value.AddHours(4).ToString("HH:mm");
                 string taskName = tbxTaskName.Text;
-                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, taskName))
+                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, endTime, taskName))
                 {
                     MessageBox.Show("The same schedule item has been put into the list!", "Duplicate schedule item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -102,7 +102,7 @@ namespace MediaBazaarSolution
 
         private void AddScheduleBinding()
         {
-            dtpTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "Time"));
+            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "Time"));
             tbxTaskName.DataBindings.Add(new Binding("Text", dgvSchedule.DataSource, "TaskName"));
         }
 
@@ -141,9 +141,10 @@ namespace MediaBazaarSolution
         private void btnUpdateSchedule_Click(object sender, EventArgs e)
         {
             string oldTime = this.time;
+         
             string oldTaskName = this.taskName;
-            string newTime = dtpTime.Value.ToString("HH:mm");
-            string newEndTime = dtpTime.Value.AddHours(4).ToString("HH:mm");
+            string newTime = dtpStartTime.Value.ToString("HH:mm");
+            string newEndTime = dtpStartTime.Value.AddHours(4).ToString("HH:mm");
             string newTaskName = tbxTaskName.Text;
 
             if (employeeID != (cbbxEmployees.SelectedItem as Employee).ID)
@@ -152,7 +153,7 @@ namespace MediaBazaarSolution
                 return;
             }
 
-            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, oldTaskName, newTime, newTaskName, employeeID, date, newEndTime))
+            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, newTime, newEndTime, newTaskName, employeeID, date))
             {
                 MessageBox.Show("Succesfully updated the schedule!", "Successful updation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillDgvSchedule();

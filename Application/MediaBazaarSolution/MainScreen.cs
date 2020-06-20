@@ -863,7 +863,7 @@ namespace MediaBazaarSolution
             Button btn = sender as Button;
             
             //Pass the reference of the current button to the scheduleAddForm
-            scheduleAddForm = new ScheduleAddForm(date, ref btn);
+            scheduleAddForm = new ScheduleAddForm(date);
             scheduleAddForm.Show();
         }
 
