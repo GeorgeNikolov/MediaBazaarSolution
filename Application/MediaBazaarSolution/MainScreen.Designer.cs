@@ -71,12 +71,15 @@
             this.YAxisCB = new System.Windows.Forms.ComboBox();
             this.PiechartCB = new System.Windows.Forms.ComboBox();
             this.SalesPieChart = new LiveCharts.WinForms.PieChart();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.OrdersTab = new System.Windows.Forms.TabPage();
             this.gbOrdersViewing = new System.Windows.Forms.GroupBox();
             this.cbShowCompleted = new System.Windows.Forms.CheckBox();
             this.cbxStatus = new System.Windows.Forms.ComboBox();
             this.lbxAlerts = new System.Windows.Forms.ListBox();
             this.gbSetLimit = new System.Windows.Forms.GroupBox();
+            this.nUPLimitID = new System.Windows.Forms.NumericUpDown();
             this.btnSetLimit = new System.Windows.Forms.Button();
             this.lblSetMinStock = new System.Windows.Forms.Label();
             this.nUPMinStock = new System.Windows.Forms.NumericUpDown();
@@ -92,10 +95,7 @@
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.StProductDGV = new System.Windows.Forms.DataGridView();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.nUPLimitID = new System.Windows.Forms.NumericUpDown();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -106,16 +106,16 @@
             this.DepotTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).BeginInit();
             this.StatisticsTab.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.OrdersTab.SuspendLayout();
             this.gbOrdersViewing.SuspendLayout();
             this.gbSetLimit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUPMinStock)).BeginInit();
             this.gbgbAlertsViewing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
-            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).BeginInit();
             this.SuspendLayout();
             // 
             // lblWelcome
@@ -592,7 +592,7 @@
             "1 week"});
             this.XAxisCB.Location = new System.Drawing.Point(712, 408);
             this.XAxisCB.Name = "XAxisCB";
-            this.XAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.XAxisCB.Size = new System.Drawing.Size(121, 33);
             this.XAxisCB.TabIndex = 4;
             // 
             // YAxisCB
@@ -600,7 +600,7 @@
             this.YAxisCB.FormattingEnabled = true;
             this.YAxisCB.Location = new System.Drawing.Point(712, 374);
             this.YAxisCB.Name = "YAxisCB";
-            this.YAxisCB.Size = new System.Drawing.Size(121, 28);
+            this.YAxisCB.Size = new System.Drawing.Size(121, 33);
             this.YAxisCB.TabIndex = 3;
             // 
             // PiechartCB
@@ -608,7 +608,7 @@
             this.PiechartCB.FormattingEnabled = true;
             this.PiechartCB.Location = new System.Drawing.Point(1223, 73);
             this.PiechartCB.Name = "PiechartCB";
-            this.PiechartCB.Size = new System.Drawing.Size(121, 28);
+            this.PiechartCB.Size = new System.Drawing.Size(121, 33);
             this.PiechartCB.TabIndex = 2;
             this.PiechartCB.SelectedIndexChanged += new System.EventHandler(this.PiechartCB_SelectedIndexChanged);
             // 
@@ -620,6 +620,26 @@
             this.SalesPieChart.Size = new System.Drawing.Size(470, 223);
             this.SalesPieChart.TabIndex = 1;
             this.SalesPieChart.Text = "pieChart1";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(4, 5);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(703, 382);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.StProductDGV);
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(695, 344);
+            this.tabPage2.TabIndex = 0;
+            this.tabPage2.Text = "Products";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // OrdersTab
             // 
@@ -699,6 +719,13 @@
             this.gbSetLimit.TabIndex = 17;
             this.gbSetLimit.TabStop = false;
             this.gbSetLimit.Text = "Set Item Limit";
+            // 
+            // nUPLimitID
+            // 
+            this.nUPLimitID.Location = new System.Drawing.Point(85, 119);
+            this.nUPLimitID.Name = "nUPLimitID";
+            this.nUPLimitID.Size = new System.Drawing.Size(89, 30);
+            this.nUPLimitID.TabIndex = 16;
             // 
             // btnSetLimit
             // 
@@ -860,46 +887,16 @@
             this.dgvOrders.Size = new System.Drawing.Size(569, 473);
             this.dgvOrders.TabIndex = 1;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.StProductDGV);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(695, 349);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Products";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // StProductDGV
             // 
             this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StProductDGV.Location = new System.Drawing.Point(2, 2);
-            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
+            this.StProductDGV.Location = new System.Drawing.Point(0, 0);
             this.StProductDGV.Name = "StProductDGV";
             this.StProductDGV.RowHeadersWidth = 51;
             this.StProductDGV.RowTemplate.Height = 24;
-            this.StProductDGV.Size = new System.Drawing.Size(691, 345);
+            this.StProductDGV.Size = new System.Drawing.Size(695, 344);
             this.StProductDGV.TabIndex = 0;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(4, 5);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(703, 382);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // nUPLimitID
-            // 
-            this.nUPLimitID.Location = new System.Drawing.Point(85, 119);
-            this.nUPLimitID.Name = "nUPLimitID";
-            this.nUPLimitID.Size = new System.Drawing.Size(89, 30);
-            this.nUPLimitID.TabIndex = 16;
             // 
             // MainScreen
             // 
@@ -924,19 +921,19 @@
             this.DepotTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).EndInit();
             this.StatisticsTab.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.OrdersTab.ResumeLayout(false);
             this.OrdersTab.PerformLayout();
             this.gbOrdersViewing.ResumeLayout(false);
             this.gbSetLimit.ResumeLayout(false);
             this.gbSetLimit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUPMinStock)).EndInit();
             this.gbgbAlertsViewing.ResumeLayout(false);
             this.gbgbAlertsViewing.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();
-            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nUPLimitID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -999,6 +996,10 @@
         private System.Windows.Forms.Label lblSetMinStock;
         private System.Windows.Forms.GroupBox gbSetLimit;
         private System.Windows.Forms.ListBox lbxAlerts;
+        private System.Windows.Forms.GroupBox gbOrdersViewing;
+        private System.Windows.Forms.CheckBox cbShowCompleted;
+        private System.Windows.Forms.ComboBox cbxStatus;
+        private System.Windows.Forms.NumericUpDown nUPLimitID;
         private System.Windows.Forms.ComboBox XAxisCB;
         private System.Windows.Forms.ComboBox YAxisCB;
         private System.Windows.Forms.ComboBox PiechartCB;
@@ -1007,9 +1008,5 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView StProductDGV;
-        private System.Windows.Forms.GroupBox gbOrdersViewing;
-        private System.Windows.Forms.CheckBox cbShowCompleted;
-        private System.Windows.Forms.ComboBox cbxStatus;
-        private System.Windows.Forms.NumericUpDown nUPLimitID;
     }
 }

@@ -96,11 +96,16 @@ namespace MediaBazaarSolution.DAO
             bool hasLimit = HasLimit(item_id);
             if (hasLimit)
             {
-
+                UpdateLimit(item_id, min_stock);
+                return true;
             }
-            string query = "INSERT into limits( item_id, min_stock) " +
+            else
+            {
+                string query = "INSERT into limits( item_id, min_stock) " +
                            "VALUES( @item_id , @min_stock )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, min_stock })> 0;
+                return DataProvider.Instance.ExecuteNonQuery(query, new object[] { item_id, min_stock }) > 0;
+            }
+            return false;
         }
 
         private bool HasLimit(int id)

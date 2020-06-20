@@ -17,6 +17,7 @@ using Microsoft.VisualBasic;
 using System.Collections.Concurrent;
 using Org.BouncyCastle.Asn1.IsisMtt;
 using Renci.SshNet.Messages.Authentication;
+using MediaBazaarSolution.Scheduling;
 
 namespace MediaBazaarSolution
 {
@@ -28,11 +29,13 @@ namespace MediaBazaarSolution
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
+        private StatisticsScreen statisticsScreen;
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
         internal List<Alert> alerts;
         internal List<Order> orders;
+
         
         private int itemID;
         private int employeeID;
@@ -71,6 +74,8 @@ namespace MediaBazaarSolution
             employees = new List<string>();
             alerts = new List<Alert>();
             orders = new List<Order>();
+            statisticsScreen = new StatisticsScreen();
+            XAxisCB.SelectedIndex = 1;
 
             LoadAll();
 
@@ -105,6 +110,7 @@ namespace MediaBazaarSolution
             LoadMatrixSchedule();
             LoadAlerts();
             LoadOrders();
+            LoadStatisticsPage();
         }
         private void LoadAllItems()
         {
@@ -127,6 +133,151 @@ namespace MediaBazaarSolution
                 }
             }
 
+        }
+
+        private void LoadStatisticsPage()
+        {
+            // Load all availible items in the database to the statistics Item datagridview
+            List<Item> itemList = ItemDAO.Instance.LoadAllItems();
+            StProductDGV.DataSource = itemList;
+
+            indecis.Clear();
+            categories.Clear();
+
+            foreach (Item item in itemList)
+            {
+                if (!indecis.Contains(item.ID))
+                {
+                    indecis.Add(item.ID);
+                }
+                if (!categories.Contains(item.Category))
+                {
+                    categories.Add(item.Category);
+                }
+            }
+
+            
+
+            LoadPieChartData();
+            LoadPieChart();
+            LoadGraphChart();
+        }
+
+        Func<ChartPoint, string> PieLabel = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
+
+        private void LoadPieChartData()
+        {
+            // Updates the combobox on the statistics page
+            statisticsScreen.UpdatePiechart();
+            PiechartCB.Items.Clear();
+            PiechartCB.Items.Add("All Items");
+            PiechartCB.SelectedIndex = 0;
+            PiechartCB.Items.AddRange(statisticsScreen.GetCategories());
+        }
+
+        private void LoadPieChart()
+        {
+            String[] products;
+            SeriesCollection series = new SeriesCollection();
+
+
+
+            int categoryIndex = 0;
+            int valueIndex = 0;
+            int nameIndex = 0;
+
+
+            // Check where the category and amount column are
+            for (int i = 0; i < StProductDGV.Columns.Count; i++)
+            {
+                if (StProductDGV.Columns[i].Name.Equals("Category"))
+                {
+                    categoryIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Amount"))
+                {
+                    valueIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Name"))
+                {
+                    nameIndex = i;
+                }
+            }
+
+            // Decide to show general data or to show category specific data
+            if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
+            {
+                products = statisticsScreen.GetCategories();
+            }
+            else
+            {
+                List<String> tempList = new List<string>();
+                for (int i = 0; i < StProductDGV.Rows.Count; i++)
+                {
+                    if (StProductDGV.Rows[i].Cells[categoryIndex].Value.Equals(PiechartCB.SelectedItem.ToString()))
+                    {
+                        tempList.Add(StProductDGV.Rows[i].Cells[nameIndex].Value.ToString());
+                    }
+                }
+                products = tempList.ToArray();
+                categoryIndex = nameIndex;
+            }
+            int[] values = new int[products.Length];
+
+            // Add values to the values array, for use in the graph generation
+            for (int n = 0; n < StProductDGV.Rows.Count; n++)
+            {
+                for (int i = 0; i < products.Length; i++)
+                {
+                    if (StProductDGV.Rows[n].Cells[categoryIndex].Value.Equals(products[i]))
+                    {
+                        values[i] += Convert.ToInt32(StProductDGV.Rows[n].Cells[valueIndex].Value);
+                    }
+                }
+            }
+
+            // Generate the series required for the graph
+            for (int i = 0; i < values.Length; i++)
+            {
+                series.Add(new PieSeries() { Title = products[i].ToString(), Values = new ChartValues<int> { values[i] }, DataLabels = true, LabelPoint = PieLabel });
+            }
+
+            // Make the graph
+            SalesPieChart.Series = series;
+            SalesPieChart.Text = "Category Sales";
+            SalesPieChart.LegendLocation = LegendLocation.Right;
+
+            SalesPieChart.Refresh();
+
+        }
+
+        public Func<double, string> YFormatter { get; set; }
+        public string[] Labels { get; set; }
+        public SeriesCollection GraphSeries { get; set; }
+
+        private void LoadGraphChart()
+        {
+
+
+            GraphSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Stock",
+                    Values = new ChartValues<double> { 4, 6, 5, 2, 4 }
+                },
+                new LineSeries
+                {
+                    Title = "Price",
+                    Values = new ChartValues<double> {6,7,3,4,6}
+                }
+            };
+
+            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            YFormatter = value => value.ToString("C");
+
+            
+            //statisticsScreen.UpdateGraphchart();
         }
 
         private void LoadItemCategoriesInComboBox()
@@ -195,10 +346,87 @@ namespace MediaBazaarSolution
             }
         }
 
+        private void AddSchedule()
+        {
+            // Method for making the schedule
+
+            // Gets all the managers
+            List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
+            foreach(Employee manager in managers)
+            {
+                // Get the info for the schedule making
+                List<Employee> employees = AutoSchedulerDAO.Instance.GetNecessaryInfo(manager.ID);
+                List<ScheduleUsers> scheduleUsers = new List<ScheduleUsers>();
+
+                // Convert to scheduleUsers format
+                foreach( Employee employee in employees)
+                {
+                    bool[] NoGoBools = ConvertToBools(employee.NoGoSchedule);
+                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, (employee.ContractedHours/4)));
+                }
+
+                bool[] availableTimes = new bool[21];
+
+                for(int i = 0; i < 21; i++ )
+                {
+                    // TODO: change this to make it so it takes the availability of the actual schedule
+                    availableTimes[i] = true;
+                }
+                // Make the schedule
+                SchedulingSystem schedulingSystem = new SchedulingSystem(scheduleUsers, availableTimes);
+                List<ScheduleUsers> schedule = schedulingSystem.getSchedule().ToList();
+
+                DateTime today = DateTime.Today;
+                int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+                DateTime nextMonday = today.AddDays(daysUntilMonday-1);
+                
+                // Send the schedule to the Database
+                for( int i = 0; i < 21; i++)
+                {
+                    int daysNeededToBeAdded = (i / 3);
+                    int hoursNeededToBeAdded = 9 + (i % 3);
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded * 4);
+                    if (schedule[i] == null)
+                    {
+                        // Error message
+                    }
+                    else
+                    {
+                        ScheduleDAO.Instance.AddSchedule(schedule[i].ID, date.Date.ToString("dd/MM/yyyy"), date.ToString("HH:mm"), date.AddHours(4).ToString("HH:mm"), "Automatically Scheduled Shift");
+
+                    }
+                }
+                MessageBox.Show("Schedule for next week made");
+
+            }
+            
+            
+
+
+        }
+
+        private bool[] ConvertToBools(string NoGoSchedule)
+        {
+            bool[] returnValue = new bool[21];
+            string[] collection = NoGoSchedule.Split('-');
+            for(int i = 0; i < 21; i++)
+            {
+                if (collection.Contains(i.ToString()))
+                {
+                    returnValue[i] = true;
+                } else
+                {
+                    returnValue[i] = false;
+                }
+            }
+
+            return returnValue;
+        }
+
         #endregion
 
         #region Events
-        
+
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -532,6 +760,11 @@ namespace MediaBazaarSolution
             }
         }
 
+        private void PiechartCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPieChart();
+        }
+
         #endregion
 
 
@@ -826,5 +1059,9 @@ namespace MediaBazaarSolution
             LoadOrders();
         }
 
+        private void AutoScheduleGeneratorBtn_Click(object sender, EventArgs e)
+        {
+            AddSchedule();
+        }
     }
 }
