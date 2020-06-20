@@ -16,13 +16,15 @@ using LiveCharts.Wpf;
 using Microsoft.VisualBasic;
 using System.Collections.Concurrent;
 using Org.BouncyCastle.Asn1.IsisMtt;
+using Renci.SshNet.Messages.Authentication;
 
 namespace MediaBazaarSolution
 {
     public partial class MainScreen : Form
     {
-        public static bool sortAlertsByPriority;
-        public static bool showCompletedOrders;
+        private bool sortAlertsByPriority;
+        private bool showCompletedOrders;
+
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
@@ -155,8 +157,7 @@ namespace MediaBazaarSolution
 
         private void LoadAlerts()
         { 
-            alerts = RestockDAO.Instance.LoadAlerts();
-            alerts.Sort();
+            alerts = RestockDAO.Instance.LoadAlerts(sortAlertsByPriority);
             lbxAlerts.Items.Clear();
             foreach (Alert alert in alerts)
             {             
@@ -722,10 +723,16 @@ namespace MediaBazaarSolution
 
             value = Interaction.InputBox("Please input amount", "Enter a number");
                 int amount = Convert.ToInt32(value);
-                RestockDAO.Instance.AddOrder(id, amount, "incomplete");
+                bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
+            if (success)
+            {
+                MessageBox.Show("Order succesfully added");
                 LoadOrders();
-            
-
+            }
+            else
+            {
+                MessageBox.Show("Order could not be added, please try again.");
+            }
         }
 
         private void btnRemoveLimit_Click(object sender, EventArgs e)
@@ -735,25 +742,45 @@ namespace MediaBazaarSolution
             {
                 Alert alert = alerts[index];
                 int id = alert.ID;
-                RestockDAO.Instance.DeleteLimit(id);
+                bool success = RestockDAO.Instance.DeleteLimit(id);
+                if (success)
+                {
+                    MessageBox.Show("Alert and corresponding limit deleted");
+                }
+                else
+                {
+                    MessageBox.Show($"Alert and corresponding limit could not be deleted");
+                }
                 LoadAlerts();
             }
         }
 
         private void btnSetLimit_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(tbLimitId.Text);
+            int id = (int)nUPLimitID.Value;
             int limit = (int) nUPMinStock.Value;
-            RestockDAO.Instance.AddLimit(id, limit);
-            LoadAlerts();
+            bool success = RestockDAO.Instance.AddLimit(id, limit);
+            if (success)
+            {
+                List <Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
+                foreach(Item item in items)
+                {
+                    if(item.ID == id)
+                    {
+                        MessageBox.Show($"Limit for {item.ID} : {item.Name} succesfully set to {limit}");
+                    }
+                    break;
+                }
+                LoadAlerts();
+            }
+            else
+            {
+                MessageBox.Show($"Item with ID {id} not found, please try again.");
+            }
+            
         }
 
-        private void btnCancelOrder_Click(object sender, EventArgs e)
-        {
-            int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
-            RestockDAO.Instance.DeleteOrder(id);
-            LoadOrders();
-        }
+     
 
 
 
@@ -761,7 +788,12 @@ namespace MediaBazaarSolution
         {
             int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
             string currentStatus = dgvOrders.SelectedRows[0].Cells[2].Value.ToString();
-            RestockDAO.Instance.ToggleOrderStatus(id, currentStatus);
+            string newStatus = cbxStatus.SelectedItem.ToString();
+            bool success = RestockDAO.Instance.UpdateOrderStatus(id, newStatus);
+            if (success)
+            {
+                MessageBox.Show($"Order status succesfully changed from {currentStatus} to {newStatus} ");
+            }
             LoadOrders();
         }
 
@@ -769,11 +801,30 @@ namespace MediaBazaarSolution
         {
             int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
             string value = Interaction.InputBox("Please input new amount", "Enter a number");
-            int amount = Convert.ToInt32(value);
-            RestockDAO.Instance.ChangeAmount(id, amount);
+            int amount;
+            bool result = Int32.TryParse(value, out amount);
+            while (!result)
+            {
+                value = Interaction.InputBox("Please input new amount", "Enter a number");
+                result = Int32.TryParse(value, out amount);
+            }
+            bool success = RestockDAO.Instance.UpdateAmount(id, amount);
+            if (success)
+            {
+                MessageBox.Show($"Amount changed to {amount}");
+                LoadOrders();
+            }
+            else
+            {
+                MessageBox.Show($"Could not change amount, please try again.");
+            }
+        }
+
+        private void cbShowCompleted_CheckedChanged_1(object sender, EventArgs e)
+        {
+            showCompletedOrders = cbShowCompleted.Checked;
             LoadOrders();
         }
 
-     
     }
 }

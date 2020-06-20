@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MediaBazaarSolution.DTO
 {
-    public class Alert : IComparable<Alert>
+    public class Alert
     {
         private int iD;
         private int stock;
@@ -36,33 +36,7 @@ namespace MediaBazaarSolution.DTO
         public int Limit { get => this.limit; set => this.limit = value; }
         public string Priority { get => this.priority;}
 
-        public int CompareTo(Alert other)
-        {
-            if (!MainScreen.sortAlertsByPriority)
-            {
-                if(this.iD < other.iD)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-            else
-            {
-                if(this.priority == "HIGH" && other.priority == "REG")
-                {
-                    return -1;
-                }
-                else if(this.priority == "REG" && other.priority == "HIGH")
-                {
-                    return 1;
-                }
-            }
-            return 0;
-        }
-
+        
         public override string ToString()
         {
             return $"{this.iD}: Min =  {this.limit} , Now = {this.stock}, Priority: {this.Priority}";
