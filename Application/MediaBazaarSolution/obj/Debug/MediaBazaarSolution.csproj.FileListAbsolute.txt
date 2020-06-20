@@ -271,3 +271,4 @@ C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBaza
 C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.exe
 C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.pdb
 C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.SendMail.resources
+C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.CoreCompileInputs.cache

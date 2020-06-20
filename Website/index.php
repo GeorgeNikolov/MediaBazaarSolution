@@ -28,8 +28,8 @@
 
       if ($res['employee_type'] == 'employee') {
         Redirect_to('schedule.php');
-      } else if ($res['employee_type'] == 'admin') {
-        Redirect_to('personalinfo.php');
+      } else {
+        Redirect_to('index.php');
       }
     }
   ?>
