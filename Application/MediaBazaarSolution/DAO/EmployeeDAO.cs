@@ -196,6 +196,21 @@ namespace MediaBazaarSolution.DAO
 
             return DataProvider.Instance.ExecuteScalar(query1).ToString() + " " + DataProvider.Instance.ExecuteScalar(query2);
         }
+
+        public List<Employee> GetAllEmployeesByManager(int managerID)
+        {
+            string query = "SELECT * FROM employee WHERE manager_id = @managerID && employee_type = 'employee'";
+            List<Employee> employeeList = new List<Employee>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            foreach(DataRow row in data.Rows)
+            {
+                Employee employee = new Employee(row);
+                employeeList.Add(employee);
+            }
+
+            return employeeList;
+        }
         
     }
 }

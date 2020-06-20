@@ -83,5 +83,20 @@ namespace MediaBazaarSolution.DAO
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
             return data.Rows.Count;
         }
+
+        public List<int> GetEmployeesIDOnShiftByDateAndStartTime(string date, string start_time)
+        {
+            string query = "SELECT employee_id FROM schedule WHERE date = @date && start_time = @start_time";
+            List<int> idList = new List<int>();
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+            foreach (DataRow row in data.Rows)
+            {
+                Schedule schedule = new Schedule(row);
+                idList.Add(schedule.EmployeeID);
+            }
+
+            return idList;
+        }
     }
 }
