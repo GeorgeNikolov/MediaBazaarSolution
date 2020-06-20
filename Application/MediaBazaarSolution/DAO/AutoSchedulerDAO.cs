@@ -36,7 +36,7 @@ namespace MediaBazaarSolution.DAO
         public List<Employee> GetNecessaryInfo(int managerID)
         {
             List<Employee> employeeList = new List<Employee>();
-            string query = "SELECT employee_id, NoGoSchedule, ContractedHours FROM employee WHERE employee_type = 'employee' AND manager_id = @managerID";
+            string query = "SELECT * FROM employee WHERE employee_type = 'employee' AND manager_id = @managerID";
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerID });
 

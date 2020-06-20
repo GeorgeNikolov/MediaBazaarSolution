@@ -32,6 +32,7 @@
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.AutoScheduleGeneratorBtn = new System.Windows.Forms.Button();
             this.pnlMatrix = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnNextMonth = new System.Windows.Forms.Button();
@@ -70,11 +71,6 @@
             this.YAxisCB = new System.Windows.Forms.ComboBox();
             this.PiechartCB = new System.Windows.Forms.ComboBox();
             this.SalesPieChart = new LiveCharts.WinForms.PieChart();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.StEmployeeDGV = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.StProductDGV = new System.Windows.Forms.DataGridView();
             this.OrdersTab = new System.Windows.Forms.TabPage();
             this.lbxAlerts = new System.Windows.Forms.ListBox();
             this.gbSetLimit = new System.Windows.Forms.GroupBox();
@@ -96,7 +92,9 @@
             this.btnRemoveLimit = new System.Windows.Forms.Button();
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
-            this.AutoScheduleGeneratorBtn = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.StProductDGV = new System.Windows.Forms.DataGridView();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -107,16 +105,14 @@
             this.DepotTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).BeginInit();
             this.StatisticsTab.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.StEmployeeDGV)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
             this.OrdersTab.SuspendLayout();
             this.gbSetLimit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUPMinStock)).BeginInit();
             this.gbRestockView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWelcome
@@ -167,6 +163,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1369, 544);
             this.panel2.TabIndex = 1;
+            // 
+            // AutoScheduleGeneratorBtn
+            // 
+            this.AutoScheduleGeneratorBtn.Location = new System.Drawing.Point(1226, 108);
+            this.AutoScheduleGeneratorBtn.Name = "AutoScheduleGeneratorBtn";
+            this.AutoScheduleGeneratorBtn.Size = new System.Drawing.Size(137, 81);
+            this.AutoScheduleGeneratorBtn.TabIndex = 2;
+            this.AutoScheduleGeneratorBtn.Text = "Generate Next Week Schedule";
+            this.AutoScheduleGeneratorBtn.UseVisualStyleBackColor = true;
+            this.AutoScheduleGeneratorBtn.Click += new System.EventHandler(this.AutoScheduleGeneratorBtn_Click);
             // 
             // pnlMatrix
             // 
@@ -544,7 +550,14 @@
             // XAxisCB
             // 
             this.XAxisCB.FormattingEnabled = true;
-            this.XAxisCB.Location = new System.Drawing.Point(870, 538);
+            this.XAxisCB.Items.AddRange(new object[] {
+            "1 year",
+            "6 months",
+            "3 months",
+            "1 month",
+            "2 weeks",
+            "1 week"});
+            this.XAxisCB.Location = new System.Drawing.Point(712, 408);
             this.XAxisCB.Name = "XAxisCB";
             this.XAxisCB.Size = new System.Drawing.Size(121, 28);
             this.XAxisCB.TabIndex = 4;
@@ -574,65 +587,6 @@
             this.SalesPieChart.Size = new System.Drawing.Size(470, 223);
             this.SalesPieChart.TabIndex = 1;
             this.SalesPieChart.Text = "pieChart1";
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(4, 5);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(703, 382);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.StEmployeeDGV);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(695, 349);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Employees";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // StEmployeeDGV
-            // 
-            this.StEmployeeDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StEmployeeDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StEmployeeDGV.Location = new System.Drawing.Point(2, 2);
-            this.StEmployeeDGV.Margin = new System.Windows.Forms.Padding(2);
-            this.StEmployeeDGV.Name = "StEmployeeDGV";
-            this.StEmployeeDGV.RowHeadersWidth = 51;
-            this.StEmployeeDGV.RowTemplate.Height = 24;
-            this.StEmployeeDGV.Size = new System.Drawing.Size(691, 345);
-            this.StEmployeeDGV.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.StProductDGV);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(695, 349);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Products";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // StProductDGV
-            // 
-            this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StProductDGV.Location = new System.Drawing.Point(2, 2);
-            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
-            this.StProductDGV.Name = "StProductDGV";
-            this.StProductDGV.RowHeadersWidth = 51;
-            this.StProductDGV.RowTemplate.Height = 24;
-            this.StProductDGV.Size = new System.Drawing.Size(691, 345);
-            this.StProductDGV.TabIndex = 0;
             // 
             // OrdersTab
             // 
@@ -878,15 +832,39 @@
             this.dgvOrders.Size = new System.Drawing.Size(427, 384);
             this.dgvOrders.TabIndex = 1;
             // 
-            // AutoScheduleGeneratorBtn
+            // tabPage2
             // 
-            this.AutoScheduleGeneratorBtn.Location = new System.Drawing.Point(1226, 108);
-            this.AutoScheduleGeneratorBtn.Name = "AutoScheduleGeneratorBtn";
-            this.AutoScheduleGeneratorBtn.Size = new System.Drawing.Size(137, 81);
-            this.AutoScheduleGeneratorBtn.TabIndex = 2;
-            this.AutoScheduleGeneratorBtn.Text = "Generate Next Week Schedule";
-            this.AutoScheduleGeneratorBtn.UseVisualStyleBackColor = true;
-            this.AutoScheduleGeneratorBtn.Click += new System.EventHandler(this.AutoScheduleGeneratorBtn_Click);
+            this.tabPage2.Controls.Add(this.StProductDGV);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Size = new System.Drawing.Size(695, 349);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Products";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // StProductDGV
+            // 
+            this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StProductDGV.Location = new System.Drawing.Point(2, 2);
+            this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
+            this.StProductDGV.Name = "StProductDGV";
+            this.StProductDGV.RowHeadersWidth = 51;
+            this.StProductDGV.RowTemplate.Height = 24;
+            this.StProductDGV.Size = new System.Drawing.Size(691, 345);
+            this.StProductDGV.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(4, 5);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(703, 382);
+            this.tabControl1.TabIndex = 0;
             // 
             // MainScreen
             // 
@@ -911,11 +889,6 @@
             this.DepotTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepot)).EndInit();
             this.StatisticsTab.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.StEmployeeDGV)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
             this.OrdersTab.ResumeLayout(false);
             this.OrdersTab.PerformLayout();
             this.gbSetLimit.ResumeLayout(false);
@@ -924,6 +897,9 @@
             this.gbRestockView.ResumeLayout(false);
             this.gbRestockView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -941,11 +917,6 @@
         private System.Windows.Forms.TextBox tbxSearchItemById;
         private System.Windows.Forms.DataGridView dgvDepot;
         private System.Windows.Forms.TabPage StatisticsTab;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView StEmployeeDGV;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView StProductDGV;
         private System.Windows.Forms.Button btnDeleteItem;
         private System.Windows.Forms.ComboBox cbxItemCategory;
         private System.Windows.Forms.Label label3;
@@ -999,5 +970,8 @@
         private System.Windows.Forms.ComboBox PiechartCB;
         private LiveCharts.WinForms.CartesianChart cartesianChart1;
         private System.Windows.Forms.Button AutoScheduleGeneratorBtn;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView StProductDGV;
     }
 }

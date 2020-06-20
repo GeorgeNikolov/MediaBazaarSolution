@@ -73,6 +73,7 @@ namespace MediaBazaarSolution
             alerts = new List<Alert>();
             orders = new List<Order>();
             statisticsScreen = new StatisticsScreen();
+            XAxisCB.SelectedIndex = 1;
 
             LoadAll();
 
@@ -153,19 +154,7 @@ namespace MediaBazaarSolution
                 }
             }
 
-            // Load all availible employees in the database to the statistics employee datagridview
-            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
-            StEmployeeDGV.DataSource = employeeList;
-
-            employees.Clear();
-
-            foreach (Employee employee in employeeList)
-            {
-                if (!employees.Contains(employee.LastName))
-                {
-                    employees.Add(employee.LastName);
-                }
-            }
+            
 
             LoadPieChartData();
             LoadPieChart();
@@ -260,10 +249,33 @@ namespace MediaBazaarSolution
 
         }
 
+        public Func<double, string> YFormatter { get; set; }
+        public string[] Labels { get; set; }
+        public SeriesCollection GraphSeries { get; set; }
+
         private void LoadGraphChart()
         {
 
-            statisticsScreen.UpdateGraphchart();
+
+            GraphSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Stock",
+                    Values = new ChartValues<double> { 4, 6, 5, 2, 4 }
+                },
+                new LineSeries
+                {
+                    Title = "Price",
+                    Values = new ChartValues<double> {6,7,3,4,6}
+                }
+            };
+
+            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            YFormatter = value => value.ToString("C");
+
+            
+            //statisticsScreen.UpdateGraphchart();
         }
 
         private void LoadItemCategoriesInComboBox()
@@ -349,14 +361,14 @@ namespace MediaBazaarSolution
                 foreach( Employee employee in employees)
                 {
                     bool[] NoGoBools = ConvertToBools(employee.NoGoSchedule);
-                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, employee.ContractedHours));
+                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, (employee.ContractedHours/4)));
                 }
 
                 bool[] availableTimes = new bool[21];
 
                 for(int i = 0; i < 21; i++ )
                 {
-                    availableTimes[i] = false;
+                    availableTimes[i] = true;
                 }
                 // Make the schedule
                 SchedulingSystem schedulingSystem = new SchedulingSystem(scheduleUsers, availableTimes);
@@ -364,7 +376,7 @@ namespace MediaBazaarSolution
 
                 DateTime today = DateTime.Today;
                 int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
-                DateTime nextMonday = today.AddDays(daysUntilMonday);
+                DateTime nextMonday = today.AddDays(daysUntilMonday-1);
                 
                 // Send the schedule to the Database
                 for( int i = 0; i < 21; i++)
@@ -378,9 +390,11 @@ namespace MediaBazaarSolution
                     }
                     else
                     {
-                        ScheduleDAO.Instance.AddSchedule(schedule[i].ID, date.ToString(), date.AddHours(4).ToString(), "Automatically Scheduled Shift");
+                        ScheduleDAO.Instance.AddSchedule(schedule[i].ID, date.Date.ToString("dd/MM/yyyy"), date.ToString("HH:mm"), date.AddHours(4).ToString("HH:mm"), "Automatically Scheduled Shift");
+
                     }
                 }
+                MessageBox.Show("Schedule for next week made");
 
             }
             

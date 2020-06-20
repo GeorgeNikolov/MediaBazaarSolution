@@ -22,7 +22,7 @@ namespace MediaBazaarSolution.DTO
             this.employeeFirstName = row["first_name"].ToString();
             this.employeeLastName = row["last_name"].ToString();
             this.Date = row["date"].ToString();
-            this.Time = row["time"].ToString();
+            this.Time = row["start_time"].ToString();
             this.taskName = row["task_name"].ToString();
         }
 

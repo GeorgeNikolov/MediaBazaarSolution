@@ -16,7 +16,7 @@ namespace MediaBazaarSolution.Scheduling
 
             this.scheduleUsers = sortScheduleUsers(employees.ToArray());
             this.timesAvailable = timesAvailable;
-            assignSchedule();
+            this.finalScheduleUsers = assignSchedule();
         }
 
         private ScheduleUsers[] sortScheduleUsers(ScheduleUsers[] array)
@@ -26,7 +26,7 @@ namespace MediaBazaarSolution.Scheduling
             {
                 for (int i = 0; i <= array.Length - 2; i++)
                 {
-                    if (array[i].noGoHours > array[i + 1].noGoHours)
+                    if (array[i].noGoHours < array[i + 1].noGoHours)
                     {
                         temp = array[i + 1];
                         array[i + 1] = array[i];
@@ -41,14 +41,18 @@ namespace MediaBazaarSolution.Scheduling
         private ScheduleUsers[] assignSchedule()
         {
             ScheduleUsers[] schedule = new ScheduleUsers[21];
+            // Loop through employees
             foreach(ScheduleUsers user in scheduleUsers)
             {
+                // Loop through Contracted Hours
                 for (int i = 0; i < user.ContractedHours; i++)
                 {
                     bool done = false;
                     int timesAvailableHad = 0;
+                    // Loop through timeslots
                     for (int j = 0; j < 21; j++)
                     {
+                        // Check if timeslot is available and relevant
                         if(!(user.noGoTimes[j]) && timesAvailable[j])
                         {
                             timesAvailable[j] = false;
@@ -56,25 +60,33 @@ namespace MediaBazaarSolution.Scheduling
                             
                             break;
                         }
-                        if (user.noGoTimes[j])
+                        // Check if timeslot was relevant for counting purposes
+                        if (!user.noGoTimes[j])
                         {
                             timesAvailableHad++;
                         }
-
-                        if (timesAvailableHad == user.noGoHours)
+                        // If the amount of available timeslots is the amount of hours they cannot work
+                        if (timesAvailableHad == (21-user.noGoHours))
                         {
+                            // Loop backwards through the previous timeslots
                             for (int n = j; n > 0; n--)
                             {
+                                // Loop forwards through the timeslots
                                 for (int p = n; p < 21; p++)
                                 {
-                                    if (!(schedule[n].noGoTimes[p]) && timesAvailable[p])
+                                    // If there is a person scheduled at timeslot n
+                                    if (schedule[n] != null)
                                     {
-                                        timesAvailable[p] = false;
-                                        schedule[p] = schedule[n];
-                                        schedule[n] = user;
-                                        done = true;
-                                        break;
-                                        
+                                        // If the person at timeslot n can work at timeslot p and timeslot p is available schedule them in there, and put the original user at timeslot n
+                                        if (!(schedule[n].noGoTimes[p]) && timesAvailable[p])
+                                        {
+                                            timesAvailable[p] = false;
+                                            schedule[p] = schedule[n];
+                                            schedule[n] = user;
+                                            done = true;
+                                            break;
+
+                                        }
                                     }
                                 }
                                 if (done)
