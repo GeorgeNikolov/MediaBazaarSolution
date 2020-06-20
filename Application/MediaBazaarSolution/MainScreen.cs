@@ -411,11 +411,12 @@ namespace MediaBazaarSolution
 
                     }
                 }
-                MessageBox.Show("Schedule for next week made");
+                
 
             }
-            
-            
+            MessageBox.Show("Schedule for next week made");
+
+
 
 
         }
