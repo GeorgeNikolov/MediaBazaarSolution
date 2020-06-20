@@ -54,16 +54,16 @@ namespace MediaBazaarSolution.DAO
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] {employeeID, date, start_time, end_time, taskName}) > 0;
         }
 
-        public bool DeleteSchedule(int employeeID, string date, string time)
+        public bool DeleteSchedule(int employeeID, string date, string startTime, string endTime,  string taskName)
         {
             string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @_time )";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employeeID, date, time }) > 0;
         }
 
-        public bool GetSchedule(int employeeID, string date, string time, string taskName)
+        public bool GetSchedule(int employeeID, string date, string startTime, string endTime, string taskName)
         {
-            string query = "SELECT * FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @time && task_name = @taskName ";
-            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID, date, time, taskName });
+            string query = "SELECT * FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @startTime && end_time = @endTime && task_name = @taskName ";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID, date, startTime, endTime, taskName });
             if (data.Rows.Count > 0)
             {
                 return true;
@@ -71,10 +71,17 @@ namespace MediaBazaarSolution.DAO
             return false;
         }
 
-        public bool UpdateSchedule(string oldTime, string oldTaskName, string newTime, string newTaskName, int employeeID, string date, string new_endTime)
+        public bool UpdateSchedule(string oldStartTime, string oldEndTime, string oldTaskName, string newStartTime, string newEndTime, string newTaskName, int employeeID, string date)
         {
-            string query = "UPDATE schedule SET start_time = @newTime, end_time = @new_endTime , task_name = @newTaskName WHERE schedule_id = (SELECT schedule_id WHERE employee_id = @employeeID && date = @date && start_time = @oldTime && task_name = @oldTaskName )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newTime, new_endTime, newTaskName, employeeID, date, oldTime, oldTaskName }) > 0;
+            string query = "UPDATE schedule SET start_time = @newStartTime , end_time = @newEndTime , task_name = @newTaskName WHERE schedule_id = (SELECT schedule_id WHERE employee_id = @employeeID && date = @date && start_time = @oldStartTime && end_time = @oldEndTime && task_name = @oldTaskName )";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newStartTime, newEndTime, newTaskName, employeeID, date, oldStartTime, oldEndTime, oldTaskName }) > 0;
+        }
+
+        public int countAllScheduleOfTheDate(string date)
+        {
+            string query = "SELECT * FROM schedule WHERE date = " + "'" + date + "'";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            return data.Rows.Count;
         }
     }
 }

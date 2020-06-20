@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblWelcome = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.ScheduleTab = new System.Windows.Forms.TabPage();
@@ -96,6 +97,20 @@
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
             this.StProductDGV = new System.Windows.Forms.DataGridView();
+            this.PrName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrSold = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mailbox = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.flpMailList = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnComposeMail = new System.Windows.Forms.Button();
+            this.btnTrash = new System.Windows.Forms.Button();
+            this.btnSent = new System.Windows.Forms.Button();
+            this.btnInbox = new System.Windows.Forms.Button();
+            this.pnlMailContent = new System.Windows.Forms.Panel();
+            this.CheckMail = new System.Windows.Forms.Timer(this.components);
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -116,6 +131,10 @@
             this.gbgbAlertsViewing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).BeginInit();
+            this.Mailbox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWelcome
@@ -136,6 +155,7 @@
             this.Tabs.Controls.Add(this.EmployeesTab);
             this.Tabs.Controls.Add(this.DepotTab);
             this.Tabs.Controls.Add(this.StatisticsTab);
+            this.Tabs.Controls.Add(this.Mailbox);
             this.Tabs.Controls.Add(this.OrdersTab);
             this.Tabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Tabs.Location = new System.Drawing.Point(13, 59);
@@ -206,10 +226,9 @@
             // 
             // btnNextMonth
             // 
-            this.btnNextMonth.Location = new System.Drawing.Point(1629, 4);
-            this.btnNextMonth.Margin = new System.Windows.Forms.Padding(4);
+            this.btnNextMonth.Location = new System.Drawing.Point(1222, 3);
             this.btnNextMonth.Name = "btnNextMonth";
-            this.btnNextMonth.Size = new System.Drawing.Size(183, 91);
+            this.btnNextMonth.Size = new System.Drawing.Size(137, 74);
             this.btnNextMonth.TabIndex = 8;
             this.btnNextMonth.Text = "Next Month";
             this.btnNextMonth.UseVisualStyleBackColor = true;
@@ -217,10 +236,9 @@
             // 
             // btnPreviousMonth
             // 
-            this.btnPreviousMonth.Location = new System.Drawing.Point(4, 4);
-            this.btnPreviousMonth.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPreviousMonth.Location = new System.Drawing.Point(3, 3);
             this.btnPreviousMonth.Name = "btnPreviousMonth";
-            this.btnPreviousMonth.Size = new System.Drawing.Size(183, 91);
+            this.btnPreviousMonth.Size = new System.Drawing.Size(137, 74);
             this.btnPreviousMonth.TabIndex = 7;
             this.btnPreviousMonth.Text = "Previous Month ";
             this.btnPreviousMonth.UseVisualStyleBackColor = true;
@@ -228,60 +246,54 @@
             // 
             // btnSunday
             // 
-            this.btnSunday.Location = new System.Drawing.Point(1409, 5);
-            this.btnSunday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSunday.Location = new System.Drawing.Point(1057, 4);
             this.btnSunday.Name = "btnSunday";
-            this.btnSunday.Size = new System.Drawing.Size(183, 91);
+            this.btnSunday.Size = new System.Drawing.Size(137, 74);
             this.btnSunday.TabIndex = 6;
             this.btnSunday.Text = "Sunday";
             this.btnSunday.UseVisualStyleBackColor = true;
             // 
             // btnSaturday
             // 
-            this.btnSaturday.Location = new System.Drawing.Point(1219, 5);
-            this.btnSaturday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaturday.Location = new System.Drawing.Point(914, 4);
             this.btnSaturday.Name = "btnSaturday";
-            this.btnSaturday.Size = new System.Drawing.Size(183, 91);
+            this.btnSaturday.Size = new System.Drawing.Size(137, 74);
             this.btnSaturday.TabIndex = 5;
             this.btnSaturday.Text = "Saturday";
             this.btnSaturday.UseVisualStyleBackColor = true;
             // 
             // btnFriday
             // 
-            this.btnFriday.Location = new System.Drawing.Point(1028, 5);
-            this.btnFriday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnFriday.Location = new System.Drawing.Point(771, 4);
             this.btnFriday.Name = "btnFriday";
-            this.btnFriday.Size = new System.Drawing.Size(183, 91);
+            this.btnFriday.Size = new System.Drawing.Size(137, 74);
             this.btnFriday.TabIndex = 4;
             this.btnFriday.Text = "Friday";
             this.btnFriday.UseVisualStyleBackColor = true;
             // 
             // btnThursday
             // 
-            this.btnThursday.Location = new System.Drawing.Point(837, 5);
-            this.btnThursday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThursday.Location = new System.Drawing.Point(628, 4);
             this.btnThursday.Name = "btnThursday";
-            this.btnThursday.Size = new System.Drawing.Size(183, 91);
+            this.btnThursday.Size = new System.Drawing.Size(137, 74);
             this.btnThursday.TabIndex = 3;
             this.btnThursday.Text = "Thursday";
             this.btnThursday.UseVisualStyleBackColor = true;
             // 
             // btnWednesday
             // 
-            this.btnWednesday.Location = new System.Drawing.Point(647, 5);
-            this.btnWednesday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWednesday.Location = new System.Drawing.Point(485, 4);
             this.btnWednesday.Name = "btnWednesday";
-            this.btnWednesday.Size = new System.Drawing.Size(183, 91);
+            this.btnWednesday.Size = new System.Drawing.Size(137, 74);
             this.btnWednesday.TabIndex = 2;
             this.btnWednesday.Text = "Wednesday";
             this.btnWednesday.UseVisualStyleBackColor = true;
             // 
             // btnTuesday
             // 
-            this.btnTuesday.Location = new System.Drawing.Point(456, 5);
-            this.btnTuesday.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTuesday.Location = new System.Drawing.Point(342, 4);
             this.btnTuesday.Name = "btnTuesday";
-            this.btnTuesday.Size = new System.Drawing.Size(183, 91);
+            this.btnTuesday.Size = new System.Drawing.Size(137, 74);
             this.btnTuesday.TabIndex = 1;
             this.btnTuesday.Text = "Tuesday";
             this.btnTuesday.UseVisualStyleBackColor = true;
@@ -813,6 +825,36 @@
             this.lblSortAlerts.TabIndex = 2;
             this.lblSortAlerts.Text = "Sort Alerts By:";
             // 
+            // Mailbox
+            // 
+            this.Mailbox.Controls.Add(this.groupBox3);
+            this.Mailbox.Controls.Add(this.groupBox2);
+            this.Mailbox.Controls.Add(this.groupBox1);
+            this.Mailbox.Location = new System.Drawing.Point(4, 29);
+            this.Mailbox.Name = "Mailbox";
+            this.Mailbox.Padding = new System.Windows.Forms.Padding(3);
+            this.Mailbox.Size = new System.Drawing.Size(1375, 577);
+            this.Mailbox.TabIndex = 4;
+            this.Mailbox.Text = "Mailbox";
+            this.Mailbox.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.pnlMailContent);
+            this.groupBox3.Location = new System.Drawing.Point(565, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(804, 563);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.flpMailList);
+            this.groupBox2.Location = new System.Drawing.Point(252, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(306, 563);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
             // btnChangeAmount
             // 
             this.btnChangeAmount.Location = new System.Drawing.Point(1123, 565);
@@ -823,7 +865,13 @@
             this.btnChangeAmount.Text = "Change Amount";
             this.btnChangeAmount.UseVisualStyleBackColor = true;
             this.btnChangeAmount.Click += new System.EventHandler(this.btnChangeAmount_Click);
+            // flpMailList
             // 
+            this.flpMailList.AutoScroll = true;
+            this.flpMailList.Location = new System.Drawing.Point(6, 15);
+            this.flpMailList.Name = "flpMailList";
+            this.flpMailList.Size = new System.Drawing.Size(293, 542);
+            this.flpMailList.TabIndex = 0;
             // lblOrders
             // 
             this.lblOrders.AutoSize = true;
@@ -832,7 +880,17 @@
             this.lblOrders.Size = new System.Drawing.Size(72, 25);
             this.lblOrders.TabIndex = 7;
             this.lblOrders.Text = "Orders";
+            // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnComposeMail);
+            this.groupBox1.Controls.Add(this.btnTrash);
+            this.groupBox1.Controls.Add(this.btnSent);
+            this.groupBox1.Controls.Add(this.btnInbox);
+            this.groupBox1.Location = new System.Drawing.Point(23, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(223, 563);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
             // lblAlerts
             // 
             this.lblAlerts.AutoSize = true;
@@ -841,9 +899,18 @@
             this.lblAlerts.Size = new System.Drawing.Size(62, 25);
             this.lblAlerts.TabIndex = 6;
             this.lblAlerts.Text = "Alerts";
+            // btnComposeMail
             // 
+            this.btnComposeMail.Location = new System.Drawing.Point(6, 25);
+            this.btnComposeMail.Name = "btnComposeMail";
+            this.btnComposeMail.Size = new System.Drawing.Size(203, 72);
+            this.btnComposeMail.TabIndex = 0;
+            this.btnComposeMail.Text = "Compose";
+            this.btnComposeMail.UseVisualStyleBackColor = true;
+            this.btnComposeMail.Click += new System.EventHandler(this.btnComposeMail_Click);
             // btnChangeStatus
             // 
+            // btnTrash
             this.btnChangeStatus.Location = new System.Drawing.Point(1334, 611);
             this.btnChangeStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChangeStatus.Name = "btnChangeStatus";
@@ -853,8 +920,24 @@
             this.btnChangeStatus.UseVisualStyleBackColor = true;
             this.btnChangeStatus.Click += new System.EventHandler(this.btnChangeStatus_Click);
             // 
+            this.btnTrash.Location = new System.Drawing.Point(6, 262);
+            this.btnTrash.Name = "btnTrash";
+            this.btnTrash.Size = new System.Drawing.Size(207, 63);
+            this.btnTrash.TabIndex = 3;
+            this.btnTrash.Text = "Trash";
+            this.btnTrash.UseVisualStyleBackColor = true;
+            this.btnTrash.Click += new System.EventHandler(this.btnTrash_Click);
             // btnRemoveLimit
             // 
+            // btnSent
+            // 
+            this.btnSent.Location = new System.Drawing.Point(6, 193);
+            this.btnSent.Name = "btnSent";
+            this.btnSent.Size = new System.Drawing.Size(207, 63);
+            this.btnSent.TabIndex = 2;
+            this.btnSent.Text = "Sent";
+            this.btnSent.UseVisualStyleBackColor = true;
+            this.btnSent.Click += new System.EventHandler(this.btnSent_Click);
             this.btnRemoveLimit.Location = new System.Drawing.Point(227, 575);
             this.btnRemoveLimit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveLimit.Name = "btnRemoveLimit";
@@ -864,8 +947,16 @@
             this.btnRemoveLimit.UseVisualStyleBackColor = true;
             this.btnRemoveLimit.Click += new System.EventHandler(this.btnRemoveLimit_Click);
             // 
+            // btnInbox
             // btnMakeOrder
             // 
+            this.btnInbox.Location = new System.Drawing.Point(6, 124);
+            this.btnInbox.Name = "btnInbox";
+            this.btnInbox.Size = new System.Drawing.Size(207, 63);
+            this.btnInbox.TabIndex = 1;
+            this.btnInbox.Text = "Inbox";
+            this.btnInbox.UseVisualStyleBackColor = true;
+            this.btnInbox.Click += new System.EventHandler(this.btnInbox_Click);
             this.btnMakeOrder.Location = new System.Drawing.Point(17, 575);
             this.btnMakeOrder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnMakeOrder.Name = "btnMakeOrder";
@@ -875,8 +966,13 @@
             this.btnMakeOrder.UseVisualStyleBackColor = true;
             this.btnMakeOrder.Click += new System.EventHandler(this.btnMakeOrder_Click);
             // 
+            // pnlMailContent
             // dgvOrders
             // 
+            this.pnlMailContent.Location = new System.Drawing.Point(7, 15);
+            this.pnlMailContent.Name = "pnlMailContent";
+            this.pnlMailContent.Size = new System.Drawing.Size(791, 542);
+            this.pnlMailContent.TabIndex = 0;
             this.dgvOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOrders.Location = new System.Drawing.Point(960, 72);
             this.dgvOrders.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -887,8 +983,11 @@
             this.dgvOrders.Size = new System.Drawing.Size(569, 473);
             this.dgvOrders.TabIndex = 1;
             // 
+            // CheckMail
             // StProductDGV
             // 
+            this.CheckMail.Enabled = true;
+            this.CheckMail.Tick += new System.EventHandler(this.CheckMail_Tick);
             this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.StProductDGV.Location = new System.Drawing.Point(0, 0);
@@ -934,6 +1033,10 @@
             this.gbgbAlertsViewing.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StProductDGV)).EndInit();
+            this.Mailbox.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -978,6 +1081,17 @@
         private System.Windows.Forms.Button btnTuesday;
         private System.Windows.Forms.Button btnNextMonth;
         private System.Windows.Forms.Button btnPreviousMonth;
+        private System.Windows.Forms.TabPage Mailbox;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.FlowLayoutPanel flpMailList;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnComposeMail;
+        private System.Windows.Forms.Button btnTrash;
+        private System.Windows.Forms.Button btnSent;
+        private System.Windows.Forms.Button btnInbox;
+        private System.Windows.Forms.Panel pnlMailContent;
+        private System.Windows.Forms.Timer CheckMail;
         private System.Windows.Forms.TabPage OrdersTab;
         private System.Windows.Forms.Button btnChangeStatus;
         private System.Windows.Forms.Button btnRemoveLimit;

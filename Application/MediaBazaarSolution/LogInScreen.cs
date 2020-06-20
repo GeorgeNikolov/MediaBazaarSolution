@@ -27,7 +27,8 @@ namespace MediaBazaarSolution
 
             if (LoginValid(username, password))
             {
-                MainScreen f = new MainScreen(AccountDAO.Instance.GetUserFirstName(username, password));
+                MainScreen f = new MainScreen(AccountDAO.Instance.GetUserFirstName(username, password), AccountDAO.Instance.GetAdminID(username, password));
+                
                 this.Hide();
                 f.ShowDialog();
                 this.Show();

@@ -37,13 +37,19 @@ namespace MediaBazaarSolution
         internal List<Order> orders;
 
         
+        internal List<Mail> allMails;
+        
         private int itemID;
         private int employeeID;
+        private int adminID;
 
         private object oldItemCellValue;
         private object oldEmployeeCellValue;
 
         private string userFirstName;
+
+        //Control which is the current tab in the mail tab
+        private int currentTab = 0;
 
         //This 2-dimensional list will hold 6x7 button references so we can change the corresponding date in each button depending on the current month of date
         private List<List<Button>> matrix;
@@ -63,7 +69,7 @@ namespace MediaBazaarSolution
             private set { this.matrix = value; }
         }
 
-        public MainScreen(string userFirstName)
+        public MainScreen(string userFirstName, int adminID)
         {
             InitializeComponent();
             
@@ -72,6 +78,7 @@ namespace MediaBazaarSolution
             indecis = new List<int>();
             categories = new List<string>();
             employees = new List<string>();
+            allMails = new List<Mail>();
             alerts = new List<Alert>();
             orders = new List<Order>();
             statisticsScreen = new StatisticsScreen();
@@ -80,6 +87,7 @@ namespace MediaBazaarSolution
             LoadAll();
 
             this.userFirstName = userFirstName;
+            this.adminID = adminID;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
             depotAddForm = new DepotAddForm(this);
 
@@ -98,6 +106,13 @@ namespace MediaBazaarSolution
             SalesPieChart.LegendLocation = LegendLocation.Right;
             
             SalesPieChart.Refresh();
+
+            //Update the mail list
+            UpdateAllMailsList();
+
+            //By default all the received mails will be displayed
+            FillReceivedMails();
+
         }
 
         #region Methods 
@@ -832,6 +847,11 @@ namespace MediaBazaarSolution
                     btn.BackColor = Color.Cyan;
                 }
 
+                //Check if there are already some existing schedules in the date
+                if (ScheduleDAO.Instance.countAllScheduleOfTheDate(useDate.ToString("dd/MM/yyyy")) > 0)
+                {
+                    btn.BackColor = Color.LightYellow;
+                }
                 
                 useDate = useDate.AddDays(1);
             }
@@ -840,8 +860,10 @@ namespace MediaBazaarSolution
         private void Btn_Click(object sender, EventArgs e)
         {
             string date = (sender as Button).Tag.ToString();
-            //MessageBox.Show(date);
-            scheduleAddForm = new ScheduleAddForm(date);
+            Button btn = sender as Button;
+            
+            //Pass the reference of the current button to the scheduleAddForm
+            scheduleAddForm = new ScheduleAddForm(date, ref btn);
             scheduleAddForm.Show();
         }
 
@@ -908,6 +930,277 @@ namespace MediaBazaarSolution
         private void btnToday_Click(object sender, EventArgs e)
         {
             dtpDate.Value = DateTime.Now;
+        }
+
+
+        //Mailbox Presentation Layer
+        private void btnInbox_Click(object sender, EventArgs e)
+        {
+            pnlMailContent.Controls.Clear();
+            FillReceivedMails();
+            this.currentTab = 0;
+        }
+
+        private void Mail_Clicked(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            Mail m = btn.Tag as Mail;
+
+            if (currentTab == 0 && btn.BackColor == Color.LightCyan)
+            {
+                if (MailDAO.Instance.ChangeMailStatus(m.ID))
+                {
+                    btn.BackColor = Color.Transparent;
+                }
+            }
+            
+            GenerateMailContent(m.ID, m.Subject, EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender), EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Receiver), m.Date, m.Content);
+        }
+
+        private void btnSent_Click(object sender, EventArgs e)
+        {
+            pnlMailContent.Controls.Clear();
+            FillSentMails();
+            this.currentTab = 1;
+        }
+
+        private void btnTrash_Click(object sender, EventArgs e)
+        {
+            pnlMailContent.Controls.Clear();
+            FillDeletedMails();
+            this.currentTab = 2;
+        }
+
+        private void UpdateAllMailsList()
+        {
+            List<Mail> mailList = MailDAO.Instance.GetAllMails(this.adminID);
+            this.allMails.Clear();
+
+            foreach(Mail m in mailList)
+            {
+                this.allMails.Add(m);
+
+            }
+        }
+
+        private void GenerateMailContent(int mid, string subject, string senderName, string receiverName, string dateStr, string contentStr )
+        {
+            pnlMailContent.Controls.Clear();
+            //Add the mail subject
+            Label sj = new Label();
+            sj.Text = subject;
+            sj.Font = new Font(FontFamily.GenericSansSerif, 15, FontStyle.Bold);
+            sj.AutoSize = true;
+
+            pnlMailContent.Controls.Add(sj);
+
+            //Add the mail sender info
+            Label sender = new Label();
+            sender.Text = senderName;
+            sender.Font = new Font("Arial" , 14, FontStyle.Regular);
+            sender.AutoSize = true;
+            sender.Location = new Point(6, 35);
+
+            pnlMailContent.Controls.Add(sender);
+
+            //Add the mail receiver info 
+            Label receiver = new Label();
+            receiver.Text = receiverName;
+            receiver.Font = new Font("Arial", 14, FontStyle.Regular);
+            receiver.AutoSize = true;
+            receiver.Location = new Point(600, 35);
+
+            pnlMailContent.Controls.Add(receiver);
+
+            //Add the mail date 
+            Label date = new Label();
+            date.Text = dateStr;
+            date.Font = new Font("Arial", 14, FontStyle.Regular);
+            date.AutoSize = true;
+            date.Location = new Point(600, 6);
+
+            pnlMailContent.Controls.Add(date);
+
+            //Add the rich text box content 
+            RichTextBox rtbx = new RichTextBox();
+            rtbx.Text = contentStr;
+            rtbx.Font = new Font("Arial", 14, FontStyle.Regular);
+            rtbx.AutoSize = true;
+            rtbx.Location = new Point(6, 100);
+            rtbx.Width = 780;
+            rtbx.Height = 380;
+            rtbx.ReadOnly = true;
+           
+
+            pnlMailContent.Controls.Add(rtbx);
+
+            //Add the delete button 
+            Button btn = new Button();
+            btn.Text = "Delete";
+            btn.Width = 70;
+            btn.Height = 40;
+            btn.Location = new Point(700, 490);
+            btn.Click += DeleteMailFromAdmin;
+            btn.Tag = mid; 
+
+            pnlMailContent.Controls.Add(btn);
+
+            if(this.currentTab == 0)
+            {
+                Button btn1 = new Button();
+                btn1.Text = "Reply";
+                btn1.Width = 70;
+                btn1.Height = 40;
+                btn1.Location = new Point(600, 490);
+                btn1.Click += ReplyMail;
+                btn1.Tag = mid;
+
+                pnlMailContent.Controls.Add(btn1);
+            }
+
+        }
+
+        private void ReplyMail(object sender, EventArgs e)
+        {
+            int mid = Convert.ToInt32((sender as Button).Tag);
+            foreach(Mail m in allMails)
+            {
+                if (m.ID == mid)
+                {
+                    SendMail sm = new SendMail(this.adminID, m.Sender, m.Subject);
+                    sm.Show();
+                    break;
+                }
+            }
+        }
+
+        private void DeleteMailFromAdmin(object sender, EventArgs e)
+        {
+            int mid = Convert.ToInt32((sender as Button).Tag);
+            if (this.currentTab != 2)
+            {
+                if (MailDAO.Instance.DeleteMailFromAdmin(mid))
+                {
+                    MessageBox.Show("Successfully deleted the mail!", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    switch (currentTab)
+                    {
+                        case 0:
+                            FillReceivedMails();
+                            break;
+                        default:
+                            FillSentMails();
+                            break;
+                        
+                    }
+                }
+            } else
+            {
+                if (MailDAO.Instance.DeleteMailFromAdminForever(mid))
+                {
+                    MessageBox.Show("Successfully deleted the mail forever !", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    FillDeletedMails();
+                }
+            }
+            
+        }
+
+        private void FillReceivedMails()
+        {
+            flpMailList.Controls.Clear();
+
+            foreach (Mail m in this.allMails)
+            {
+                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0 )
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    if (m.Status == 0)
+                    {
+                        btn.BackColor = Color.LightCyan;
+                    }
+                    flpMailList.Controls.Add(btn);
+                }
+            }
+        }
+
+        private void FillSentMails()
+        {
+            flpMailList.Controls.Clear();
+            foreach (Mail m in this.allMails)
+            {
+                if (m.Sender == this.adminID && m.DeletedFromAdmin == 0)
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    flpMailList.Controls.Add(btn);
+                }
+            }
+        }
+
+        private void FillDeletedMails()
+        {
+            flpMailList.Controls.Clear();
+            foreach (Mail m in this.allMails)
+            {
+                if (m.DeletedFromAdmin == 1 && m.DeletedFromAdminForever == 0)
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    flpMailList.Controls.Add(btn);
+                }
+
+            }
+        }
+        
+
+        private void CheckIfThereIsUnreadMails()
+        {
+            bool unreadMailExist = false;
+            
+            foreach(Mail m in this.allMails)
+            {
+                if (m.Status == 0 && m.Receiver == this.adminID)
+                {
+                    unreadMailExist = true;
+                    break;
+                }
+            }
+
+            if (unreadMailExist)
+            {
+                btnInbox.BackColor = Color.LightCyan;
+            } else
+            {
+                btnInbox.BackColor = Color.Transparent;
+            }
+        }
+
+        private void CheckMail_Tick(object sender, EventArgs e)
+        {
+            UpdateAllMailsList();
+            CheckIfThereIsUnreadMails();
+        }
+
+        private void btnComposeMail_Click(object sender, EventArgs e)
+        {
+            SendMail sendMail = new SendMail(this.adminID);
+            sendMail.ShowDialog();
         }
 
         private void cbShowCompleted_CheckedChanged(object sender, EventArgs e)

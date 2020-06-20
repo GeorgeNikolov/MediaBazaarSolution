@@ -49,5 +49,13 @@ namespace MediaBazaarSolution.DAO
 
             return DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword }).ToString();
         }
+
+        public int GetAdminID(string username, string password)
+        {
+            string hashedPassword = MD5.GenerateMD5(password);
+            string query = "SELECT employee_id FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin'";
+
+            return (int)DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword });
+        }
     }
 }
