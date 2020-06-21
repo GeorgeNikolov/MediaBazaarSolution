@@ -50,10 +50,10 @@ namespace MediaBazaarSolution.DAO
 
         }
 
-        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours)
+        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours, string password)
         {
-            string passwordToBeHashed = "password";
-            string hashedPassword = MD5.GenerateMD5(passwordToBeHashed);
+            
+            string hashedPassword = MD5.GenerateMD5(password);
             string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours)" +
                            "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours)";
 
@@ -202,7 +202,7 @@ namespace MediaBazaarSolution.DAO
             string query = "SELECT * FROM employee WHERE manager_id = @managerID && employee_type = 'employee'";
             List<Employee> employeeList = new List<Employee>();
 
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerID });
             foreach(DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);

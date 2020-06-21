@@ -416,6 +416,13 @@ namespace MediaBazaarSolution
                     if (schedule[i] == null)
                     {
                         // Error message no employee can be found for certain shift
+                        MailDAO.Instance.SendMail("[AUTOMATED] Schedule Conflict", $"Hello {manager.FirstName} \n " +
+                            $"\n " +
+                            $"We could not find an employee for the shift on {date.Date.ToString("dd/MM/yyyy")} at {date.ToString("HH:mm")} until {date.AddHours(4).ToString("HH:mm")}. \n" +
+                            $"\n" +
+                            $"Please resolve this issue.\n" +
+                            $"\n" +
+                            $"THIS IS AN AUTOMATED MESSAGE, YOU CANNOT RESPOND TO THIS MESSAGE", DateTime.Now.ToString("dd/MM/yyyy"), 0, manager.ID);
                     }
                     else
                     {

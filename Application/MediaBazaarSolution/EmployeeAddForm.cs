@@ -37,7 +37,7 @@ namespace MediaBazaarSolution
             string type = (cbbxType.SelectedIndex == 0) ? "employee" : "admin";
             string hourlyWageString = tbxRate.Text;
             string contractedHours = ContractedHoursTB.Text;
-            string NoGoSchedule = null;
+            string NoGoSchedule = "";
 
 
 
@@ -124,7 +124,7 @@ namespace MediaBazaarSolution
             }
             else
             {
-                if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours))
+                if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours, tbxPassword.Text))
                 {
                     MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     parentForm.LoadAll();

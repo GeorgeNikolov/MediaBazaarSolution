@@ -88,7 +88,7 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "SELECT employee_id FROM schedule WHERE date = @date && start_time = @start_time";
             List<int> idList = new List<int>();
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { date, start_time });
 
             foreach (DataRow row in data.Rows)
             {
