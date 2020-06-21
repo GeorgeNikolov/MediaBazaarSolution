@@ -1598,11 +1598,11 @@ dialog {
 
 /* *************************** STATISTICS STYLING ********** */
 
-.stock-chart-container {
+.stock-chart-container, .shifts-chart-container {
     width: 700px; 
-    height: 450px;
+    height: 430px;
     margin: 10px auto;
-    background: rgb(205, 243, 240);
+    background: rgba(205, 243, 240);
     border-radius: 10px;
     box-shadow: 5px 5px 20px rgba(29, 29, 29, 0.85);
     transition: all .3s ease;
@@ -1610,8 +1610,15 @@ dialog {
     border: 5px solid rgba(0, 204, 255, 0.85)
 }
 
-.stock-chart-container:hover {
+/* .shifts-chart-container {
+    background: rgba(254, 255, 206, 0.85);
+    border: 5px solid rgba(232, 255, 26, 0.85);
+} */
+
+.stock-chart-container:hover, .shifts-chart-container:hover {
     transform: translateY(-10px) scale(1.01);
     box-shadow: 10px 10px 30px rgba(29, 29, 29, 0.85);
 }
+
+
   
