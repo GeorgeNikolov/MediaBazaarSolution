@@ -383,7 +383,7 @@ namespace MediaBazaarSolution
                 bool[] availableTimes = new bool[21];
                 DateTime today = DateTime.Today;
                 int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
-                DateTime nextMonday = today.AddDays(daysUntilMonday - 1);
+                DateTime nextMonday = today.AddDays(daysUntilMonday);
                 List<Employee> managerEmployees = EmployeeDAO.Instance.GetAllEmployeesByManager(manager.ID);
 
                 for (int i = 0; i < 21; i++ )
@@ -391,8 +391,8 @@ namespace MediaBazaarSolution
                     // TODO: change this to make it so it takes the availability of the actual schedule
                     availableTimes[i] = true;
                     int daysNeededToBeAdded = (i / 3);
-                    int hoursNeededToBeAdded = 9 + (i % 3);
-                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded * 4);
+                    int hoursNeededToBeAdded = 9 + (i % 3) * 4;
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded);
                     for (int n = 0; n < managerEmployees.Count; n++)
                     {
                         if (ScheduleDAO.Instance.GetEmployeesIDOnShiftByDateAndStartTime(date.Date.ToString("dd/MM/yyyy"), date.ToString("HH:mm")).Contains(managerEmployees[n].ID))
@@ -411,14 +411,14 @@ namespace MediaBazaarSolution
                 for( int i = 0; i < 21; i++)
                 {
                     int daysNeededToBeAdded = (i / 3);
-                    int hoursNeededToBeAdded = 9 + (i % 3);
-                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded * 4);
+                    int hoursNeededToBeAdded = 9 + (i % 3)*4;
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded);
                     if (schedule[i] == null)
                     {
                         // Error message no employee can be found for certain shift
                         MailDAO.Instance.SendMail("[AUTOMATED] Schedule Conflict", $"Hello {manager.FirstName} \n " +
                             $"\n " +
-                            $"We could not find an employee for the shift on {date.Date.ToString("dd/MM/yyyy")} at {date.ToString("HH:mm")} until {date.AddHours(4).ToString("HH:mm")}. \n" +
+                            $"No employee could be found for the shift on {date.Date.ToString("dd/MM/yyyy")} at {date.ToString("HH:mm")} until {date.AddHours(4).ToString("HH:mm")}. \n" +
                             $"\n" +
                             $"Please resolve this issue.\n" +
                             $"\n" +

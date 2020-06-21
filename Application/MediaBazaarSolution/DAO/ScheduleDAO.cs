@@ -92,8 +92,8 @@ namespace MediaBazaarSolution.DAO
 
             foreach (DataRow row in data.Rows)
             {
-                Schedule schedule = new Schedule(row);
-                idList.Add(schedule.EmployeeID);
+                
+                idList.Add((int)row["employee_id"]);
             }
 
             return idList;

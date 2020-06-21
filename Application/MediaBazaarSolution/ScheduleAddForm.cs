@@ -102,7 +102,7 @@ namespace MediaBazaarSolution
 
         private void AddScheduleBinding()
         {
-            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "Time"));
+            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "StartTime"));
             tbxTaskName.DataBindings.Add(new Binding("Text", dgvSchedule.DataSource, "TaskName"));
         }
 
