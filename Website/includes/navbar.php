@@ -25,7 +25,7 @@
 
 
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="statistics.php" class="nav-link">
                 <img src="https://img.icons8.com/color/48/000000/combo-chart.png"/>
                 <span class="link-text">Statistics</span>
             </a>
