@@ -62,7 +62,7 @@ namespace MediaBazaarSolution.DAO
 
         public bool SendMail(string subject, string content, string date, int sender, int receiver)
         {
-            string query = "INSERT INTO mail SET subject = @subject , content = @content , date = @date , sender = @sender , receiver = @receiver";
+            string query = "INSERT INTO mail SET subject = @subject , content = @content , date = @date , sender = @sender , receiver = @receiver ";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { subject, content, date, sender, receiver}) > 0;
         }
 
