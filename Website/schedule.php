@@ -41,7 +41,8 @@
 
   function getCoWorkersDetails() {
       global $con;
-      $query = "SELECT e.first_name, e.last_name, s.date FROM employee e INNER JOIN schedule s ON e.employee_id = s.employee_id";
+      global $employee_id;
+      $query = "SELECT e.first_name, e.last_name, s.date FROM employee e INNER JOIN schedule s ON e.employee_id = s.employee_id WHERE e.employee_id != '$employee_id'";
       $res = $con->query($query);
       while($row = $res->fetch(PDO::FETCH_ASSOC)) {
           $first_name = $row["first_name"];
