@@ -19,6 +19,8 @@ using Org.BouncyCastle.Asn1.IsisMtt;
 using Renci.SshNet.Messages.Authentication;
 using MediaBazaarSolution.Scheduling;
 
+
+
 namespace MediaBazaarSolution
 {
     public partial class MainScreen : Form
@@ -36,9 +38,9 @@ namespace MediaBazaarSolution
         internal List<Alert> alerts;
         internal List<Order> orders;
 
-        
+
         internal List<Mail> allMails;
-        
+
         private int itemID;
         private int employeeID;
         private int adminID;
@@ -56,10 +58,11 @@ namespace MediaBazaarSolution
 
         List<string> dayOfWeek = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-        public string UserFirstName { 
-            get 
+        public string UserFirstName
+        {
+            get
             {
-                return this.userFirstName;    
+                return this.userFirstName;
             }
         }
 
@@ -72,7 +75,7 @@ namespace MediaBazaarSolution
         public MainScreen(string userFirstName, int adminID)
         {
             InitializeComponent();
-            
+
             //scheduleForm = new ScheduleForm();
 
             indecis = new List<int>();
@@ -98,13 +101,14 @@ namespace MediaBazaarSolution
             SeriesCollection series = new SeriesCollection();
             string[] categoryNames = new string[6] { "Computer", "Home Appliances", "Television", "Camera", "Mobile", "Gaming" };
             int[] categoryNumbers = new int[6] { 50, 30, 57, 134, 264, 80 };
-            for(int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++)
+            {
                 series.Add(new PieSeries() { Title = categoryNames[i], Values = new ChartValues<int> { categoryNumbers[i] }, DataLabels = true, LabelPoint = label });
             }
             SalesPieChart.Series = series;
             SalesPieChart.Text = "Category Sales";
             SalesPieChart.LegendLocation = LegendLocation.Right;
-            
+
             SalesPieChart.Refresh();
 
             //Update the mail list
@@ -171,7 +175,7 @@ namespace MediaBazaarSolution
                 }
             }
 
-            
+
 
             LoadPieChartData();
             LoadPieChart();
@@ -272,26 +276,42 @@ namespace MediaBazaarSolution
 
         private void LoadGraphChart()
         {
-
-
-            GraphSeries = new SeriesCollection
+            cartesianChart1.AxisX.Add(new Axis
             {
-                new LineSeries
-                {
-                    Title = "Stock",
-                    Values = new ChartValues<double> { 4, 6, 5, 2, 4 }
-                },
-                new LineSeries
-                {
-                    Title = "Price",
-                    Values = new ChartValues<double> {6,7,3,4,6}
-                }
-            };
+                Title = "Month",
+                Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+            });
+            cartesianChart1.AxisY.Add(new Axis
+            {
+                Title = "Revenue",
+                LabelFormatter = value => value.ToString("C")
+            });
+            cartesianChart1.LegendLocation = LegendLocation.Right;
+
+            GraphSeries = new SeriesCollection();
 
             Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
             YFormatter = value => value.ToString("C");
 
+            GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Stock",
+                    Values = new ChartValues<double> { 4, 6, 5, 2, 4 },
+                    LineSmoothness = 0
+                });
+            GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Price",
+                    Values = new ChartValues<double> { 6, 7, 3, 4, 6 },
+                    LineSmoothness = 0
+                });
+            cartesianChart1.Series = GraphSeries;
+
             
+
+
             //statisticsScreen.UpdateGraphchart();
         }
 
@@ -317,16 +337,16 @@ namespace MediaBazaarSolution
                 if (!employees.Contains(employee.LastName))
                 {
                     employees.Add(employee.LastName);
-                }       
+                }
             }
         }
 
         private void LoadAlerts()
-        { 
+        {
             alerts = RestockDAO.Instance.LoadAlerts(sortAlertsByPriority);
             lbxAlerts.Items.Clear();
             foreach (Alert alert in alerts)
-            {             
+            {
                 lbxAlerts.Items.Add(alert.ToString());
             }
         }
@@ -367,17 +387,17 @@ namespace MediaBazaarSolution
 
             // Gets all the managers
             List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
-            foreach(Employee manager in managers)
+            foreach (Employee manager in managers)
             {
                 // Get the info for the schedule making
                 List<Employee> employees = AutoSchedulerDAO.Instance.GetNecessaryInfo(manager.ID);
                 List<ScheduleUsers> scheduleUsers = new List<ScheduleUsers>();
 
                 // Convert to scheduleUsers format
-                foreach( Employee employee in employees)
+                foreach (Employee employee in employees)
                 {
                     bool[] NoGoBools = ConvertToBools(employee.NoGoSchedule);
-                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, (employee.ContractedHours/4)));
+                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, (employee.ContractedHours / 4)));
                 }
 
                 bool[] availableTimes = new bool[21];
@@ -386,7 +406,7 @@ namespace MediaBazaarSolution
                 DateTime nextMonday = today.AddDays(daysUntilMonday);
                 List<Employee> managerEmployees = EmployeeDAO.Instance.GetAllEmployeesByManager(manager.ID);
 
-                for (int i = 0; i < 21; i++ )
+                for (int i = 0; i < 21; i++)
                 {
                     // TODO: change this to make it so it takes the availability of the actual schedule
                     availableTimes[i] = true;
@@ -405,13 +425,13 @@ namespace MediaBazaarSolution
                 SchedulingSystem schedulingSystem = new SchedulingSystem(scheduleUsers, availableTimes);
                 List<ScheduleUsers> schedule = schedulingSystem.getSchedule().ToList();
 
-                
-                
+
+
                 // Send the schedule to the Database
-                for( int i = 0; i < 21; i++)
+                for (int i = 0; i < 21; i++)
                 {
                     int daysNeededToBeAdded = (i / 3);
-                    int hoursNeededToBeAdded = 9 + (i % 3)*4;
+                    int hoursNeededToBeAdded = 9 + (i % 3) * 4;
                     DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded);
                     if (schedule[i] == null)
                     {
@@ -430,7 +450,7 @@ namespace MediaBazaarSolution
 
                     }
                 }
-                
+
 
             }
             MessageBox.Show("Schedule for next week made");
@@ -444,12 +464,13 @@ namespace MediaBazaarSolution
         {
             bool[] returnValue = new bool[21];
             string[] collection = NoGoSchedule.Split('-');
-            for(int i = 0; i < 21; i++)
+            for (int i = 0; i < 21; i++)
             {
                 if (collection.Contains(i.ToString()))
                 {
                     returnValue[i] = true;
-                } else
+                }
+                else
                 {
                     returnValue[i] = false;
                 }
@@ -514,12 +535,13 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show("Item successfully deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     LoadAll();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Item not deleted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            
+
         }
         private void cbxItemCategory_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -547,7 +569,7 @@ namespace MediaBazaarSolution
                 DataGridViewRow selectedRow = dgvDepot.Rows[selectedRowIndex];
                 itemID = Convert.ToInt32(selectedRow.Cells["ID"].Value);
             }
-            
+
         }
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
@@ -575,7 +597,7 @@ namespace MediaBazaarSolution
         }
 
         private void dgvEmployees_SelectionChanged(object sender, EventArgs e)
-        { 
+        {
             if (dgvEmployees.SelectedCells.Count > 0)
             {
                 int selectedRowIndex = dgvEmployees.SelectedCells[0].RowIndex;
@@ -592,10 +614,12 @@ namespace MediaBazaarSolution
             if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Enter An Invalid Name!", "Invalid Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else if (isNameNotValid)
+            }
+            else if (isNameNotValid)
             {
                 MessageBox.Show("The name should not be an integer!", "Invalid name type", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else if (!employees.Contains(name))
+            }
+            else if (!employees.Contains(name))
             {
                 MessageBox.Show("There is no matching for the employee name", "No matching result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -603,7 +627,7 @@ namespace MediaBazaarSolution
             {
                 dgvEmployees.DataSource = EmployeeDAO.Instance.SearchEmployeeByLastName(name);
             }
-            
+
         }
 
         private void btnReloadEmployees_Click(object sender, EventArgs e)
@@ -639,7 +663,7 @@ namespace MediaBazaarSolution
                     int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
 
                     //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
-                    if (currentColumnIndex == 1) 
+                    if (currentColumnIndex == 1)
                     {
                         queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentItemCellValue.ToString());
                     }
@@ -760,7 +784,8 @@ namespace MediaBazaarSolution
                     else if (currentColumnIndex == 4)
                     {
                         queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeEmail(currentEmployeeId, currentEmployeeCellValue.ToString());
-                    } else if (currentColumnIndex == 5)
+                    }
+                    else if (currentColumnIndex == 5)
                     {
                         queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeePhone(currentEmployeeId, currentEmployeeCellValue.ToString());
                     }
@@ -810,18 +835,18 @@ namespace MediaBazaarSolution
         const int numOfLines = 6;
         private void LoadMatrixSchedule()
         {
-            
+
             Button oldBtn = new Button() { Width = 0, Height = 0, Location = new Point(-6, 0) };
             Matrix = new List<List<Button>>();
 
             for (int i = 0; i < numOfLines; i++)
             {
                 Matrix.Add(new List<Button>());
-                for(int j = 0; j < daysInWeek; j++)
+                for (int j = 0; j < daysInWeek; j++)
                 {
                     Button btn = new Button() { Width = 137, Height = 73 };
                     btn.Location = new Point(oldBtn.Location.X + oldBtn.Width + 6, oldBtn.Location.Y);
-                    
+
                     pnlMatrix.Controls.Add(btn);
                     Matrix[i].Add(btn);
 
@@ -872,7 +897,7 @@ namespace MediaBazaarSolution
                 {
                     btn.BackColor = Color.LightYellow;
                 }
-                
+
                 useDate = useDate.AddDays(1);
             }
         }
@@ -881,7 +906,7 @@ namespace MediaBazaarSolution
         {
             string date = (sender as Button).Tag.ToString();
             Button btn = sender as Button;
-            
+
             //Pass the reference of the current button to the scheduleAddForm
             scheduleAddForm = new ScheduleAddForm(date);
             scheduleAddForm.Show();
@@ -973,7 +998,7 @@ namespace MediaBazaarSolution
                     btn.BackColor = Color.Transparent;
                 }
             }
-            
+
             GenerateMailContent(m.ID, m.Subject, EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender), EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Receiver), m.Date, m.Content);
         }
 
@@ -996,14 +1021,14 @@ namespace MediaBazaarSolution
             List<Mail> mailList = MailDAO.Instance.GetAllMails(this.adminID);
             this.allMails.Clear();
 
-            foreach(Mail m in mailList)
+            foreach (Mail m in mailList)
             {
                 this.allMails.Add(m);
 
             }
         }
 
-        private void GenerateMailContent(int mid, string subject, string senderName, string receiverName, string dateStr, string contentStr )
+        private void GenerateMailContent(int mid, string subject, string senderName, string receiverName, string dateStr, string contentStr)
         {
             pnlMailContent.Controls.Clear();
             //Add the mail subject
@@ -1017,7 +1042,7 @@ namespace MediaBazaarSolution
             //Add the mail sender info
             Label sender = new Label();
             sender.Text = senderName;
-            sender.Font = new Font("Arial" , 14, FontStyle.Regular);
+            sender.Font = new Font("Arial", 14, FontStyle.Regular);
             sender.AutoSize = true;
             sender.Location = new Point(6, 35);
 
@@ -1050,7 +1075,7 @@ namespace MediaBazaarSolution
             rtbx.Width = 780;
             rtbx.Height = 380;
             rtbx.ReadOnly = true;
-           
+
 
             pnlMailContent.Controls.Add(rtbx);
 
@@ -1061,11 +1086,11 @@ namespace MediaBazaarSolution
             btn.Height = 40;
             btn.Location = new Point(700, 490);
             btn.Click += DeleteMailFromAdmin;
-            btn.Tag = mid; 
+            btn.Tag = mid;
 
             pnlMailContent.Controls.Add(btn);
 
-            if(this.currentTab == 0)
+            if (this.currentTab == 0)
             {
                 Button btn1 = new Button();
                 btn1.Text = "Reply";
@@ -1083,7 +1108,7 @@ namespace MediaBazaarSolution
         private void ReplyMail(object sender, EventArgs e)
         {
             int mid = Convert.ToInt32((sender as Button).Tag);
-            foreach(Mail m in allMails)
+            foreach (Mail m in allMails)
             {
                 if (m.ID == mid)
                 {
@@ -1113,10 +1138,11 @@ namespace MediaBazaarSolution
                         default:
                             FillSentMails();
                             break;
-                        
+
                     }
                 }
-            } else
+            }
+            else
             {
                 if (MailDAO.Instance.DeleteMailFromAdminForever(mid))
                 {
@@ -1127,7 +1153,7 @@ namespace MediaBazaarSolution
                     FillDeletedMails();
                 }
             }
-            
+
         }
 
         private void FillReceivedMails()
@@ -1136,7 +1162,7 @@ namespace MediaBazaarSolution
 
             foreach (Mail m in this.allMails)
             {
-                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0 )
+                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0)
                 {
                     Button btn = new Button() { Width = 285, Height = 72 };
                     string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
@@ -1187,13 +1213,13 @@ namespace MediaBazaarSolution
 
             }
         }
-        
+
 
         private void CheckIfThereIsUnreadMails()
         {
             bool unreadMailExist = false;
-            
-            foreach(Mail m in this.allMails)
+
+            foreach (Mail m in this.allMails)
             {
                 if (m.Status == 0 && m.Receiver == this.adminID)
                 {
@@ -1205,7 +1231,8 @@ namespace MediaBazaarSolution
             if (unreadMailExist)
             {
                 btnInbox.BackColor = Color.LightCyan;
-            } else
+            }
+            else
             {
                 btnInbox.BackColor = Color.Transparent;
             }
@@ -1228,7 +1255,8 @@ namespace MediaBazaarSolution
             if (cbShowCompleted.Checked)
             {
                 showCompletedOrders = true;
-            } else
+            }
+            else
             {
                 showCompletedOrders = false;
             }
@@ -1258,18 +1286,18 @@ namespace MediaBazaarSolution
         {
             string message = "Item ID";
             int index = lbxAlerts.SelectedIndex;
-            if(index >= 0)
+            if (index >= 0)
             {
                 message = alerts[index].ID.ToString();
             }
 
             string value = Interaction.InputBox("Please Input ID", "Enter a number", message);
-            
-                int id = Convert.ToInt32(value);
+
+            int id = Convert.ToInt32(value);
 
             value = Interaction.InputBox("Please input amount", "Enter a number");
-                int amount = Convert.ToInt32(value);
-                bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
+            int amount = Convert.ToInt32(value);
+            bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
             if (success)
             {
                 MessageBox.Show("Order succesfully added");
@@ -1284,7 +1312,7 @@ namespace MediaBazaarSolution
         private void btnRemoveLimit_Click(object sender, EventArgs e)
         {
             int index = lbxAlerts.SelectedIndex;
-            if(index >= 0)
+            if (index >= 0)
             {
                 Alert alert = alerts[index];
                 int id = alert.ID;
@@ -1304,14 +1332,14 @@ namespace MediaBazaarSolution
         private void btnSetLimit_Click(object sender, EventArgs e)
         {
             int id = (int)nUPLimitID.Value;
-            int limit = (int) nUPMinStock.Value;
+            int limit = (int)nUPMinStock.Value;
             bool success = RestockDAO.Instance.AddLimit(id, limit);
             if (success)
             {
-                List <Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
-                foreach(Item item in items)
+                List<Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
+                foreach (Item item in items)
                 {
-                    if(item.ID == id)
+                    if (item.ID == id)
                     {
                         MessageBox.Show($"Limit for {item.ID} : {item.Name} succesfully set to {limit}");
                     }
@@ -1323,10 +1351,10 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show($"Item with ID {id} not found, please try again.");
             }
-            
+
         }
 
-     
+
 
 
 
