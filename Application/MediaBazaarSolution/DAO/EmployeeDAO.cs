@@ -50,9 +50,9 @@ namespace MediaBazaarSolution.DAO
 
         }
 
-        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours, string password)
+        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours)
         {
-            
+            string password = "password";
             string hashedPassword = MD5.GenerateMD5(password);
             string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours)" +
                            "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours )";

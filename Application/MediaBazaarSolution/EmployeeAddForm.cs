@@ -124,7 +124,7 @@ namespace MediaBazaarSolution
             }
             else
             {
-                if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours, tbxPassword.Text))
+                if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours))
                 {
                     MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     parentForm.LoadAll();
