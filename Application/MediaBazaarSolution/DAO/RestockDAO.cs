@@ -65,7 +65,7 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "SELECT * FROM orders ";
             if(!showCompletedOrders)
-            query += "WHERE status = 'incomplete' ";
+            query += "WHERE status != 'complete' ";
 
             query += "ORDER BY item_id";
 

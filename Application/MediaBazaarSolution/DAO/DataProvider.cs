@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -42,34 +44,39 @@ namespace MediaBazaarSolution.DAO
         public DataTable ExecuteQuery(string query, object[] parameters = null)
         {
             DataTable data = new DataTable();
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {   
-
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (MySqlException e)
+                {
+                    MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
+                }
                 MySqlCommand command = new MySqlCommand(query, connection);
 
-                if (parameters != null)
-                {
-                    string[] listPara = query.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
+                    if (parameters != null)
                     {
-                        if (item.Contains('@'))
+                        string[] listPara = query.Split(' ');
+                        int i = 0;
+                        foreach (string item in listPara)
                         {
-                            command.Parameters.AddWithValue(item, parameters[i]);
-                            i++;
+                            if (item.Contains('@'))
+                            {
+                                command.Parameters.AddWithValue(item, parameters[i]);
+                                i++;
+                            }
                         }
                     }
-                }
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(command);
 
-                adapter.Fill(data);
+                    adapter.Fill(data);
 
-                connection.Close();
-            }
-
+                    connection.Close();
+                }      
             return data;
         }
 
@@ -78,32 +85,38 @@ namespace MediaBazaarSolution.DAO
         public int ExecuteNonQuery(string query, object[] parameters = null)
         {
             int data = 0;
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
+            
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                try
+                {
+                    connection.Open();
+                }
+                catch (MySqlException e)
+                {
+                    MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
+                }
 
                 MySqlCommand command = new MySqlCommand(query, connection);
 
-                if (parameters != null)
-                {
-                    string[] listPara = query.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
+                    if (parameters != null)
                     {
-                        if (item.Contains('@'))
+                        string[] listPara = query.Split(' ');
+                        int i = 0;
+                        foreach (string item in listPara)
                         {
-                            command.Parameters.AddWithValue(item, parameters[i]);
-                            i++;
+                            if (item.Contains('@'))
+                            {
+                                command.Parameters.AddWithValue(item, parameters[i]);
+                                i++;
+                            }
                         }
                     }
-                }
 
-                data = command.ExecuteNonQuery();
+                    data = command.ExecuteNonQuery();
 
-                connection.Close();
+                    connection.Close();               
             }
-
             return data;
         }
 
@@ -114,32 +127,39 @@ namespace MediaBazaarSolution.DAO
         public object ExecuteScalar(string query, object[] parameters = null)
         {
             object data = 0;
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-
+            
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                try
+                {
+                    connection.Open();
+                }
+                catch (MySqlException e)
+                {
+                    MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
+                }
                 MySqlCommand command = new MySqlCommand(query, connection);
 
-                if (parameters != null)
-                {
-                    string[] listPara = query.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
+                    if (parameters != null)
                     {
-                        if (item.Contains('@'))
+                        string[] listPara = query.Split(' ');
+                        int i = 0;
+                        foreach (string item in listPara)
                         {
-                            command.Parameters.AddWithValue(item, parameters[i]);
-                            i++;
+                            if (item.Contains('@'))
+                            {
+                                command.Parameters.AddWithValue(item, parameters[i]);
+                                i++;
+                            }
                         }
                     }
+
+                    data = command.ExecuteScalar();
+
+                    connection.Close();
                 }
-
-                data = command.ExecuteScalar();
-
-                connection.Close();
-            }
-
+            
+            
             return data;
         }
     }

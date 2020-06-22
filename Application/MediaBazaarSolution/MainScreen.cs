@@ -85,10 +85,13 @@ namespace MediaBazaarSolution
             alerts = new List<Alert>();
             orders = new List<Order>();
             statisticsScreen = new StatisticsScreen();
-            YAxisCB.SelectedIndex = 0;
-            XAxisCB.SelectedIndex = 0;
+            
 
             LoadAll();
+
+            //YAxisCB.SelectedIndex = 0;
+            //XAxisCB.SelectedIndex = 0;
+            cbxStatus.SelectedIndex = 0;
 
             this.userFirstName = userFirstName;
             this.adminID = adminID;
@@ -288,7 +291,7 @@ namespace MediaBazaarSolution
         private void LoadGraphChart()
         {
             
-            if (YAxisCB.SelectedValue.ToString().Equals("Stock History"))
+            if ( YAxisCB.SelectedValue != null && YAxisCB.SelectedValue.ToString().Equals("Stock History"))
             {
                 // Stock History
                 int id = ItemDAO.Instance.SearchItembyName(YAxisCB.SelectedItem.ToString());
