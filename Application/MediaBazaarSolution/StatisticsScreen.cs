@@ -71,15 +71,11 @@ namespace MediaBazaarSolution
             return categories.ToArray();
         }
 
-        public string[] GetAllItems()
+        public List<Item> GetAllItems()
         {
             List<Item> items = ItemDAO.Instance.LoadAllItems();
-            string[] allItems = new string[items.Count];
-            for(int i = 0; i < items.Count; i++)
-            {
-                allItems[i] = items[i].Name;
-            }
-            return allItems;
+
+            return items;
         }
     }
 }

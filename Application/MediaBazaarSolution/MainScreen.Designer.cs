@@ -570,10 +570,10 @@
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(809, 243);
+            this.cartesianChart1.Location = new System.Drawing.Point(809, 286);
             this.cartesianChart1.Margin = new System.Windows.Forms.Padding(2);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(379, 187);
+            this.cartesianChart1.Size = new System.Drawing.Size(550, 187);
             this.cartesianChart1.TabIndex = 5;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
@@ -606,7 +606,7 @@
             this.PiechartCB.Location = new System.Drawing.Point(1192, 60);
             this.PiechartCB.Margin = new System.Windows.Forms.Padding(2);
             this.PiechartCB.Name = "PiechartCB";
-            this.PiechartCB.Size = new System.Drawing.Size(92, 28);
+            this.PiechartCB.Size = new System.Drawing.Size(175, 28);
             this.PiechartCB.TabIndex = 2;
             this.PiechartCB.SelectedIndexChanged += new System.EventHandler(this.PiechartCB_SelectedIndexChanged);
             // 
@@ -615,7 +615,7 @@
             this.SalesPieChart.Location = new System.Drawing.Point(548, 28);
             this.SalesPieChart.Margin = new System.Windows.Forms.Padding(2);
             this.SalesPieChart.Name = "SalesPieChart";
-            this.SalesPieChart.Size = new System.Drawing.Size(640, 181);
+            this.SalesPieChart.Size = new System.Drawing.Size(640, 254);
             this.SalesPieChart.TabIndex = 1;
             this.SalesPieChart.Text = "pieChart1";
             // 

@@ -282,11 +282,34 @@ namespace MediaBazaarSolution
 
         private void LoadGraphChartData()
         {
-
+            List<Item> items = statisticsScreen.GetAllItems().ToList();
+            List<string> names = new List<string>();
+            
+            
             XAxisCB.Items.Clear();
-            XAxisCB.Items.AddRange(statisticsScreen.GetAllItems());
-            XAxisCB.SelectedIndex = 1;
-            YAxisCB.SelectedIndex = 1;
+            if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    names.Add(items[i].Name);
+                }
+                
+            } else
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (items[i].Category.Equals(PiechartCB.SelectedItem.ToString()))
+                    {
+                        names.Add(items[i].Name);
+                    }
+                }
+            }
+            XAxisCB.Items.AddRange(names.ToArray());
+            XAxisCB.SelectedIndex = 0;
+
+
+
+            YAxisCB.SelectedIndex = 0;
         }
 
         private void LoadGraphChart()
@@ -308,6 +331,17 @@ namespace MediaBazaarSolution
                 {
                     currentAmount -= stock_histories[i].amount;
                 }
+                values.Add(currentAmount);
+                string firstlabel;
+                if (stock_history_labels.Count == 0)
+                {
+                    firstlabel = DateTime.Now.ToString("dd/MM");
+                }
+                else
+                {
+                    firstlabel = stock_history_labels[0];
+                }
+                stock_history_labels.Insert(0, firstlabel);
                 for (int i = 0; i < stock_histories.Count; i++)
                 {
                     stock_history_labels.Add(stock_histories[i].date.ToString("dd/MM"));
@@ -349,6 +383,17 @@ namespace MediaBazaarSolution
                 {
                     currentPrice -= price_histories[i].amount;
                 }
+                values.Add(currentPrice);
+                string firstlabel;
+                if (price_history_labels.Count == 0)
+                {
+                    firstlabel = DateTime.Now.ToString("dd/MM");
+                }
+                else
+                {
+                    firstlabel = price_history_labels[0];
+                }
+                price_history_labels.Insert(0, firstlabel);
                 for (int i = 0; i < price_histories.Count; i++)
                 {
                     price_history_labels.Add(price_histories[i].date.ToString("dd/MM"));
@@ -905,7 +950,10 @@ namespace MediaBazaarSolution
         private void PiechartCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadPieChart();
+            LoadGraphChartData();
         }
+
+
 
         #endregion
 
