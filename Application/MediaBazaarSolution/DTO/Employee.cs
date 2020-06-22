@@ -27,16 +27,16 @@ namespace MediaBazaarSolution.DTO
         private double hourlyWage;
 
         public int ID { get => iD; set => iD = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public string Username { get => username; set => username = value; }
-        public string Email { get => email; set => email = value; }
-        public string Phone { get => phone; set => phone = value; }
-        public double HourlyWage { get => hourlyWage; set => hourlyWage = value; }
-        public string Type { get => type; set => type = value; }
-        public string Address { get => address; set => address = value; }
-        public string NoGoSchedule { get => noGoSchedule; set => noGoSchedule = value; }
-        public int ContractedHours { get => contractedHours; set => contractedHours = value; }
+        public string FirstName { get => firstName; set { if (value == null || value == "") this.firstName = "None"; else { firstName = value; } } }
+        public string LastName { get => lastName; set { if (value == null || value == "") this.lastName = "None"; else { lastName = value; } } }
+        public string Username { get => username; set { if (value == null || value == "") this.username = "None"; else { username = value; } } }
+        public string Email { get => email; set { if (value == null || value == "") this.email = "None"; else { email = value; } } } 
+        public string Phone { get => phone; set { if (value == null || value == "") this.phone = "None"; else { phone = value; } } }
+        public double HourlyWage { get => hourlyWage; set { if (value == null || value == 0) this.hourlyWage = 0; else { hourlyWage = value; } } }
+        public string Type { get => type; set { if (value == null || value == "") this.type = "None"; else { type = value; } } }
+        public string Address { get => address; set { if (value == null || value == "") this.address = "None"; else { address = value; } } }
+        public string NoGoSchedule { get => noGoSchedule; set { if (value == null || value == "") this.noGoSchedule = "None"; else { noGoSchedule = value; } } }
+        public int ContractedHours { get => contractedHours; set { if (value == null || value == 0) this.contractedHours = 0; else { contractedHours = value; } } }
 
         //internal EmployeeType Type { get => type; set { EmployeeType.TryParse(value.ToString(), out this.type); this.Type = type; } }
 

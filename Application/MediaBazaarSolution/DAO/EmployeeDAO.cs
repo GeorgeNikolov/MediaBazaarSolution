@@ -38,7 +38,7 @@ namespace MediaBazaarSolution.DAO
         {
             List<Employee> employeeList = new List<Employee>();
 
-            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.employee_type,e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name, e.NoGoSchedule, e.ContractedHours FROM employee AS e " +
+            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.email,  e.phone, e.address, e.employee_type, e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name, e.NoGoSchedule, e.ContractedHours FROM employee AS e " +
                 "LEFT JOIN department AS d ON e.department_id = d.id " +
                 "ORDER BY e.employee_id";
 
