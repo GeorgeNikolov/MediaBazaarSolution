@@ -51,7 +51,7 @@ namespace MediaBazaarSolution.DAO
                 {
                     connection.Open();
                 }
-                catch (MySqlException e)
+                catch (Exception e)
                 {
                     MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
                 }
@@ -92,9 +92,10 @@ namespace MediaBazaarSolution.DAO
                 {
                     connection.Open();
                 }
-                catch (MySqlException e)
+                catch (Exception e)
                 {
                     MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
+                    return -1;
                 }
 
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -134,9 +135,10 @@ namespace MediaBazaarSolution.DAO
                 {
                     connection.Open();
                 }
-                catch (MySqlException e)
+                catch (Exception e)
                 {
                     MessageBox.Show("Could not connect to Database, please try again later." + e.Message);
+                    return null;
                 }
                 MySqlCommand command = new MySqlCommand(query, connection);
 
