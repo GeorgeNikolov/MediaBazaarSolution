@@ -282,7 +282,10 @@ namespace MediaBazaarSolution
 
         private void LoadGraphChartData()
         {
-            YAxisCB.Items.AddRange(statisticsScreen.GetAllItems());
+
+            XAxisCB.Items.Clear();
+            XAxisCB.Items.AddRange(statisticsScreen.GetAllItems());
+            XAxisCB.SelectedIndex = 0;
         }
 
         private void LoadGraphChart()
@@ -291,11 +294,18 @@ namespace MediaBazaarSolution
             if ( YAxisCB.SelectedValue != null && YAxisCB.SelectedValue.ToString().Equals("Stock History"))
             {
                 // Stock History
-                //List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories();
+                int id = ItemDAO.Instance.SearchItembyName(YAxisCB.SelectedItem.ToString());
+                    
+                List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories(id);
+                List<string> stock_history_labels = new List<string>();
+                for (int i = 0; i < stock_histories.Count; i++)
+                {
+                    stock_history_labels.Add(stock_histories[i].date.ToString("dd:MM"));
+                }
                 cartesianChart1.AxisX.Add(new Axis
                 {
-                    Title = "Month",
-                    Labels = new [] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                    Title = "Date",
+                    Labels = stock_history_labels
                 });
             }
             else

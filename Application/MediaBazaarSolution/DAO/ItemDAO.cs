@@ -198,6 +198,18 @@ namespace MediaBazaarSolution.DAO
             return prices;
         }
 
+        public int SearchItembyName(string name)
+        {
+            int returnvalue = 0;
+            string query = "SELECT item_id FROM depot_item WHERE item_name = @name";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { name });
+            foreach(DataRow row in data.Rows)
+            {
+                returnvalue = (int)row["item_id"];
+            }
+            return returnvalue;
+        }
+
 
     }
 }
