@@ -114,6 +114,8 @@
     <Compile Include="DAO\RestockDAO.cs" />
     <Compile Include="DTO\Alert.cs" />
     <Compile Include="DTO\Order.cs" />
+    <Compile Include="DTO\Price_History.cs" />
+    <Compile Include="DTO\Stock_History.cs" />
     <Compile Include="ScheduleAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
