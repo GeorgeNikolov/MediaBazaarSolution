@@ -290,7 +290,7 @@ namespace MediaBazaarSolution
 
         private void LoadGraphChart()
         {
-            
+            GraphSeries = new SeriesCollection();
             if ( YAxisCB.SelectedValue != null && YAxisCB.SelectedValue.ToString().Equals("Stock History"))
             {
                 // Stock History
@@ -298,23 +298,51 @@ namespace MediaBazaarSolution
                     
                 List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories(id);
                 List<string> stock_history_labels = new List<string>();
+                List<int> values = new List<int>();
                 for (int i = 0; i < stock_histories.Count; i++)
                 {
                     stock_history_labels.Add(stock_histories[i].date.ToString("dd:MM"));
+                    values.Add(stock_histories[i].amount);
                 }
                 cartesianChart1.AxisX.Add(new Axis
                 {
                     Title = "Date",
                     Labels = stock_history_labels
                 });
+
+                GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Stock",
+                    Values = new ChartValues<int>(values),
+                    LineSmoothness = 0
+                });
+
+                
             }
             else
             {
                 // Price History
+                int id = ItemDAO.Instance.SearchItembyName(YAxisCB.SelectedItem.ToString());
+
+                List<Price_History> price_histories = ItemDAO.Instance.GetPrice_Histories(id);
+                List<string> price_history_labels = new List<string>();
+                for (int i = 0; i < price_histories.Count; i++)
+                {
+                    price_history_labels.Add(price_histories[i].date.ToString("dd:MM"));
+                }
                 cartesianChart1.AxisX.Add(new Axis
                 {
-                    Title = "Month",
-                    Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                    Title = "Date",
+                    Labels = price_history_labels
+                });
+
+                GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Price",
+                    Values = new ChartValues<double> { 6, 7, 3, 4, 6 },
+                    LineSmoothness = 0
                 });
             }
             
@@ -325,25 +353,13 @@ namespace MediaBazaarSolution
             });
             cartesianChart1.LegendLocation = LegendLocation.Right;
 
-            GraphSeries = new SeriesCollection();
+            
 
-            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            
             YFormatter = value => value.ToString("C");
 
-            GraphSeries.Add(
-                new LineSeries
-                {
-                    Title = "Stock",
-                    Values = new ChartValues<double> { 4, 6, 5, 2, 4 },
-                    LineSmoothness = 0
-                });
-            GraphSeries.Add(
-                new LineSeries
-                {
-                    Title = "Price",
-                    Values = new ChartValues<double> { 6, 7, 3, 4, 6 },
-                    LineSmoothness = 0
-                });
+            
+            
             cartesianChart1.Series = GraphSeries;
 
             
@@ -1289,15 +1305,7 @@ namespace MediaBazaarSolution
 
         private void cbShowCompleted_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbShowCompleted.Checked)
-            {
-                showCompletedOrders = true;
-            }
-            else
-            {
-                showCompletedOrders = false;
-            }
-            LoadOrders();
+
         }
 
 
