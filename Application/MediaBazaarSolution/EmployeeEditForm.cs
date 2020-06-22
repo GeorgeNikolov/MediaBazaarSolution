@@ -7,66 +7,137 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using MediaBazaarSolution.DAO;
 using MediaBazaarSolution.DTO;
+using MediaBazaarSolution.DAO;
+using System.Text.RegularExpressions;
 
 namespace MediaBazaarSolution
 {
-    public partial class EmployeeAddForm : Form
+    public partial class EmployeeEditForm : Form
     {
         MainScreen parentForm;
         List<Employee> managers;
-        public EmployeeAddForm(MainScreen parent, Account user)
+        Employee employee;
+
+        public EmployeeEditForm(MainScreen parent, Employee employee, Account user)
         {
             InitializeComponent();
             this.parentForm = parent;
-            if(user.Type.Equals(EmployeeType.Administrator))
-            {
-                cbbxType.Items.Add("Admin");
-                cbbxType.Items.Add("Manager");
-            }
-            cbbxType.Items.Add("Employee");
-            
-            cbbxType.SelectedIndex = 0;
+            this.employee = employee;
 
+            // Setting the values in the textboxes
+            if (user.Type.Equals(EmployeeType.Administrator))
+            {
+                TypeCB.Items.Add("Admin");
+                TypeCB.Items.Add("Manager");
+                
+            }
+            TypeCB.Items.Add("Employee");
+            if(employee.Type.Equals(EmployeeType.Administrator))
+            {
+                TypeCB.SelectedIndex = 0;
+            } else if (employee.Type.Equals(EmployeeType.Manager))
+            {
+                TypeCB.SelectedIndex = 1;
+            } else
+            {
+                TypeCB.SelectedItem = "Employee";
+            }
+            
+            AddressTB.Text = employee.Address;
+            CHoursTB.Text = employee.ContractedHours.ToString();
+            EmailTB.Text = employee.Email;
+            FNameTB.Text = employee.FirstName;
+            HWageTB.Text = employee.HourlyWage.ToString();
+            LNameTB.Text = employee.LastName;
+            PhoneTB.Text = employee.Phone;
+            UNameTB.Text = employee.Username;
+
+            string[] shifts = new string[] {
+                "Monday Morning",
+                "Monday Afternoon",
+                "Monday Evening",
+                "Tuesday Morning",
+                "Tuesday Afternoon",
+                "Tuesday Evening",
+                "Wednesday Morning",
+                "Wednesday Afternoon",
+                "Wednesday Evening",
+                "Thursday Morning",
+                "Thursday Afternoon",
+                "Thursday Evening",
+                "Friday Morning",
+                "Friday Afternoon",
+                "Friday Evening",
+                "Saturday Morning",
+                "Saturday Afternoon",
+                "Saturday Evening",
+                "Sunday Morning",
+                "Sunday Afternoon",
+                "Sunday Evening"
+            };
+            NoWorkCB.Items.AddRange(shifts);
+            Employee contractedManager = null;
             managers = EmployeeDAO.Instance.GetAllManagers();
+            if(employee.Type.Equals(EmployeeType.Employee))
+            {
+                contractedManager = EmployeeDAO.Instance.GetManagerByEmployeeID(employee.ID);
+            }
             
 
             for (int i = 0; i < managers.Count; i++)
             {
                 string fullname = $"{managers[i].FirstName} {managers[i].LastName}";
+                ManagerIDCB.Items.Add(fullname); if (employee.Type.Equals(EmployeeType.Employee))
+                {
+                    if (managers[i].ID == contractedManager.ID)
+                    {
+                        ManagerIDCB.SelectedIndex = i;
+                    }
+                }
                 
-                ManagerIDCB.Items.Add(fullname);
             }
-            ManagerIDCB.SelectedIndex = 0;
+
+            if (employee.Type.Equals(EmployeeType.Employee))
+            {
+                string[] splitsNoGoSchedule = employee.NoGoSchedule.Split('-');
+                int[] noGoInts = new int[splitsNoGoSchedule.Length];
+                for (int i = 0; i < noGoInts.Length; i++)
+                {
+                    noGoInts[i] = Convert.ToInt32(splitsNoGoSchedule[i]);
+                }
+                string[] noGoStrings = ConvertToStrings(noGoInts);
+                NoWorkLB.Items.AddRange(noGoStrings);
+            }
+            
 
         }
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
 
-            string fName = tbxFName.Text;
-            string lName = tbxLName.Text;
-            string username = tbxUName.Text;
-            string email = tbxEmail.Text;
-            string phone = tbxPhone.Text;
-            string address = tbxPlace.Text;
+            string fName = FNameTB.Text;
+            string lName = LNameTB.Text;
+            string username = UNameTB.Text;
+            string email = EmailTB.Text;
+            string phone = PhoneTB.Text;
+            string address = AddressTB.Text;
             string type;
-            if (cbbxType.SelectedItem.ToString().Equals("Admin"))
+            if (TypeCB.SelectedItem.ToString().Equals("Admin"))
             {
                 type = "Admin";
             }
-            else if (cbbxType.SelectedItem.ToString().Equals("Manager"))
+            else if (TypeCB.SelectedItem.ToString().Equals("Manager"))
             {
                 type = "Manager";
-            } else
+            }
+            else
             {
                 type = "Employee";
             }
-            
-            string hourlyWageString = tbxRate.Text;
-            string contractedHours = ContractedHoursTB.Text;
+
+            string hourlyWageString = HWageTB.Text;
+            string contractedHours = CHoursTB.Text;
             string NoGoSchedule = "";
 
 
@@ -78,8 +149,6 @@ namespace MediaBazaarSolution
             }
             int[] noGoIntList = new int[NoWorkLB.Items.Count];
             noGoIntList = ConvertToIntegers(noGoStringList);
-            //int[] noGoIntStringList = new int[NoWorkLB.Items.Count];
-            //noGoStringList.CopyTo(noGoIntStringList, 0);
             Array.ConvertAll(noGoIntList, s => s.ToString());
             for (int i = 0; i < noGoIntList.Length; i++)
             {
@@ -90,14 +159,16 @@ namespace MediaBazaarSolution
                 NoGoSchedule += noGoIntList[i];
             }
             int managerID;
-            if (!type.Equals("Employee"))
+            if(!type.Equals("Employee"))
             {
                 managerID = 0;
-            }
-            else
+                NoGoSchedule = null;
+
+            } else
             {
                 managerID = managers[ManagerIDCB.SelectedIndex].ID;
             }
+
 
 
 
@@ -161,10 +232,20 @@ namespace MediaBazaarSolution
             else if (intContractedHours < 1)
             {
                 MessageBox.Show("The contracted hours must be positive");
-            }
+            } 
             else
             {
-                if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours, managerID))
+                if (EmployeeDAO.Instance.UpdateEmployeeFirstName(employee.ID, fName) &&
+                    EmployeeDAO.Instance.UpdateEmployeeLastName(employee.ID, lName) &&
+                    EmployeeDAO.Instance.UpdateEmployeeAddress(employee.ID, address) &&
+                    EmployeeDAO.Instance.UpdateEmployeePhone(employee.ID, phone) &&
+                    EmployeeDAO.Instance.UpdateEmployeeUsername(employee.ID, username) &&
+                    EmployeeDAO.Instance.UpdateEmployeeEmail(employee.ID, email) &&
+                    EmployeeDAO.Instance.UpdateEmployeeType(employee.ID, type) &&
+                    EmployeeDAO.Instance.UpdateEmployeeHourlyWage(employee.ID, hourlyWage) &&
+                    EmployeeDAO.Instance.UpdateEmployeeNoGoTimes(employee.ID, NoGoSchedule) &&
+                    EmployeeDAO.Instance.UpdateEmployeeContractedHours(employee.ID, intContractedHours) &&
+                    EmployeeDAO.Instance.UpdateEmployeeManager(employee.ID, managerID))
                 {
                     MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     parentForm.LoadAll();
@@ -183,15 +264,7 @@ namespace MediaBazaarSolution
 
         private void AddNoWorkBtn_Click(object sender, EventArgs e)
         {
-            string workingString = NoWorkCB.Text.ToString();
-            if (NoWorkLB.Items.Contains(workingString)) {
-                MessageBox.Show("That day is already in there");
-            } else
-            {
-                NoWorkLB.Items.Add(workingString);
-                SortLB();
-            }
-            
+
         }
 
 
@@ -259,7 +332,7 @@ namespace MediaBazaarSolution
             for (int i = 0; i < list.Length; i++)
             {
                 string tempstring = "";
-                if(list[i]/3 == 0)
+                if (list[i] / 3 == 0)
                 {
                     tempstring = "Monday";
                 }
@@ -287,11 +360,11 @@ namespace MediaBazaarSolution
                 {
                     tempstring = "Sunday";
                 }
-                if (list[i]%3 == 0)
+                if (list[i] % 3 == 0)
                 {
                     tempstring += " Morning";
                 }
-                if (list[i]%3 == 1)
+                if (list[i] % 3 == 1)
                 {
                     tempstring += " Afternoon";
                 }
@@ -312,3 +385,4 @@ namespace MediaBazaarSolution
         }
     }
 }
+

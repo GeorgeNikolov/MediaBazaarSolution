@@ -1555,5 +1555,21 @@ namespace MediaBazaarSolution
         {
             LoadGraphChart();
         }
+
+        private void EmployeeEditBtn_Click(object sender, EventArgs e)
+        {
+            if(dgvEmployees.SelectedRows.Count != 0)
+            {
+                Employee employee = (Employee)dgvEmployees.SelectedRows[0].DataBoundItem;
+                EmployeeEditForm employeeEditForm = new EmployeeEditForm(this, employee, user);
+                employeeEditForm.Show();
+            }
+            
+        }
+
+        private void DepotEditBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

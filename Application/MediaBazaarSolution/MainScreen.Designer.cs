@@ -108,6 +108,8 @@
             this.btnMakeOrder = new System.Windows.Forms.Button();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
             this.CheckMail = new System.Windows.Forms.Timer(this.components);
+            this.EmployeeEditBtn = new System.Windows.Forms.Button();
+            this.DepotEditBtn = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.ScheduleTab.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -338,6 +340,7 @@
             // 
             // EmployeesTab
             // 
+            this.EmployeesTab.Controls.Add(this.EmployeeEditBtn);
             this.EmployeesTab.Controls.Add(this.btnReloadEmployees);
             this.EmployeesTab.Controls.Add(this.btnSearchEmployee);
             this.EmployeesTab.Controls.Add(this.label4);
@@ -419,7 +422,9 @@
             // 
             this.dgvEmployees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEmployees.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvEmployees.Location = new System.Drawing.Point(25, 17);
+            this.dgvEmployees.MultiSelect = false;
             this.dgvEmployees.Name = "dgvEmployees";
             this.dgvEmployees.RowHeadersWidth = 51;
             this.dgvEmployees.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -431,6 +436,7 @@
             // 
             // DepotTab
             // 
+            this.DepotTab.Controls.Add(this.DepotEditBtn);
             this.DepotTab.Controls.Add(this.btnReloadItems);
             this.DepotTab.Controls.Add(this.label3);
             this.DepotTab.Controls.Add(this.cbxItemCategory);
@@ -538,6 +544,7 @@
             this.dgvDepot.AllowUserToAddRows = false;
             this.dgvDepot.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDepot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDepot.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvDepot.Location = new System.Drawing.Point(15, 32);
             this.dgvDepot.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDepot.MultiSelect = false;
@@ -644,6 +651,7 @@
             // 
             this.StProductDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.StProductDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StProductDGV.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.StProductDGV.Location = new System.Drawing.Point(0, 0);
             this.StProductDGV.Margin = new System.Windows.Forms.Padding(2);
             this.StProductDGV.Name = "StProductDGV";
@@ -1027,12 +1035,34 @@
             this.CheckMail.Enabled = true;
             this.CheckMail.Tick += new System.EventHandler(this.CheckMail_Tick);
             // 
+            // EmployeeEditBtn
+            // 
+            this.EmployeeEditBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EmployeeEditBtn.Location = new System.Drawing.Point(485, 486);
+            this.EmployeeEditBtn.Name = "EmployeeEditBtn";
+            this.EmployeeEditBtn.Size = new System.Drawing.Size(100, 35);
+            this.EmployeeEditBtn.TabIndex = 12;
+            this.EmployeeEditBtn.Text = "Edit";
+            this.EmployeeEditBtn.UseVisualStyleBackColor = true;
+            this.EmployeeEditBtn.Click += new System.EventHandler(this.EmployeeEditBtn_Click);
+            // 
+            // DepotEditBtn
+            // 
+            this.DepotEditBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DepotEditBtn.Location = new System.Drawing.Point(549, 478);
+            this.DepotEditBtn.Name = "DepotEditBtn";
+            this.DepotEditBtn.Size = new System.Drawing.Size(100, 35);
+            this.DepotEditBtn.TabIndex = 13;
+            this.DepotEditBtn.Text = "Edit";
+            this.DepotEditBtn.UseVisualStyleBackColor = true;
+            this.DepotEditBtn.Click += new System.EventHandler(this.DepotEditBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1392, 575);
+            this.ClientSize = new System.Drawing.Size(1392, 640);
             this.Controls.Add(this.Tabs);
             this.Controls.Add(this.lblWelcome);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -1152,5 +1182,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridView StProductDGV;
+        private System.Windows.Forms.Button EmployeeEditBtn;
+        private System.Windows.Forms.Button DepotEditBtn;
     }
 }

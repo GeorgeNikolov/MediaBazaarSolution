@@ -53,6 +53,9 @@
             this.lblNoGoTimes = new System.Windows.Forms.Label();
             this.NoWorkLB = new System.Windows.Forms.ListBox();
             this.AddNoWorkBtn = new System.Windows.Forms.Button();
+            this.ManagerIDCB = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.RemoveNoWorkBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFName
@@ -294,7 +297,7 @@
             this.NoWorkLB.FormattingEnabled = true;
             this.NoWorkLB.Location = new System.Drawing.Point(245, 426);
             this.NoWorkLB.Name = "NoWorkLB";
-            this.NoWorkLB.Size = new System.Drawing.Size(199, 134);
+            this.NoWorkLB.Size = new System.Drawing.Size(156, 134);
             this.NoWorkLB.TabIndex = 26;
             // 
             // AddNoWorkBtn
@@ -307,11 +310,41 @@
             this.AddNoWorkBtn.UseVisualStyleBackColor = true;
             this.AddNoWorkBtn.Click += new System.EventHandler(this.AddNoWorkBtn_Click);
             // 
+            // ManagerIDCB
+            // 
+            this.ManagerIDCB.FormattingEnabled = true;
+            this.ManagerIDCB.Location = new System.Drawing.Point(52, 460);
+            this.ManagerIDCB.Name = "ManagerIDCB";
+            this.ManagerIDCB.Size = new System.Drawing.Size(100, 21);
+            this.ManagerIDCB.TabIndex = 29;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(49, 444);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Manager";
+            // 
+            // RemoveNoWorkBtn
+            // 
+            this.RemoveNoWorkBtn.Location = new System.Drawing.Point(407, 426);
+            this.RemoveNoWorkBtn.Name = "RemoveNoWorkBtn";
+            this.RemoveNoWorkBtn.Size = new System.Drawing.Size(70, 134);
+            this.RemoveNoWorkBtn.TabIndex = 30;
+            this.RemoveNoWorkBtn.Text = "Remove";
+            this.RemoveNoWorkBtn.UseVisualStyleBackColor = true;
+            this.RemoveNoWorkBtn.Click += new System.EventHandler(this.RemoveNoWorkBtn_Click);
+            // 
             // EmployeeAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(489, 622);
+            this.Controls.Add(this.RemoveNoWorkBtn);
+            this.Controls.Add(this.ManagerIDCB);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.AddNoWorkBtn);
             this.Controls.Add(this.NoWorkLB);
             this.Controls.Add(this.ContractedHoursTB);
@@ -372,5 +405,8 @@
         private System.Windows.Forms.Label lblNoGoTimes;
         private System.Windows.Forms.ListBox NoWorkLB;
         private System.Windows.Forms.Button AddNoWorkBtn;
+        private System.Windows.Forms.ComboBox ManagerIDCB;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button RemoveNoWorkBtn;
     }
 }

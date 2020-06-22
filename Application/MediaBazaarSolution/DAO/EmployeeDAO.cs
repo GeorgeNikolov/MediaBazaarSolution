@@ -53,14 +53,14 @@ namespace MediaBazaarSolution.DAO
 
         }
 
-        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours)
+        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours, int managerID)
         {
             string password = "password";
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours)" +
-                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours )";
+            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours, manager_id)" +
+                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours , @managerID )";
 
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours}) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID}) > 0;
         }
 
         public bool DeleteEmployee(int id)
@@ -214,6 +214,21 @@ namespace MediaBazaarSolution.DAO
 
             return employeeList;
         }
-        
+
+        public Employee GetManagerByEmployeeID(int employeeID)
+        {
+            string query = "SELECT * FROM employee WHERE employee_id IN ( SELECT manager_id FROM employee WHERE employee_id = @employeeID )";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID });
+            Employee employee = new Employee(data.Rows[0]);
+            return employee;
+        }
+
+        public bool UpdateEmployeeManager(int employeeID, int managerID)
+        {
+            string query = "UPDATE employee SET manager_id = @managerID WHERE employee_id = @employeeID ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { managerID, employeeID }) > 0;
+        }
+
+
     }
 }
