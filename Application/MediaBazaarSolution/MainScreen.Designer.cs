@@ -68,8 +68,8 @@
             this.dgvDepot = new System.Windows.Forms.DataGridView();
             this.StatisticsTab = new System.Windows.Forms.TabPage();
             this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
-            this.XAxisCB = new System.Windows.Forms.ComboBox();
             this.YAxisCB = new System.Windows.Forms.ComboBox();
+            this.XAxisCB = new System.Windows.Forms.ComboBox();
             this.PiechartCB = new System.Windows.Forms.ComboBox();
             this.SalesPieChart = new LiveCharts.WinForms.PieChart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -554,8 +554,8 @@
             // StatisticsTab
             // 
             this.StatisticsTab.Controls.Add(this.cartesianChart1);
-            this.StatisticsTab.Controls.Add(this.XAxisCB);
             this.StatisticsTab.Controls.Add(this.YAxisCB);
+            this.StatisticsTab.Controls.Add(this.XAxisCB);
             this.StatisticsTab.Controls.Add(this.PiechartCB);
             this.StatisticsTab.Controls.Add(this.SalesPieChart);
             this.StatisticsTab.Controls.Add(this.tabControl1);
@@ -577,30 +577,26 @@
             this.cartesianChart1.TabIndex = 5;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
-            // XAxisCB
-            // 
-            this.XAxisCB.FormattingEnabled = true;
-            this.XAxisCB.Items.AddRange(new object[] {
-            "1 year",
-            "6 months",
-            "3 months",
-            "1 month",
-            "2 weeks",
-            "1 week"});
-            this.XAxisCB.Location = new System.Drawing.Point(534, 332);
-            this.XAxisCB.Margin = new System.Windows.Forms.Padding(2);
-            this.XAxisCB.Name = "XAxisCB";
-            this.XAxisCB.Size = new System.Drawing.Size(92, 28);
-            this.XAxisCB.TabIndex = 4;
-            // 
             // YAxisCB
             // 
             this.YAxisCB.FormattingEnabled = true;
-            this.YAxisCB.Location = new System.Drawing.Point(534, 304);
+            this.YAxisCB.Items.AddRange(new object[] {
+            "Stock History",
+            "Price History"});
+            this.YAxisCB.Location = new System.Drawing.Point(534, 336);
             this.YAxisCB.Margin = new System.Windows.Forms.Padding(2);
             this.YAxisCB.Name = "YAxisCB";
             this.YAxisCB.Size = new System.Drawing.Size(92, 28);
-            this.YAxisCB.TabIndex = 3;
+            this.YAxisCB.TabIndex = 4;
+            // 
+            // XAxisCB
+            // 
+            this.XAxisCB.FormattingEnabled = true;
+            this.XAxisCB.Location = new System.Drawing.Point(534, 304);
+            this.XAxisCB.Margin = new System.Windows.Forms.Padding(2);
+            this.XAxisCB.Name = "XAxisCB";
+            this.XAxisCB.Size = new System.Drawing.Size(92, 28);
+            this.XAxisCB.TabIndex = 3;
             // 
             // PiechartCB
             // 
@@ -1140,8 +1136,8 @@
         private System.Windows.Forms.CheckBox cbShowCompleted;
         private System.Windows.Forms.ComboBox cbxStatus;
         private System.Windows.Forms.NumericUpDown nUPLimitID;
-        private System.Windows.Forms.ComboBox XAxisCB;
         private System.Windows.Forms.ComboBox YAxisCB;
+        private System.Windows.Forms.ComboBox XAxisCB;
         private System.Windows.Forms.ComboBox PiechartCB;
         private LiveCharts.WinForms.CartesianChart cartesianChart1;
         private System.Windows.Forms.Button AutoScheduleGeneratorBtn;
