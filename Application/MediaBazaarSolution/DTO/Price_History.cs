@@ -13,12 +13,12 @@ namespace MediaBazaarSolution.DTO
         public Price_History(DataRow row)
         {
             this.ID = (int)row["item_id"];
-            this.amount = (int)row["price_change"];
+            this.amount = (double)row["price_change"];
             this.date = (DateTime)row["timestamp"];
         }
 
         public int ID { get; private set; }
-        public int amount { get; private set; }
+        public double amount { get; private set; }
         public DateTime date { get; private set; }
     }
 }

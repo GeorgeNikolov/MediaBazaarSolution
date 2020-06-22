@@ -285,24 +285,35 @@ namespace MediaBazaarSolution
 
             XAxisCB.Items.Clear();
             XAxisCB.Items.AddRange(statisticsScreen.GetAllItems());
-            XAxisCB.SelectedIndex = 0;
+            XAxisCB.SelectedIndex = 1;
+            YAxisCB.SelectedIndex = 1;
         }
 
         private void LoadGraphChart()
         {
             GraphSeries = new SeriesCollection();
-            if ( YAxisCB.SelectedValue != null && YAxisCB.SelectedValue.ToString().Equals("Stock History"))
+            cartesianChart1.AxisY.Clear();
+            cartesianChart1.AxisX.Clear();
+            if ( YAxisCB.Text.Equals("Stock History"))
             {
                 // Stock History
-                int id = ItemDAO.Instance.SearchItembyName(YAxisCB.SelectedItem.ToString());
+                Item item = ItemDAO.Instance.SearchItembyName(XAxisCB.Text);
+                int id = item.ID;
                     
                 List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories(id);
                 List<string> stock_history_labels = new List<string>();
                 List<int> values = new List<int>();
+                int currentAmount = item.Amount;
                 for (int i = 0; i < stock_histories.Count; i++)
                 {
-                    stock_history_labels.Add(stock_histories[i].date.ToString("dd:MM"));
-                    values.Add(stock_histories[i].amount);
+                    currentAmount -= stock_histories[i].amount;
+                }
+                for (int i = 0; i < stock_histories.Count; i++)
+                {
+                    stock_history_labels.Add(stock_histories[i].date.ToString("dd/MM"));
+                    currentAmount += stock_histories[i].amount;
+                    values.Add(currentAmount);
+                    
                 }
                 cartesianChart1.AxisX.Add(new Axis
                 {
@@ -318,18 +329,31 @@ namespace MediaBazaarSolution
                     LineSmoothness = 0
                 });
 
-                
+                cartesianChart1.AxisY.Add(new Axis
+                {
+                    Title = "Revenue",
+                    LabelFormatter = value => value.ToString()
+                });
             }
             else
             {
                 // Price History
-                int id = ItemDAO.Instance.SearchItembyName(YAxisCB.SelectedItem.ToString());
+                Item item = ItemDAO.Instance.SearchItembyName(XAxisCB.Text);
+                int id = item.ID;
 
                 List<Price_History> price_histories = ItemDAO.Instance.GetPrice_Histories(id);
                 List<string> price_history_labels = new List<string>();
+                List<double> values = new List<double>();
+                double currentPrice = item.Price;
                 for (int i = 0; i < price_histories.Count; i++)
                 {
-                    price_history_labels.Add(price_histories[i].date.ToString("dd:MM"));
+                    currentPrice -= price_histories[i].amount;
+                }
+                for (int i = 0; i < price_histories.Count; i++)
+                {
+                    price_history_labels.Add(price_histories[i].date.ToString("dd/MM"));
+                    currentPrice += price_histories[i].amount;
+                    values.Add(currentPrice);
                 }
                 cartesianChart1.AxisX.Add(new Axis
                 {
@@ -341,22 +365,25 @@ namespace MediaBazaarSolution
                 new LineSeries
                 {
                     Title = "Price",
-                    Values = new ChartValues<double> { 6, 7, 3, 4, 6 },
-                    LineSmoothness = 0
+                    Values = new ChartValues<double>(values),
+                    LineSmoothness = 0,
+                    
+                });
+
+                cartesianChart1.AxisY.Add(new Axis
+                {
+                    Title = "Revenue",
+                    LabelFormatter = value => value.ToString("C")
                 });
             }
             
-            cartesianChart1.AxisY.Add(new Axis
-            {
-                Title = "Revenue",
-                LabelFormatter = value => value.ToString("C")
-            });
+            
             cartesianChart1.LegendLocation = LegendLocation.Right;
 
-            
 
-            
-            YFormatter = value => value.ToString("C");
+
+            YFormatter = null;
+            YFormatter = value => value.ToString();
 
             
             
@@ -1450,6 +1477,11 @@ namespace MediaBazaarSolution
         private void AutoScheduleGeneratorBtn_Click(object sender, EventArgs e)
         {
             AddSchedule();
+        }
+
+        private void XAxisCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadGraphChart();
         }
     }
 }

@@ -129,7 +129,7 @@ namespace MediaBazaarSolution.DAO
         public bool UpdateItemAmount(int id, int amount)
         {
             int oldStock;
-            string oldStockQuery = "SELECT amount from depot_item " +
+            string oldStockQuery = "SELECT amount FROM depot_item " +
                                    "WHERE item_id = " + id;
             oldStock = (int)DataProvider.Instance.ExecuteScalar(oldStockQuery);
 
@@ -145,7 +145,7 @@ namespace MediaBazaarSolution.DAO
             double oldprice;
             string oldPriceQuery = "SELECT price from depot_item " +
                                    "WHERE item_id = " + id;
-            oldprice = (double)DataProvider.Instance.ExecuteScalar(oldPriceQuery);
+            oldprice = Convert.ToInt32(DataProvider.Instance.ExecuteScalar(oldPriceQuery));
 
             string query = "UPDATE depot_item SET price = @valueToBeChanged WHERE item_id = " + id;
             bool result = DataProvider.Instance.ExecuteNonQuery(query, new object[] { price }) > 0;
@@ -158,8 +158,8 @@ namespace MediaBazaarSolution.DAO
         {
             double priceChange = price - oldPrice;
             DateTime dateNow = DateTime.Now;
-            string query = "INSERT INTO price_history(item_id,  price_change, timestamp)" +
-                           "VALUES(@id, @priceChange, @dateNow) ";
+            string query = "INSERT INTO price_history(item_id, price_change, timestamp) " +
+                           "VALUES( @id , @priceChange , @dateNow ) ";
             DataProvider.Instance.ExecuteQuery(query, new object[] { id, priceChange, dateNow });
         }
 
@@ -167,8 +167,8 @@ namespace MediaBazaarSolution.DAO
         {
             int stockChange = stock - oldStock;
             DateTime dateNow = DateTime.Now;
-            string query = "INSERT INTO stock_history(item_id,  stock_change, timestamp)" +
-                           "VALUES(@id, @stockChange, @dateNow) ";
+            string query = "INSERT INTO stock_history(item_id, stock_change, timestamp) " +
+                           "VALUES( @id , @stockChange , @dateNow ) ";
             DataProvider.Instance.ExecuteQuery(query, new object[] { id, stockChange, dateNow });
         }
 
@@ -198,16 +198,17 @@ namespace MediaBazaarSolution.DAO
             return prices;
         }
 
-        public int SearchItembyName(string name)
+        public Item SearchItembyName(string name)
         {
-            int returnvalue = 0;
-            string query = "SELECT item_id FROM depot_item WHERE item_name = @name";
+            List<Item> items = new List<Item>(); 
+            string query = "SELECT dp.item_id, dp.item_name, dp.amount,c.category_name, dp.price " +
+                    "FROM `depot_item` AS dp " +
+                    "LEFT JOIN category AS c " +
+                    "ON dp.category_id = c.category_id " +
+                    "WHERE dp.item_name = @name ";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { name });
-            foreach(DataRow row in data.Rows)
-            {
-                returnvalue = (int)row["item_id"];
-            }
-            return returnvalue;
+            Item item = new Item(data.Rows[0]);
+            return item;
         }
 
 
