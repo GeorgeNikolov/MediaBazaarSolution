@@ -37,7 +37,7 @@ namespace MediaBazaarSolution
             string type = (cbbxType.SelectedIndex == 0) ? "employee" : "admin";
             string hourlyWageString = tbxRate.Text;
             string contractedHours = ContractedHoursTB.Text;
-            string NoGoSchedule = null;
+            string NoGoSchedule = "";
 
 
 

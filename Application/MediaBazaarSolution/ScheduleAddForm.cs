@@ -102,7 +102,7 @@ namespace MediaBazaarSolution
 
         private void AddScheduleBinding()
         {
-            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "Time"));
+            dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "StartTime"));
             tbxTaskName.DataBindings.Add(new Binding("Text", dgvSchedule.DataSource, "TaskName"));
         }
 
@@ -133,7 +133,7 @@ namespace MediaBazaarSolution
                 int selectedRowIndex = dgvSchedule.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = dgvSchedule.Rows[selectedRowIndex];
                 employeeID = Convert.ToInt32(selectedRow.Cells["EmployeeID"].Value);
-                time = selectedRow.Cells["Time"].Value.ToString();
+                time = selectedRow.Cells["StartTime"].Value.ToString();
                 taskName = selectedRow.Cells["TaskName"].Value.ToString();
             }
         }
