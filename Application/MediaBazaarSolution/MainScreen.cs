@@ -26,7 +26,7 @@ namespace MediaBazaarSolution
     public partial class MainScreen : Form
     {
         private bool sortAlertsByPriority;
-        private bool showCompletedOrders;
+        private bool showCompletedOrders = false;
 
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
@@ -408,6 +408,8 @@ namespace MediaBazaarSolution
         {
             orders = RestockDAO.Instance.LoadOrders(showCompletedOrders);
             dgvOrders.DataSource = orders;
+            dgvOrders.Columns[dgvOrders.ColumnCount-1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
         }
 
         private void SearchItemByCategory(string categoryWanted)

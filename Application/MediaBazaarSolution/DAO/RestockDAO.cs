@@ -64,13 +64,17 @@ namespace MediaBazaarSolution.DAO
         public List<Order> LoadOrders(bool showCompletedOrders)
         {
             string query = "SELECT * FROM orders ";
+            
             if(!showCompletedOrders)
-            query += "WHERE status != 'complete' ";
+            {
+                query += "WHERE NOT status = 'complete' ";
+                    //"IN('incomplete', 'pending', 'cancelled') ";
+            }
 
-            query += "ORDER BY item_id";
+            query += "ORDER BY item_id ";
 
             List<Order> orderList = new List<Order>();
-            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { });
 
 
             foreach (DataRow row in data.Rows)
