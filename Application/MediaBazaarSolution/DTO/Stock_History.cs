@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MediaBazaarSolution.DTO
 {
-    class Stock_History
+    public class Stock_History
     {
         public Stock_History(DataRow row)
         {

@@ -85,7 +85,8 @@ namespace MediaBazaarSolution
             alerts = new List<Alert>();
             orders = new List<Order>();
             statisticsScreen = new StatisticsScreen();
-            XAxisCB.SelectedIndex = 1;
+            YAxisCB.SelectedIndex = 0;
+            XAxisCB.SelectedIndex = 0;
 
             LoadAll();
 
@@ -97,7 +98,7 @@ namespace MediaBazaarSolution
             lblWelcome.Text = "Welcome " + userFirstName + "!";
 
 
-            // Dummy Data for presentation Week 12
+            /** Dummy Data for presentation Week 12
             SeriesCollection series = new SeriesCollection();
             string[] categoryNames = new string[6] { "Computer", "Home Appliances", "Television", "Camera", "Mobile", "Gaming" };
             int[] categoryNumbers = new int[6] { 50, 30, 57, 134, 264, 80 };
@@ -108,9 +109,9 @@ namespace MediaBazaarSolution
             SalesPieChart.Series = series;
             SalesPieChart.Text = "Category Sales";
             SalesPieChart.LegendLocation = LegendLocation.Right;
-
+            
             SalesPieChart.Refresh();
-
+            */
             //Update the mail list
             UpdateAllMailsList();
 
@@ -179,6 +180,7 @@ namespace MediaBazaarSolution
 
             LoadPieChartData();
             LoadPieChart();
+            LoadGraphChartData();
             LoadGraphChart();
         }
 
@@ -196,6 +198,7 @@ namespace MediaBazaarSolution
 
         private void LoadPieChart()
         {
+            
             String[] products;
             SeriesCollection series = new SeriesCollection();
 
@@ -274,13 +277,34 @@ namespace MediaBazaarSolution
         public string[] Labels { get; set; }
         public SeriesCollection GraphSeries { get; set; }
 
+        private void LoadGraphChartData()
+        {
+            YAxisCB.Items.AddRange(statisticsScreen.GetAllItems());
+        }
+
         private void LoadGraphChart()
         {
-            cartesianChart1.AxisX.Add(new Axis
+            
+            if (YAxisCB.SelectedValue.ToString().Equals("Stock History"))
             {
-                Title = "Month",
-                Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
-            });
+                // Stock History
+                //List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories();
+                cartesianChart1.AxisX.Add(new Axis
+                {
+                    Title = "Month",
+                    Labels = new [] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                });
+            }
+            else
+            {
+                // Price History
+                cartesianChart1.AxisX.Add(new Axis
+                {
+                    Title = "Month",
+                    Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+                });
+            }
+            
             cartesianChart1.AxisY.Add(new Axis
             {
                 Title = "Revenue",

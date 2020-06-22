@@ -14,7 +14,8 @@ namespace MediaBazaarSolution.DAO
         //this ensures that only one object of its kind exists and provides a single point of access to it for any other code
         private static ItemDAO instance;
 
-        public static ItemDAO Instance { 
+        public static ItemDAO Instance
+        {
             get
             {
                 if (instance == null)
@@ -41,17 +42,17 @@ namespace MediaBazaarSolution.DAO
                 "LEFT JOIN category AS c " +
                 "ON dp.category_id = c.category_id";
 
-            List<Item>  itemList = new List<Item>();
+            List<Item> itemList = new List<Item>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            
-            foreach(DataRow row in data.Rows)
+
+            foreach (DataRow row in data.Rows)
             {
                 Item item = new Item(row);
                 itemList.Add(item);
             }
-            
+
 
             return itemList;
         }
@@ -59,7 +60,7 @@ namespace MediaBazaarSolution.DAO
         public List<Item> SearchItemByCategory(string categoryWanted)
         {
             List<Item> itemList = new List<Item>();
-            
+
 
             string query = "SELECT dp.item_id, dp.item_name, dp.amount, c.category_name, dp.price " +
                     "FROM `depot_item` AS dp " +
@@ -69,7 +70,7 @@ namespace MediaBazaarSolution.DAO
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Item item = new Item(row);
                 itemList.Add(item);
@@ -159,7 +160,7 @@ namespace MediaBazaarSolution.DAO
             DateTime dateNow = DateTime.Now;
             string query = "INSERT INTO price_history(item_id,  price_change, timestamp)" +
                            "VALUES(@id, @priceChange, @dateNow) ";
-            DataProvider.Instance.ExecuteQuery(query , new object[] {id, priceChange, dateNow}); 
+            DataProvider.Instance.ExecuteQuery(query, new object[] { id, priceChange, dateNow });
         }
 
         private void AddStockHistory(int id, int oldStock, int stock)
@@ -169,6 +170,32 @@ namespace MediaBazaarSolution.DAO
             string query = "INSERT INTO stock_history(item_id,  stock_change, timestamp)" +
                            "VALUES(@id, @stockChange, @dateNow) ";
             DataProvider.Instance.ExecuteQuery(query, new object[] { id, stockChange, dateNow });
+        }
+
+        public List<Stock_History> GetStock_Histories(int id)
+        {
+            List<Stock_History> stocks = new List<Stock_History>();
+            string query = "SELECT * FROM stock_history WHERE item_id = @id";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
+            foreach(DataRow row in data.Rows)
+            {
+                Stock_History item = new Stock_History(row);
+                stocks.Add(item);
+            }
+            return stocks;
+        }
+
+        public List<Price_History> GetPrice_Histories(int id)
+        {
+            List<Price_History> prices = new List<Price_History>();
+            string query = "SELECT * FROM price_history WHERE item_id = @id";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
+            foreach(DataRow row in data.Rows)
+            {
+                Price_History item = new Price_History(row);
+                prices.Add(item);
+            }
+            return prices;
         }
 
 
