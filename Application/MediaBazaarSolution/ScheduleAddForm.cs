@@ -15,16 +15,16 @@ namespace MediaBazaarSolution
     public partial class ScheduleAddForm : Form
     {
         List<int> employeeIDList;
-
+        Account user;
         private int employeeID;
         private string date;
         private string time;
         private string taskName;
-        public ScheduleAddForm(string date)
+        public ScheduleAddForm(string date, Account user)
         {
             InitializeComponent();
             employeeIDList = new List<int>();
-
+            this.user = user;
             this.date = date;
             dtpStartTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
@@ -36,12 +36,38 @@ namespace MediaBazaarSolution
             { 
                 cbbxEmployees.SelectedIndex = employeeIDList.IndexOf((int)dgvSchedule.Rows[0].Cells[0].Value);
             }
+            if(user.Type.Equals(EmployeeType.Employee))
+            {
+                btnAddSchedule.Visible = false;
+                btnDeleteSchedule.Visible = false;
+                btnUpdateSchedule.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+                label6.Visible = false;
+                cbbxEmployees.Visible = false;
+                tbxDate.Visible = false;
+                tbxTaskName.Visible = false;
+                dtpEndTime.Visible = false;
+                dtpStartTime.Visible = false;
+            }
 
         }
 
         public void FillDgvSchedule()
         {
-            dgvSchedule.DataSource = ScheduleDAO.Instance.GetEmployeesOnShiftByDate(this.date);
+            if (user.Type.Equals(EmployeeType.Administrator))
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetEmployeesOnShiftByDate(this.date);
+            } else if (user.Type.Equals(EmployeeType.Manager))
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetScheduleByDateManager(this.date, this.user.ID);
+            } else
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetScheduleByDateEmployee(this.date, this.user.ID);
+            }
+            
         }
 
         public void FillEmployeesComboBox()

@@ -98,5 +98,39 @@ namespace MediaBazaarSolution.DAO
 
             return idList;
         }
+
+        public List<Schedule> GetScheduleByDateEmployee(string date, int id)
+        {
+            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name" +
+                " FROM `schedule` AS s " +
+                "LEFT JOIN `employee` AS e " +
+                "ON s.employee_id = e.employee_id " +
+                "WHERE s.date = @date && s.employee_id = @id ";
+            List<Schedule> schedules = new List<Schedule>();
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { date, id });
+
+            foreach (DataRow row in data.Rows)
+            {
+                schedules.Add(new Schedule(row));
+            }
+            return schedules;
+        }
+
+        public List<Schedule> GetScheduleByDateManager(string date, int id)
+        {
+            string query = "SELECT s.employee_id, e.first_name, e.last_name, s.date, s.start_time, s.end_time, s.task_name" +
+                " FROM `schedule` AS s " +
+                "LEFT JOIN `employee` AS e " +
+                "ON s.employee_id = e.employee_id " +
+                "WHERE e.employee_type = 'employee' AND e.manager_id = @id AND s.date = @date ";
+            List<Schedule> schedules = new List<Schedule>();
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id, date });
+
+            foreach (DataRow row in data.Rows)
+            {
+                schedules.Add(new Schedule(row));
+            }
+            return schedules;
+        }
     }
 }

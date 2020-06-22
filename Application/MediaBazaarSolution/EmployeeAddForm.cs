@@ -9,20 +9,27 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using MediaBazaarSolution.DAO;
+using MediaBazaarSolution.DTO;
 
 namespace MediaBazaarSolution
 {
     public partial class EmployeeAddForm : Form
     {
         MainScreen parentForm;
-        public EmployeeAddForm(MainScreen parent)
+        public EmployeeAddForm(MainScreen parent, Account user)
         {
             InitializeComponent();
             this.parentForm = parent;
-
+            if(user.Type.Equals(EmployeeType.Administrator))
+            {
+                cbbxType.Items.Add("Admin");
+                cbbxType.Items.Add("Manager");
+            }
             cbbxType.Items.Add("Employee");
-            cbbxType.Items.Add("Admin");
+            
             cbbxType.SelectedIndex = 0;
+
+            
         }
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
@@ -34,7 +41,19 @@ namespace MediaBazaarSolution
             string email = tbxEmail.Text;
             string phone = tbxPhone.Text;
             string address = tbxPlace.Text;
-            string type = (cbbxType.SelectedIndex == 0) ? "employee" : "admin";
+            string type;
+            if (cbbxType.SelectedItem.ToString().Equals("Admin"))
+            {
+                type = "Admin";
+            }
+            else if (cbbxType.SelectedItem.ToString().Equals("Manager"))
+            {
+                type = "Manager";
+            } else
+            {
+                type = "Employee";
+            }
+            
             string hourlyWageString = tbxRate.Text;
             string contractedHours = ContractedHoursTB.Text;
             string NoGoSchedule = "";

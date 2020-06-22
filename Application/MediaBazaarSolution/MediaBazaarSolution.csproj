@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\MailDAO.cs" />
+    <Compile Include="DTO\Account.cs" />
     <Compile Include="DTO\Mail.cs" />
     <Compile Include="DAO\AutoSchedulerDAO.cs" />
     <Compile Include="DAO\RestockDAO.cs" />

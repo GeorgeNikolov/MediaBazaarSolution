@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using MediaBazaarSolution.Helper;
+using MediaBazaarSolution.DTO;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -35,7 +36,7 @@ namespace MediaBazaarSolution.DAO
         public bool LoginValid(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT * FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin' ";
+            string query = "SELECT * FROM employee WHERE username = @username AND password = @password ";
 
             DataTable result = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
 
@@ -56,6 +57,16 @@ namespace MediaBazaarSolution.DAO
             string query = "SELECT employee_id FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin'";
 
             return (int)DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword });
+        }
+
+        public Account GetAccount(string username, string password)
+        {
+            string hashedPassword = MD5.GenerateMD5(password);
+            string query = "SELECT * FROM employee WHERE username = @username AND password = @password";
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
+            Account account = new Account(data.Rows[0]);
+            return account;
         }
     }
 }

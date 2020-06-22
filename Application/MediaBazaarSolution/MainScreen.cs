@@ -49,6 +49,7 @@ namespace MediaBazaarSolution
         private object oldEmployeeCellValue;
 
         private string userFirstName;
+        private Account user;
 
         //Control which is the current tab in the mail tab
         private int currentTab = 0;
@@ -72,7 +73,7 @@ namespace MediaBazaarSolution
             private set { this.matrix = value; }
         }
 
-        public MainScreen(string userFirstName, int adminID)
+        public MainScreen(Account user)
         {
             InitializeComponent();
 
@@ -85,36 +86,49 @@ namespace MediaBazaarSolution
             alerts = new List<Alert>();
             orders = new List<Order>();
             statisticsScreen = new StatisticsScreen();
-            
 
+            this.user = user;
             LoadAll();
 
             //YAxisCB.SelectedIndex = 0;
             //XAxisCB.SelectedIndex = 0;
             cbxStatus.SelectedIndex = 0;
 
-            this.userFirstName = userFirstName;
-            this.adminID = adminID;
+            this.userFirstName = user.FirstName;
+            this.adminID = user.ID;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
             depotAddForm = new DepotAddForm(this);
 
             lblWelcome.Text = "Welcome " + userFirstName + "!";
 
 
-            /** Dummy Data for presentation Week 12
-            SeriesCollection series = new SeriesCollection();
-            string[] categoryNames = new string[6] { "Computer", "Home Appliances", "Television", "Camera", "Mobile", "Gaming" };
-            int[] categoryNumbers = new int[6] { 50, 30, 57, 134, 264, 80 };
-            for (int i = 0; i < 6; i++)
+            //
+            // Show/Hide things based on role
+            //
+            if (user.Type.Equals(EmployeeType.Administrator))
             {
-                series.Add(new PieSeries() { Title = categoryNames[i], Values = new ChartValues<int> { categoryNumbers[i] }, DataLabels = true, LabelPoint = label });
+                // Administrator view
+
+
             }
-            SalesPieChart.Series = series;
-            SalesPieChart.Text = "Category Sales";
-            SalesPieChart.LegendLocation = LegendLocation.Right;
-            
-            SalesPieChart.Refresh();
-            */
+            else if (user.Type.Equals(EmployeeType.Manager))
+            {
+                // Manager view
+
+
+            }
+            else
+            {
+                // Employee view
+
+                Tabs.TabPages.RemoveByKey("EmployeesTab");
+                Tabs.TabPages.RemoveByKey("StatisticsTab");
+                Tabs.TabPages.RemoveByKey("OrdersTab");
+                AutoScheduleGeneratorBtn.Visible = false;
+                btnAddProduct.Visible = false;
+                btnDeleteItem.Visible = false;
+            }
+
             //Update the mail list
             UpdateAllMailsList();
 
@@ -129,11 +143,14 @@ namespace MediaBazaarSolution
         {
             LoadAllItems();
             LoadItemCategoriesInComboBox();
-            LoadAllEmployees();
+            if(!user.Type.Equals(EmployeeType.Employee))
+            {
+                LoadAllEmployees();
+                LoadAlerts();
+                LoadOrders();
+                LoadStatisticsPage();
+            }
             LoadMatrixSchedule();
-            LoadAlerts();
-            LoadOrders();
-            LoadStatisticsPage();
         }
         private void LoadAllItems()
         {
@@ -451,9 +468,16 @@ namespace MediaBazaarSolution
 
         private void LoadAllEmployees()
         {
-
-            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
-            dgvEmployees.DataSource = employeeList;
+            List<Employee> employeeList;
+            if(user.Type.Equals(EmployeeType.Administrator))
+            {
+                employeeList = EmployeeDAO.Instance.GetAllEmployees();
+                dgvEmployees.DataSource = employeeList;
+            } else
+            {
+                employeeList = EmployeeDAO.Instance.GetAllEmployeesByManager(user.ID);
+            }
+            
 
             employees.Clear();
 
@@ -701,7 +725,7 @@ namespace MediaBazaarSolution
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
-            employeeAddForm = new EmployeeAddForm(this);
+            employeeAddForm = new EmployeeAddForm(this, user);
 
             employeeAddForm.Show();
         }
@@ -1038,7 +1062,7 @@ namespace MediaBazaarSolution
             Button btn = sender as Button;
 
             //Pass the reference of the current button to the scheduleAddForm
-            scheduleAddForm = new ScheduleAddForm(date);
+            scheduleAddForm = new ScheduleAddForm(date, user);
             scheduleAddForm.Show();
         }
 
