@@ -127,14 +127,50 @@ namespace MediaBazaarSolution.DAO
 
         public bool UpdateItemAmount(int id, int amount)
         {
-            string query = "UPDATE depot_item SET amount = @valueToBeChanged WHERE item_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { amount }) > 0;
+            int oldStock;
+            string oldStockQuery = "SELECT amount from depot_item " +
+                                   "WHERE item_id = " + id;
+            oldStock = (int)DataProvider.Instance.ExecuteScalar(oldStockQuery);
+
+            string query = "UPDATE depot_item SET amount = @amount WHERE item_id = " + id;
+            bool result = DataProvider.Instance.ExecuteNonQuery(query, new object[] { amount }) > 0;
+            if (result)
+                AddStockHistory(id, oldStock, amount);
+            return result;
         }
 
         public bool UpdateItemPrice(int id, decimal price)
         {
+            double oldprice;
+            string oldPriceQuery = "SELECT price from depot_item " +
+                                   "WHERE item_id = " + id;
+            oldprice = (double)DataProvider.Instance.ExecuteScalar(oldPriceQuery);
+
             string query = "UPDATE depot_item SET price = @valueToBeChanged WHERE item_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { price }) > 0; 
+            bool result = DataProvider.Instance.ExecuteNonQuery(query, new object[] { price }) > 0;
+            if (result)
+                AddPriceHistory(id, oldprice, (double)price);
+            return result;
         }
+
+        private void AddPriceHistory(int id, double oldPrice, double price)
+        {
+            double priceChange = price - oldPrice;
+            DateTime dateNow = DateTime.Now;
+            string query = "INSERT INTO price_history(item_id,  price_change, timestamp)" +
+                           "VALUES(@id, @priceChange, @dateNow) ";
+            DataProvider.Instance.ExecuteQuery(query , new object[] {id, priceChange, dateNow}); 
+        }
+
+        private void AddStockHistory(int id, int oldStock, int stock)
+        {
+            int stockChange = stock - oldStock;
+            DateTime dateNow = DateTime.Now;
+            string query = "INSERT INTO stock_history(item_id,  stock_change, timestamp)" +
+                           "VALUES(@id, @stockChange, @dateNow) ";
+            DataProvider.Instance.ExecuteQuery(query, new object[] { id, stockChange, dateNow });
+        }
+
+
     }
 }
