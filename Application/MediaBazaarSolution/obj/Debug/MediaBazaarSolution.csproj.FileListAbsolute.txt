@@ -73,7 +73,6 @@ C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Appl
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.LogInScreen.resources
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.MainScreen.resources
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.Properties.Resources.resources
-C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleForm.resources
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.GenerateResource.cache
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.CopyComplete
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.exe
@@ -272,3 +271,7 @@ C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBaza
 C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.pdb
 C:\Users\colin\Desktop\Git\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.SendMail.resources
 C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.csproj.CoreCompileInputs.cache
+C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.DepotEditForm.resources
+C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.EmployeeEditForm.resources
+C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleAddForm.resources
+C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.SendMail.resources
