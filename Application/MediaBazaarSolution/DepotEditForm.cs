@@ -102,10 +102,11 @@ namespace MediaBazaarSolution
             }
             else
             {
-                if (ItemDAO.Instance.UpdateItemAmount(item.ID, intAmount) &&
+                if (ItemDAO.Instance.UpdateItem(item.ID, Name, category, intAmount, decimalPrice))
+                    /**ItemDAO.Instance.UpdateItemAmount(item.ID, intAmount) &&
                     ItemDAO.Instance.UpdateItemCategory(item.ID, category) &&
                     ItemDAO.Instance.UpdateItemName(item.ID, Name) &&
-                    ItemDAO.Instance.UpdateItemPrice(item.ID, decimalPrice))
+                    ItemDAO.Instance.UpdateItemPrice(item.ID, decimalPrice))*/
                 {
                     MessageBox.Show("Item Updated!");
                     mainScreen.LoadAll();

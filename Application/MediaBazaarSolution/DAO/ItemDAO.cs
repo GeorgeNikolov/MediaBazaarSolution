@@ -177,7 +177,7 @@ namespace MediaBazaarSolution.DAO
             List<Stock_History> stocks = new List<Stock_History>();
             string query = "SELECT * FROM stock_history WHERE item_id = @id";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Stock_History item = new Stock_History(row);
                 stocks.Add(item);
@@ -190,7 +190,7 @@ namespace MediaBazaarSolution.DAO
             List<Price_History> prices = new List<Price_History>();
             string query = "SELECT * FROM price_history WHERE item_id = @id";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Price_History item = new Price_History(row);
                 prices.Add(item);
@@ -200,7 +200,7 @@ namespace MediaBazaarSolution.DAO
 
         public Item SearchItembyName(string name)
         {
-            List<Item> items = new List<Item>(); 
+            List<Item> items = new List<Item>();
             string query = "SELECT dp.item_id, dp.item_name, dp.amount,c.category_name, dp.price " +
                     "FROM `depot_item` AS dp " +
                     "LEFT JOIN category AS c " +
@@ -211,6 +211,10 @@ namespace MediaBazaarSolution.DAO
             return item;
         }
 
-
+        public bool UpdateItem(int id, string name, string category, int amount, decimal price)
+        {
+            string query = "UPDATE depot_item SET `category_id` = (SELECT category_id FROM category WHERE category_name = @valueToBeChanged ) , item_name = @name , amount = @amount , price = @price WHERE item_id = @id ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { category, name, amount, price, id }) > 0;
+        }
     }
 }

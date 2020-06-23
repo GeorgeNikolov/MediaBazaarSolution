@@ -243,6 +243,12 @@ namespace MediaBazaarSolution.DAO
             return new Employee(data.Rows[0]);
         }
 
+        public bool UpdateEmployee(int employeeID, string fname, string lname, string uname, string email, string phone, double hwage, string type, string place, string noGoSchedule, int cHours, int managerID)
+        {
+            string query = "UPDATE employee SET first_name = @fname , last_name = @lname , username = @uname , email = @mail , phone = @pnumber , hourly_wage = @hwage , employee_type = @type , address = @place , NoGoSchedule = @noGoSchedule , ContractedHours = @cHours , manager_id = @managerID WHERE employee_id = @id ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { fname, lname, uname, email, phone, hwage, type, place, noGoSchedule, cHours, managerID, employeeID }) > 0;
+        }
+
 
     }
 }
