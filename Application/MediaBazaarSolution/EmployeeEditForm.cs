@@ -43,7 +43,7 @@ namespace MediaBazaarSolution
                 TypeCB.SelectedIndex = 0;
             } else if (employee.Type.Equals(EmployeeType.Manager))
             {
-                TypeCB.SelectedIndex = 0;
+                TypeCB.SelectedItem = "Manager";
             } else
             {
                 TypeCB.SelectedItem = "Employee";
