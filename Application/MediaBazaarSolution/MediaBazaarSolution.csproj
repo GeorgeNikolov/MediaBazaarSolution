@@ -109,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\MailDAO.cs" />
+    <Compile Include="DepotEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DepotEditForm.Designer.cs">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTO\Account.cs" />
     <Compile Include="DTO\Mail.cs" />
     <Compile Include="DAO\AutoSchedulerDAO.cs" />
@@ -175,6 +181,9 @@
     <Compile Include="Scheduling\ScheduleUsers.cs" />
     <Compile Include="Scheduling\SchedulingSystem.cs" />
     <Compile Include="StatisticsScreen.cs" />
+    <EmbeddedResource Include="DepotEditForm.resx">
+      <DependentUpon>DepotEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmployeeEditForm.resx">
       <DependentUpon>EmployeeEditForm.cs</DependentUpon>
     </EmbeddedResource>

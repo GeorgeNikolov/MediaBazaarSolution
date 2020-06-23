@@ -36,6 +36,12 @@ namespace MediaBazaarSolution
             bool IsValidAmount = int.TryParse(tbxInStock.Text, out int itemInStock);
             bool IsValidPrice = decimal.TryParse(tbxPrice.Text, out decimal price);
 
+            char[] forbiddenCharacters = new char[] { '\\', '\'', '\"', '@', '$', '#', '&', '*', '_', '=', '?', '<', '>', '.' };
+            bool forbiddenCharactersUsed = false;
+            if (itemName.IndexOfAny(forbiddenCharacters) != -1)
+            {
+                forbiddenCharactersUsed = true;
+            }
 
             if (String.IsNullOrEmpty(itemName) || String.IsNullOrWhiteSpace(itemName))
             {
@@ -73,6 +79,10 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show("The price must be positive!", "Invalid price", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (forbiddenCharactersUsed)
+            {
+                MessageBox.Show($"A forbidden character is used, please refrain from using any of the following characters: {new string(forbiddenCharacters)}", "Invalid characters used", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
                 //parentForm.Depot.AddItemToDepot(dgvDepot, itemName, itemCategory, itemInStock, price);
@@ -80,6 +90,7 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show("Item successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     parentForm.LoadAll();
+                    this.Close();
                 }
                 else
                 {

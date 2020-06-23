@@ -18,12 +18,14 @@ namespace MediaBazaarSolution
         MainScreen parentForm;
         List<Employee> managers;
         Employee employee;
+        Account user;
 
         public EmployeeEditForm(MainScreen parent, Employee employee, Account user)
         {
             InitializeComponent();
             this.parentForm = parent;
             this.employee = employee;
+            this.user = user;
 
             // Setting the values in the textboxes
             if (user.Type.Equals(EmployeeType.Administrator))
@@ -31,6 +33,9 @@ namespace MediaBazaarSolution
                 TypeCB.Items.Add("Admin");
                 TypeCB.Items.Add("Manager");
                 
+            } else if (user.Type.Equals(EmployeeType.Manager))
+            {
+                TypeCB.Items.Add("Manager");
             }
             TypeCB.Items.Add("Employee");
             if(employee.Type.Equals(EmployeeType.Administrator))
@@ -38,7 +43,7 @@ namespace MediaBazaarSolution
                 TypeCB.SelectedIndex = 0;
             } else if (employee.Type.Equals(EmployeeType.Manager))
             {
-                TypeCB.SelectedIndex = 1;
+                TypeCB.SelectedIndex = 0;
             } else
             {
                 TypeCB.SelectedItem = "Employee";
@@ -109,11 +114,17 @@ namespace MediaBazaarSolution
                 string[] noGoStrings = ConvertToStrings(noGoInts);
                 NoWorkLB.Items.AddRange(noGoStrings);
             }
+
+            if(!(employee.ID == user.ID))
+            {
+                label12.Visible = false;
+                passwordTB.Visible = false;
+            }
             
 
         }
 
-        private void btnAddEmployee_Click(object sender, EventArgs e)
+        private void btnEditEmployee_Click(object sender, EventArgs e)
         {
 
             string fName = FNameTB.Text;
@@ -122,6 +133,7 @@ namespace MediaBazaarSolution
             string email = EmailTB.Text;
             string phone = PhoneTB.Text;
             string address = AddressTB.Text;
+            string password = passwordTB.Text;
             string type;
             if (TypeCB.SelectedItem.ToString().Equals("Admin"))
             {
@@ -140,7 +152,16 @@ namespace MediaBazaarSolution
             string contractedHours = CHoursTB.Text;
             string NoGoSchedule = "";
 
-
+            char[] forbiddenCharacters = new char[] { '\\', '\'', '\"', '@', '$', '#', '&', '*', '_', '=', '?', '<', '>', '.' };
+            bool forbiddenCharactersUsed = false;
+            if ((fName.IndexOfAny(forbiddenCharacters) != -1) ||
+                (lName.IndexOfAny(forbiddenCharacters) != -1) ||
+                (username.IndexOfAny(forbiddenCharacters) != -1) ||
+                (password.IndexOfAny(forbiddenCharacters) != -1) ||
+                (address.IndexOfAny(forbiddenCharacters) != -1))
+            {
+                forbiddenCharactersUsed = true;
+            }
 
             string[] noGoStringList = new string[NoWorkLB.Items.Count];
             for (int i = 0; i < NoWorkLB.Items.Count; i++)
@@ -162,7 +183,7 @@ namespace MediaBazaarSolution
             if(!type.Equals("Employee"))
             {
                 managerID = 0;
-                NoGoSchedule = null;
+                NoGoSchedule = "";
 
             } else
             {
@@ -232,7 +253,11 @@ namespace MediaBazaarSolution
             else if (intContractedHours < 1)
             {
                 MessageBox.Show("The contracted hours must be positive");
-            } 
+            }
+            else if (forbiddenCharactersUsed)
+            {
+                MessageBox.Show($"A forbidden character is used, please refrain from using any of the following characters: {new string(forbiddenCharacters)}", "Invalid characters used", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
                 if (EmployeeDAO.Instance.UpdateEmployeeFirstName(employee.ID, fName) &&
@@ -247,12 +272,28 @@ namespace MediaBazaarSolution
                     EmployeeDAO.Instance.UpdateEmployeeContractedHours(employee.ID, intContractedHours) &&
                     EmployeeDAO.Instance.UpdateEmployeeManager(employee.ID, managerID))
                 {
-                    MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    parentForm.LoadAll();
+                    if (employee.ID == user.ID)
+                    {
+                        if (EmployeeDAO.Instance.UpdateEmployeePassword(employee.ID, password))
+                        {
+                            MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            parentForm.LoadAll();
+                            this.Close();
+                        } else
+                        {
+                            MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        parentForm.LoadAll();
+                        this.Close();
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Employee not added!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

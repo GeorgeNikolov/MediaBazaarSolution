@@ -54,6 +54,8 @@
             this.ManagerIDCB = new System.Windows.Forms.ComboBox();
             this.RemoveNoWorkBtn = new System.Windows.Forms.Button();
             this.AddNoWorkBtn = new System.Windows.Forms.Button();
+            this.passwordTB = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -229,12 +231,13 @@
             // 
             // SaveChangesBtn
             // 
-            this.SaveChangesBtn.Location = new System.Drawing.Point(55, 409);
+            this.SaveChangesBtn.Location = new System.Drawing.Point(55, 478);
             this.SaveChangesBtn.Name = "SaveChangesBtn";
             this.SaveChangesBtn.Size = new System.Drawing.Size(121, 109);
             this.SaveChangesBtn.TabIndex = 22;
             this.SaveChangesBtn.Text = "Save Changes";
             this.SaveChangesBtn.UseVisualStyleBackColor = true;
+            this.SaveChangesBtn.Click += new System.EventHandler(this.btnEditEmployee_Click);
             // 
             // NoWorkLB
             // 
@@ -270,12 +273,32 @@
             this.AddNoWorkBtn.TabIndex = 28;
             this.AddNoWorkBtn.Text = "Add";
             this.AddNoWorkBtn.UseVisualStyleBackColor = true;
+            this.AddNoWorkBtn.Click += new System.EventHandler(this.AddNoWorkBtn_Click);
+            // 
+            // passwordTB
+            // 
+            this.passwordTB.Location = new System.Drawing.Point(55, 431);
+            this.passwordTB.Name = "passwordTB";
+            this.passwordTB.Size = new System.Drawing.Size(100, 20);
+            this.passwordTB.TabIndex = 30;
+            this.passwordTB.UseSystemPasswordChar = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(52, 415);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 13);
+            this.label12.TabIndex = 29;
+            this.label12.Text = "Password";
             // 
             // EmployeeEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 611);
+            this.Controls.Add(this.passwordTB);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.AddNoWorkBtn);
             this.Controls.Add(this.RemoveNoWorkBtn);
             this.Controls.Add(this.ManagerIDCB);
@@ -337,5 +360,7 @@
         private System.Windows.Forms.ComboBox ManagerIDCB;
         private System.Windows.Forms.Button RemoveNoWorkBtn;
         private System.Windows.Forms.Button AddNoWorkBtn;
+        private System.Windows.Forms.TextBox passwordTB;
+        private System.Windows.Forms.Label label12;
     }
 }

@@ -122,7 +122,7 @@ namespace MediaBazaarSolution.DAO
 
         public bool UpdateItemCategory(int id, string category)
         {
-            string query = "UPDATE depot_item SET `category_id` = (SELECT category_id FROM category WHERE category_name = @valueToBeChanged) WHERE item_id = " + id;
+            string query = "UPDATE depot_item SET `category_id` = (SELECT category_id FROM category WHERE category_name = @valueToBeChanged ) WHERE item_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { category }) > 0;
         }
 

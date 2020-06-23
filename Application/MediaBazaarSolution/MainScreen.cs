@@ -127,6 +127,7 @@ namespace MediaBazaarSolution
                 AutoScheduleGeneratorBtn.Visible = false;
                 btnAddProduct.Visible = false;
                 btnDeleteItem.Visible = false;
+                EmployeeEditBtn.Visible = false;
             }
 
             //Update the mail list
@@ -476,6 +477,8 @@ namespace MediaBazaarSolution
             } else
             {
                 employeeList = EmployeeDAO.Instance.GetAllEmployeesByManager(user.ID);
+                employeeList.Add(EmployeeDAO.Instance.GetEmployeeByID(user.ID));
+                dgvEmployees.DataSource = employeeList;
             }
             
 
@@ -1569,7 +1572,12 @@ namespace MediaBazaarSolution
 
         private void DepotEditBtn_Click(object sender, EventArgs e)
         {
-
+            if (dgvDepot.SelectedRows.Count != 0)
+            {
+                Item item = (Item)dgvDepot.SelectedRows[0].DataBoundItem;
+                DepotEditForm depotEditForm = new DepotEditForm(this, item, user);
+                depotEditForm.Show();
+            }
         }
     }
 }

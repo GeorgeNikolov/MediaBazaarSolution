@@ -69,7 +69,15 @@ namespace MediaBazaarSolution
             string contractedHours = ContractedHoursTB.Text;
             string NoGoSchedule = "";
 
-
+            char[] forbiddenCharacters = new char[] { '\\', '\'', '\"', '@', '$', '#', '&', '*', '_', '=', '?', '<', '>', '.' };
+            bool forbiddenCharactersUsed = false;
+            if ((fName.IndexOfAny(forbiddenCharacters) != -1 ) ||
+                (lName.IndexOfAny(forbiddenCharacters) != -1) ||
+                (username.IndexOfAny(forbiddenCharacters) != -1) ||
+                (address.IndexOfAny(forbiddenCharacters) != -1))
+            {
+                forbiddenCharactersUsed = true;
+            }
 
             string[] noGoStringList = new string[NoWorkLB.Items.Count];
             for (int i = 0; i < NoWorkLB.Items.Count; i++)
@@ -93,6 +101,7 @@ namespace MediaBazaarSolution
             if (!type.Equals("Employee"))
             {
                 managerID = 0;
+                NoGoSchedule = "";
             }
             else
             {
@@ -156,11 +165,15 @@ namespace MediaBazaarSolution
             }
             else if (!isValidContractedHours)
             {
-                MessageBox.Show("The contracted hours must be a number");
+                MessageBox.Show("The contracted hours must be a number", "Invalid contracted hours", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (intContractedHours < 1)
             {
-                MessageBox.Show("The contracted hours must be positive");
+                MessageBox.Show("The contracted hours must be positive", "Invalid contracted hours", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (forbiddenCharactersUsed)
+            {
+                MessageBox.Show($"A forbidden character is used, please refrain from using any of the following characters: {new string(forbiddenCharacters)}", "Invalid characters used", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -168,6 +181,7 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     parentForm.LoadAll();
+                    this.Close();
                 }
                 else
                 {

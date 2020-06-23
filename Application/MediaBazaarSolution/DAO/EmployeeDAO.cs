@@ -131,7 +131,7 @@ namespace MediaBazaarSolution.DAO
 
         public bool UpdateEmployeeAddress(int id, string address)
         {
-            string query = "UPDATE employee SET address = @address WHERE employee_id = " + id;
+            string query = "UPDATE employee SET address = @place WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { address }) > 0;
         }
 
@@ -227,6 +227,20 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "UPDATE employee SET manager_id = @managerID WHERE employee_id = @employeeID ";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { managerID, employeeID }) > 0;
+        }
+
+        public bool UpdateEmployeePassword(int employeeID, string password)
+        {
+            string hashedpassword = MD5.GenerateMD5(password);
+            string query = "UPDATE employee SET password = @password WHERE employee_id = @employeeID ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { hashedpassword, employeeID }) > 0;
+        }
+
+        public Employee GetEmployeeByID(int employeeID)
+        {
+            string query = "SELECT * FROM employee WHERE employee_id = @employeeID ";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID });
+            return new Employee(data.Rows[0]);
         }
 
 
