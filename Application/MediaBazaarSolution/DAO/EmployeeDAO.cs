@@ -38,7 +38,7 @@ namespace MediaBazaarSolution.DAO
         {
             List<Employee> employeeList = new List<Employee>();
 
-            string query = "SELECT e.employee_id, e.manager_id, e.first_name, e.last_name, e.username, e.email,  e.phone, e.address, e.employee_type, e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name, e.NoGoSchedule, e.ContractedHours FROM employee AS e " +
+            string query = "SELECT e.employee_id, e.manager_id, e.missed_shifts, e.first_name, e.last_name, e.username, e.email,  e.phone, e.address, e.employee_type, e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name, e.NoGoSchedule, e.ContractedHours FROM employee AS e " +
                 "LEFT JOIN department AS d ON e.department_id = d.id " +
                 "ORDER BY e.employee_id";
 
@@ -57,10 +57,10 @@ namespace MediaBazaarSolution.DAO
         {
             string password = "password";
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours, manager_id)" +
-                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours , @managerID )";
+            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours, manager_id, missed_shifts)" +
+                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours , @managerID , @missedShifts )";
 
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID}) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID, 0 }) > 0;
         }
 
         public bool DeleteEmployee(int id)

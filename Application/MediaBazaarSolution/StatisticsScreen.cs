@@ -77,5 +77,40 @@ namespace MediaBazaarSolution
 
             return items;
         }
+
+        internal List<int> GetManagers()
+        {
+            List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
+            List <int> managerIDs = new List<int>();
+            foreach(Employee manager in managers)
+            {
+                managerIDs.Add(manager.ID);
+            }
+            return managerIDs;
+        }
+
+        internal string[] GetManagersNames()
+        {
+            List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
+            List<string> managerNames = new List<string>();
+            foreach (Employee manager in managers)
+            {
+                string name;
+                name = $"{manager.FirstName} {manager.LastName}";
+                managerNames.Add(name);
+            }
+            return managerNames.ToArray();
+        }
+
+        internal int GetMissedShiftsByManager(int iD)
+        {
+            List<Employee> employees = EmployeeDAO.Instance.GetAllEmployeesByManager(iD);
+            int sum = 0;
+            foreach(Employee employee in employees)
+            {
+                sum += employee.Missed_shifts;
+            }
+            return sum;
+        }
     }
 }

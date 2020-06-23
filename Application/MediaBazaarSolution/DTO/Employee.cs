@@ -22,6 +22,7 @@ namespace MediaBazaarSolution.DTO
         private string noGoSchedule;
         private int contractedHours;
         private int managerID;
+        private int missed_shifts;
 
         //private EmployeeType type;
         private EmployeeType type;
@@ -39,6 +40,7 @@ namespace MediaBazaarSolution.DTO
         public string NoGoSchedule { get => noGoSchedule; set { if (value == null || value == "") this.noGoSchedule = "None"; else { noGoSchedule = value; } } }
         public int ContractedHours { get => contractedHours; set { if (value == null || value == 0) this.contractedHours = 0; else { contractedHours = value; } } }
         public int ManagerID { get => managerID; }
+        public int Missed_shifts { get => missed_shifts; }
 
         //internal EmployeeType Type { get => type; set { EmployeeType.TryParse(value.ToString(), out this.type); this.Type = type; } }
 
@@ -76,7 +78,9 @@ namespace MediaBazaarSolution.DTO
             if(Type.Equals(EmployeeType.Employee))
             {
                 this.managerID = Convert.ToInt32(row["manager_id"]);
+                this.missed_shifts = Convert.ToInt32(row["missed_shifts"]);
             }
+            
             
         }
 

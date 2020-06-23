@@ -203,8 +203,9 @@ namespace MediaBazaarSolution
             LoadPieChart();
             LoadGraphChartData();
             LoadGraphChart();
+            LoadMSPC();
         }
-
+        Func<ChartPoint, string> MSPieLabel = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
         Func<ChartPoint, string> PieLabel = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
 
         private void LoadPieChartData()
@@ -215,6 +216,72 @@ namespace MediaBazaarSolution
             PiechartCB.Items.Add("All Items");
             PiechartCB.SelectedIndex = 0;
             PiechartCB.Items.AddRange(statisticsScreen.GetCategories());
+
+            MissedShiftsCB.Items.Clear();
+            MissedShiftsCB.Items.Add("All managers");
+            MissedShiftsCB.SelectedIndex = 0;
+            List<int> managerIDs = new List<int>();
+            managerIDs.AddRange(statisticsScreen.GetManagers());
+            foreach(int ID in managerIDs)
+            {
+                MissedShiftsCB.Items.Add(ID.ToString());
+            }
+        }
+
+        private void LoadMSPC()
+        {
+            // Loads the missed shifts pie chart
+            string[] employees;
+            SeriesCollection series = new SeriesCollection();
+            List<Employee> significantEmployees;
+
+            if (MissedShiftsCB.SelectedItem.ToString().Equals("All managers"))
+            {
+                employees = statisticsScreen.GetManagersNames();
+                significantEmployees = EmployeeDAO.Instance.GetAllManagers();
+            }
+            else
+            {
+                significantEmployees = EmployeeDAO.Instance.GetAllEmployeesByManager(Convert.ToInt32(MissedShiftsCB.SelectedItem.ToString()));
+                List<string> employeeNames = new List<string>();
+                foreach (Employee employee in significantEmployees)
+                {
+                    string name = $"{employee.FirstName} {employee.LastName}";
+                    employeeNames.Add(name);
+                }
+                employees = employeeNames.ToArray();
+            }
+
+            int[] values = new int[employees.Length];
+            if(MissedShiftsCB.SelectedItem.ToString().Equals("All managers"))
+            {
+                for (int i = 0; i < employees.Length; i++)
+                {
+
+                    
+                    values[i] = statisticsScreen.GetMissedShiftsByManager(significantEmployees[i].ID);
+
+                }
+            }
+            else
+            {
+                for (int i = 0; i < employees.Length; i++)
+                {
+
+                    values[i] = significantEmployees[i].Missed_shifts;
+
+                }
+            }
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                series.Add(new PieSeries() { Title = employees[i].ToString(), Values = new ChartValues<int> { values[i] }, DataLabels = true, LabelPoint = PieLabel });
+            }
+
+            missedShiftsPC.Series = series;
+            missedShiftsPC.Text = "Missed Shifts";
+            missedShiftsPC.LegendLocation = LegendLocation.Right;
+            missedShiftsPC.Refresh();
         }
 
         private void LoadPieChart()
@@ -1578,6 +1645,12 @@ namespace MediaBazaarSolution
                 DepotEditForm depotEditForm = new DepotEditForm(this, item, user);
                 depotEditForm.Show();
             }
+        }
+
+        private void MissedShiftsCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadMSPC();
+            
         }
     }
 }
