@@ -38,7 +38,33 @@
             </script>
     <?php }
   }
-  ?>
+
+  function getCoWorkersDetails() {
+      global $con;
+      global $employee_id;
+      $query = "SELECT e.first_name, e.last_name, s.date FROM employee e INNER JOIN schedule s ON e.employee_id = s.employee_id WHERE e.employee_id != '$employee_id'";
+      $res = $con->query($query);
+      while($row = $res->fetch(PDO::FETCH_ASSOC)) {
+          $first_name = $row["first_name"];
+          $last_name = $row["last_name"];
+          $date = $row["date"];
+
+          ?>
+          <script type="text/javascript">
+            coWorker = {
+                first_name: <?php echo json_encode($first_name) ?>,
+                last_name: <?php echo json_encode($last_name) ?>,
+                date: <?php echo json_encode($date)?>,
+            }
+
+            coWorkers = [];
+            coWorkers.push(coWorker);
+          </script>
+
+        <?php
+      }
+  }
+?>
 
 <main>
   <section id="schedule">
@@ -134,6 +160,10 @@
                 <ul id="todo-list">
                     <!-- List of Todo's will be generated form js code -->
                 </ul>
+                <h5>Other coworkers:</h5>
+                <ul id="co-workers">
+                    <!-- List of coworkers will be generated from js code -->
+                </ul>
                 <div>
                     <button class="button font got-it-button" id="got-it-button" onclick="gotItButtonClicked();">Got it!</button>
                     <button class="button font completed-todos-button" id="completed-todos-button" onclick="completedTodosButtonClicked();">Completed tasks (<span id="numCompletedTasks"></span>)</button>
@@ -159,6 +189,7 @@
     <?php getNoteData(); ?>
     <script type="text/javascript" src="js/start.js"></script>
     <script type="text/javascript" src="js/complete_button.js"></script>
+    <?php getCoWorkersDetails() ?>
 </main>
   </body>
 </html>

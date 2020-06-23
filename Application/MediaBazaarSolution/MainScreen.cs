@@ -13,53 +13,57 @@ using MediaBazaarSolution.DAO;
 using MediaBazaarSolution.DTO;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Microsoft.VisualBasic;
+using System.Collections.Concurrent;
+using Org.BouncyCastle.Asn1.IsisMtt;
+using Renci.SshNet.Messages.Authentication;
+using MediaBazaarSolution.Scheduling;
+
+
 
 namespace MediaBazaarSolution
 {
     public partial class MainScreen : Form
     {
+        private bool sortAlertsByPriority;
+        private bool showCompletedOrders = false;
+
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
         private ScheduleAddForm scheduleAddForm;
-        private EmployeeEditForm employeeEditForm;
-
+        private StatisticsScreen statisticsScreen;
         internal List<int> indecis;
         internal List<string> categories;
         internal List<string> employees;
-        private  List<TabPage> tabPages;
-        
+        internal List<Alert> alerts;
+        internal List<Order> orders;
+
+
+        internal List<Mail> allMails;
+
         private int itemID;
         private int employeeID;
+        private int adminID;
 
         private object oldItemCellValue;
         private object oldEmployeeCellValue;
 
         private string userFirstName;
-        private string userType;
-        private int managerId;
+        private Account user;
+
+        //Control which is the current tab in the mail tab
+        private int currentTab = 0;
 
         //This 2-dimensional list will hold 6x7 button references so we can change the corresponding date in each button depending on the current month of date
         private List<List<Button>> matrix;
 
         List<string> dayOfWeek = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-        public string UserFirstName { 
-            get 
-            {
-                return this.userFirstName;    
-            }
-        }
-        public string UserType { 
-            get
-            {
-                return this.userType;
-            }
-        }
-        public int ManagerId
+        public string UserFirstName
         {
             get
             {
-                return this.managerId;
+                return this.userFirstName;
             }
         }
 
@@ -69,7 +73,7 @@ namespace MediaBazaarSolution
             private set { this.matrix = value; }
         }
 
-        public MainScreen(string userFirstName,string userType, int managerId)
+        public MainScreen(Account user)
         {
             InitializeComponent();
 
@@ -78,31 +82,60 @@ namespace MediaBazaarSolution
             indecis = new List<int>();
             categories = new List<string>();
             employees = new List<string>();
-            tabPages = new List<TabPage>();
-            LoadAll();
-            
+            allMails = new List<Mail>();
+            alerts = new List<Alert>();
+            orders = new List<Order>();
+            statisticsScreen = new StatisticsScreen();
 
-            this.userFirstName = userFirstName;
-            this.userType = userType;
-            this.managerId = managerId;
+            this.user = user;
+            LoadAll();
+
+            //YAxisCB.SelectedIndex = 0;
+            //XAxisCB.SelectedIndex = 0;
+            cbxStatus.SelectedIndex = 0;
+
+            this.userFirstName = user.FirstName;
+            this.adminID = user.ID;
             //Creating the DepotAddForm here ensures that the username will be passed from the parent form to the child form.
             depotAddForm = new DepotAddForm(this);
 
             lblWelcome.Text = "Welcome " + userFirstName + "!";
 
 
-            // Dummy Data for presentation Week 12
-            SeriesCollection series = new SeriesCollection();
-            string[] categoryNames = new string[6] { "Computer", "Home Appliances", "Television", "Camera", "Mobile", "Gaming" };
-            int[] categoryNumbers = new int[6] { 50, 30, 57, 134, 264, 80 };
-            for(int i = 0; i < 6; i++) {
-                series.Add(new PieSeries() { Title = categoryNames[i], Values = new ChartValues<int> { categoryNumbers[i] }, DataLabels = true, LabelPoint = label });
+            //
+            // Show/Hide things based on role
+            //
+            if (user.Type.Equals(EmployeeType.Administrator))
+            {
+                // Administrator view
+
+
             }
-            SalesPieChart.Series = series;
-            SalesPieChart.Text = "Category Sales";
-            SalesPieChart.LegendLocation = LegendLocation.Right;
-            
-            SalesPieChart.Refresh();
+            else if (user.Type.Equals(EmployeeType.Manager))
+            {
+                // Manager view
+
+
+            }
+            else
+            {
+                // Employee view
+
+                Tabs.TabPages.RemoveByKey("EmployeesTab");
+                Tabs.TabPages.RemoveByKey("StatisticsTab");
+                Tabs.TabPages.RemoveByKey("OrdersTab");
+                AutoScheduleGeneratorBtn.Visible = false;
+                btnAddProduct.Visible = false;
+                btnDeleteItem.Visible = false;
+                EmployeeEditBtn.Visible = false;
+            }
+
+            //Update the mail list
+            UpdateAllMailsList();
+
+            //By default all the received mails will be displayed
+            FillReceivedMails();
+
         }
 
         #region Methods 
@@ -111,16 +144,20 @@ namespace MediaBazaarSolution
         {
             LoadAllItems();
             LoadItemCategoriesInComboBox();
+            if(!user.Type.Equals(EmployeeType.Employee))
+            {
+                LoadAllEmployees();
+                LoadAlerts();
+                LoadOrders();
+                LoadStatisticsPage();
+            }
             LoadMatrixSchedule();
-            //LoadTabPages();
-            
         }
         private void LoadAllItems()
         {
             //Load all available items in the database to the depot datagridview
             List<Item> itemList = ItemDAO.Instance.LoadAllItems();
             dgvDepot.DataSource = itemList;
-            dgvDepot.ReadOnly = true;
 
             indecis.Clear();
             categories.Clear();
@@ -139,6 +176,288 @@ namespace MediaBazaarSolution
 
         }
 
+        private void LoadStatisticsPage()
+        {
+            // Load all availible items in the database to the statistics Item datagridview
+            List<Item> itemList = ItemDAO.Instance.LoadAllItems();
+            StProductDGV.DataSource = itemList;
+
+            indecis.Clear();
+            categories.Clear();
+
+            foreach (Item item in itemList)
+            {
+                if (!indecis.Contains(item.ID))
+                {
+                    indecis.Add(item.ID);
+                }
+                if (!categories.Contains(item.Category))
+                {
+                    categories.Add(item.Category);
+                }
+            }
+
+
+
+            LoadPieChartData();
+            LoadPieChart();
+            LoadGraphChartData();
+            LoadGraphChart();
+        }
+
+        Func<ChartPoint, string> PieLabel = chartpoint => String.Format("{0} ({1:P})", chartpoint.Y, chartpoint.Participation);
+
+        private void LoadPieChartData()
+        {
+            // Updates the combobox on the statistics page
+            statisticsScreen.UpdatePiechart();
+            PiechartCB.Items.Clear();
+            PiechartCB.Items.Add("All Items");
+            PiechartCB.SelectedIndex = 0;
+            PiechartCB.Items.AddRange(statisticsScreen.GetCategories());
+        }
+
+        private void LoadPieChart()
+        {
+            
+            String[] products;
+            SeriesCollection series = new SeriesCollection();
+
+
+
+            int categoryIndex = 0;
+            int valueIndex = 0;
+            int nameIndex = 0;
+
+
+            // Check where the category and amount column are
+            for (int i = 0; i < StProductDGV.Columns.Count; i++)
+            {
+                if (StProductDGV.Columns[i].Name.Equals("Category"))
+                {
+                    categoryIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Amount"))
+                {
+                    valueIndex = i;
+                }
+                if (StProductDGV.Columns[i].Name.Equals("Name"))
+                {
+                    nameIndex = i;
+                }
+            }
+
+            // Decide to show general data or to show category specific data
+            if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
+            {
+                products = statisticsScreen.GetCategories();
+            }
+            else
+            {
+                List<String> tempList = new List<string>();
+                for (int i = 0; i < StProductDGV.Rows.Count; i++)
+                {
+                    if (StProductDGV.Rows[i].Cells[categoryIndex].Value.Equals(PiechartCB.SelectedItem.ToString()))
+                    {
+                        tempList.Add(StProductDGV.Rows[i].Cells[nameIndex].Value.ToString());
+                    }
+                }
+                products = tempList.ToArray();
+                categoryIndex = nameIndex;
+            }
+            int[] values = new int[products.Length];
+
+            // Add values to the values array, for use in the graph generation
+            for (int n = 0; n < StProductDGV.Rows.Count; n++)
+            {
+                for (int i = 0; i < products.Length; i++)
+                {
+                    if (StProductDGV.Rows[n].Cells[categoryIndex].Value.Equals(products[i]))
+                    {
+                        values[i] += Convert.ToInt32(StProductDGV.Rows[n].Cells[valueIndex].Value);
+                    }
+                }
+            }
+
+            // Generate the series required for the graph
+            for (int i = 0; i < values.Length; i++)
+            {
+                series.Add(new PieSeries() { Title = products[i].ToString(), Values = new ChartValues<int> { values[i] }, DataLabels = true, LabelPoint = PieLabel });
+            }
+
+            // Make the graph
+            SalesPieChart.Series = series;
+            SalesPieChart.Text = "Category Sales";
+            SalesPieChart.LegendLocation = LegendLocation.Right;
+
+            SalesPieChart.Refresh();
+
+        }
+
+        public Func<double, string> YFormatter { get; set; }
+        public string[] Labels { get; set; }
+        public SeriesCollection GraphSeries { get; set; }
+
+        private void LoadGraphChartData()
+        {
+            List<Item> items = statisticsScreen.GetAllItems().ToList();
+            List<string> names = new List<string>();
+            
+            
+            XAxisCB.Items.Clear();
+            if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    names.Add(items[i].Name);
+                }
+                
+            } else
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (items[i].Category.Equals(PiechartCB.SelectedItem.ToString()))
+                    {
+                        names.Add(items[i].Name);
+                    }
+                }
+            }
+            XAxisCB.Items.AddRange(names.ToArray());
+            XAxisCB.SelectedIndex = 0;
+
+
+
+            YAxisCB.SelectedIndex = 0;
+        }
+
+        private void LoadGraphChart()
+        {
+            GraphSeries = new SeriesCollection();
+            cartesianChart1.AxisY.Clear();
+            cartesianChart1.AxisX.Clear();
+            if ( YAxisCB.Text.Equals("Stock History"))
+            {
+                // Stock History
+                Item item = ItemDAO.Instance.SearchItembyName(XAxisCB.Text);
+                int id = item.ID;
+                    
+                List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories(id);
+                List<string> stock_history_labels = new List<string>();
+                List<int> values = new List<int>();
+                int currentAmount = item.Amount;
+                for (int i = 0; i < stock_histories.Count; i++)
+                {
+                    currentAmount -= stock_histories[i].amount;
+                }
+                values.Add(currentAmount);
+                string firstlabel;
+                if (stock_history_labels.Count == 0)
+                {
+                    firstlabel = DateTime.Now.ToString("dd/MM");
+                }
+                else
+                {
+                    firstlabel = stock_history_labels[0];
+                }
+                stock_history_labels.Insert(0, firstlabel);
+                for (int i = 0; i < stock_histories.Count; i++)
+                {
+                    stock_history_labels.Add(stock_histories[i].date.ToString("dd/MM"));
+                    currentAmount += stock_histories[i].amount;
+                    values.Add(currentAmount);
+                    
+                }
+                cartesianChart1.AxisX.Add(new Axis
+                {
+                    Title = "Date",
+                    Labels = stock_history_labels
+                });
+
+                GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Stock",
+                    Values = new ChartValues<int>(values),
+                    LineSmoothness = 0
+                });
+
+                cartesianChart1.AxisY.Add(new Axis
+                {
+                    Title = "Revenue",
+                    LabelFormatter = value => value.ToString()
+                });
+            }
+            else
+            {
+                // Price History
+                Item item = ItemDAO.Instance.SearchItembyName(XAxisCB.Text);
+                int id = item.ID;
+
+                List<Price_History> price_histories = ItemDAO.Instance.GetPrice_Histories(id);
+                List<string> price_history_labels = new List<string>();
+                List<double> values = new List<double>();
+                double currentPrice = item.Price;
+                for (int i = 0; i < price_histories.Count; i++)
+                {
+                    currentPrice -= price_histories[i].amount;
+                }
+                values.Add(currentPrice);
+                string firstlabel;
+                if (price_history_labels.Count == 0)
+                {
+                    firstlabel = DateTime.Now.ToString("dd/MM");
+                }
+                else
+                {
+                    firstlabel = price_history_labels[0];
+                }
+                price_history_labels.Insert(0, firstlabel);
+                for (int i = 0; i < price_histories.Count; i++)
+                {
+                    price_history_labels.Add(price_histories[i].date.ToString("dd/MM"));
+                    currentPrice += price_histories[i].amount;
+                    values.Add(currentPrice);
+                }
+                cartesianChart1.AxisX.Add(new Axis
+                {
+                    Title = "Date",
+                    Labels = price_history_labels
+                });
+
+                GraphSeries.Add(
+                new LineSeries
+                {
+                    Title = "Price",
+                    Values = new ChartValues<double>(values),
+                    LineSmoothness = 0,
+                    
+                });
+
+                cartesianChart1.AxisY.Add(new Axis
+                {
+                    Title = "Revenue",
+                    LabelFormatter = value => value.ToString("C")
+                });
+            }
+            
+            
+            cartesianChart1.LegendLocation = LegendLocation.Right;
+
+
+
+            YFormatter = null;
+            YFormatter = value => value.ToString();
+
+            
+            
+            cartesianChart1.Series = GraphSeries;
+
+            
+
+
+            //statisticsScreen.UpdateGraphchart();
+        }
+
         private void LoadItemCategoriesInComboBox()
         {
             //Load the available categories to the combobox in the depot tab
@@ -148,28 +467,20 @@ namespace MediaBazaarSolution
             cbxItemCategory.SelectedIndex = 0;
         }
 
-        public void LoadAllEmployees()
+        private void LoadAllEmployees()
         {
-
-            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployees();
-            dgvEmployees.DataSource = employeeList;
-            dgvEmployees.ReadOnly = true;
-
-            employees.Clear();
-
-            foreach (Employee employee in employeeList)
+            List<Employee> employeeList;
+            if(user.Type.Equals(EmployeeType.Administrator))
             {
-                if (!employees.Contains(employee.LastName))
-                {
-                    employees.Add(employee.LastName);
-                }       
+                employeeList = EmployeeDAO.Instance.GetAllEmployees();
+                dgvEmployees.DataSource = employeeList;
+            } else
+            {
+                employeeList = EmployeeDAO.Instance.GetAllEmployeesByManager(user.ID);
+                employeeList.Add(EmployeeDAO.Instance.GetEmployeeByID(user.ID));
+                dgvEmployees.DataSource = employeeList;
             }
-        }
-        public void LoadAllDepotWorkers()
-        {
-            List<Employee> employeeList = EmployeeDAO.Instance.GetAllDepotWorkers(this.ManagerId);
-            dgvEmployees.DataSource = employeeList;
-            dgvEmployees.ReadOnly = true;
+            
 
             employees.Clear();
 
@@ -180,6 +491,24 @@ namespace MediaBazaarSolution
                     employees.Add(employee.LastName);
                 }
             }
+        }
+
+        private void LoadAlerts()
+        {
+            alerts = RestockDAO.Instance.LoadAlerts(sortAlertsByPriority);
+            lbxAlerts.Items.Clear();
+            foreach (Alert alert in alerts)
+            {
+                lbxAlerts.Items.Add(alert.ToString());
+            }
+        }
+
+        private void LoadOrders()
+        {
+            orders = RestockDAO.Instance.LoadOrders(showCompletedOrders);
+            dgvOrders.DataSource = orders;
+            dgvOrders.Columns[dgvOrders.ColumnCount-1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
         }
 
         private void SearchItemByCategory(string categoryWanted)
@@ -206,10 +535,108 @@ namespace MediaBazaarSolution
             }
         }
 
+        private void AddSchedule()
+        {
+            // Method for making the schedule
+
+            // Gets all the managers
+            List<Employee> managers = EmployeeDAO.Instance.GetAllManagers();
+            foreach (Employee manager in managers)
+            {
+                // Get the info for the schedule making
+                List<Employee> employees = AutoSchedulerDAO.Instance.GetNecessaryInfo(manager.ID);
+                List<ScheduleUsers> scheduleUsers = new List<ScheduleUsers>();
+
+                // Convert to scheduleUsers format
+                foreach (Employee employee in employees)
+                {
+                    bool[] NoGoBools = ConvertToBools(employee.NoGoSchedule);
+                    scheduleUsers.Add(new ScheduleUsers(employee.ID, NoGoBools, (employee.ContractedHours / 4)));
+                }
+
+                bool[] availableTimes = new bool[21];
+                DateTime today = DateTime.Today;
+                int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+                DateTime nextMonday = today.AddDays(daysUntilMonday);
+                List<Employee> managerEmployees = EmployeeDAO.Instance.GetAllEmployeesByManager(manager.ID);
+
+                for (int i = 0; i < 21; i++)
+                {
+                    // TODO: change this to make it so it takes the availability of the actual schedule
+                    availableTimes[i] = true;
+                    int daysNeededToBeAdded = (i / 3);
+                    int hoursNeededToBeAdded = 9 + (i % 3) * 4;
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded);
+                    for (int n = 0; n < managerEmployees.Count; n++)
+                    {
+                        if (ScheduleDAO.Instance.GetEmployeesIDOnShiftByDateAndStartTime(date.Date.ToString("dd/MM/yyyy"), date.ToString("HH:mm")).Contains(managerEmployees[n].ID))
+                        {
+                            availableTimes[i] = false;
+                        }
+                    }
+                }
+                // Make the schedule
+                SchedulingSystem schedulingSystem = new SchedulingSystem(scheduleUsers, availableTimes);
+                List<ScheduleUsers> schedule = schedulingSystem.getSchedule().ToList();
+
+
+
+                // Send the schedule to the Database
+                for (int i = 0; i < 21; i++)
+                {
+                    int daysNeededToBeAdded = (i / 3);
+                    int hoursNeededToBeAdded = 9 + (i % 3) * 4;
+                    DateTime date = nextMonday.AddDays(daysNeededToBeAdded).AddHours(hoursNeededToBeAdded);
+                    if (schedule[i] == null)
+                    {
+                        // Error message no employee can be found for certain shift
+                        MailDAO.Instance.SendMail("[AUTOMATED] Schedule Conflict", $"Hello {manager.FirstName} \n " +
+                            $"\n " +
+                            $"No employee could be found for the shift on {date.Date.ToString("dd/MM/yyyy")} at {date.ToString("HH:mm")} until {date.AddHours(4).ToString("HH:mm")}. \n" +
+                            $"\n" +
+                            $"Please resolve this issue.\n" +
+                            $"\n" +
+                            $"THIS IS AN AUTOMATED MESSAGE, YOU CANNOT RESPOND TO THIS MESSAGE", DateTime.Now.ToString("dd/MM/yyyy"), 0, manager.ID);
+                    }
+                    else
+                    {
+                        ScheduleDAO.Instance.AddSchedule(schedule[i].ID, date.Date.ToString("dd/MM/yyyy"), date.ToString("HH:mm"), date.AddHours(4).ToString("HH:mm"), "Automatically Scheduled Shift");
+
+                    }
+                }
+
+
+            }
+            MessageBox.Show("Schedule for next week made");
+
+
+
+
+        }
+
+        private bool[] ConvertToBools(string NoGoSchedule)
+        {
+            bool[] returnValue = new bool[21];
+            string[] collection = NoGoSchedule.Split('-');
+            for (int i = 0; i < 21; i++)
+            {
+                if (collection.Contains(i.ToString()))
+                {
+                    returnValue[i] = true;
+                }
+                else
+                {
+                    returnValue[i] = false;
+                }
+            }
+
+            return returnValue;
+        }
+
         #endregion
 
         #region Events
-        
+
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -262,12 +689,13 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show("Item successfully deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     LoadAll();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Item not deleted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            
+
         }
         private void cbxItemCategory_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -295,12 +723,12 @@ namespace MediaBazaarSolution
                 DataGridViewRow selectedRow = dgvDepot.Rows[selectedRowIndex];
                 itemID = Convert.ToInt32(selectedRow.Cells["ID"].Value);
             }
-            
+
         }
 
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
-            employeeAddForm = new EmployeeAddForm(this);
+            employeeAddForm = new EmployeeAddForm(this, user);
 
             employeeAddForm.Show();
         }
@@ -323,7 +751,7 @@ namespace MediaBazaarSolution
         }
 
         private void dgvEmployees_SelectionChanged(object sender, EventArgs e)
-        { 
+        {
             if (dgvEmployees.SelectedCells.Count > 0)
             {
                 int selectedRowIndex = dgvEmployees.SelectedCells[0].RowIndex;
@@ -340,10 +768,12 @@ namespace MediaBazaarSolution
             if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Enter An Invalid Name!", "Invalid Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else if (isNameNotValid)
+            }
+            else if (isNameNotValid)
             {
                 MessageBox.Show("The name should not be an integer!", "Invalid name type", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else if (!employees.Contains(name))
+            }
+            else if (!employees.Contains(name))
             {
                 MessageBox.Show("There is no matching for the employee name", "No matching result", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -351,12 +781,12 @@ namespace MediaBazaarSolution
             {
                 dgvEmployees.DataSource = EmployeeDAO.Instance.SearchEmployeeByLastName(name);
             }
-            
+
         }
 
         private void btnReloadEmployees_Click(object sender, EventArgs e)
         {
-            MainScreen_Load(this, e);
+            LoadAllEmployees();
         }
 
 
@@ -386,6 +816,7 @@ namespace MediaBazaarSolution
                     int currentColumnIndex = dgvDepot.CurrentCell.ColumnIndex;
                     int currentItemId = Convert.ToInt32(dgvDepot.Rows[e.RowIndex].Cells[0].Value);
 
+                    //depot.EditSelectedItem(dgvDepot, currentColumnIndex, currentItemId, currentCellValue, this.oldCellValue)
                     if (currentColumnIndex == 1)
                     {
                         queryIsSuccess = ItemDAO.Instance.UpdateItemName(currentItemId, currentItemCellValue.ToString());
@@ -423,6 +854,7 @@ namespace MediaBazaarSolution
                         else
                         {
                             queryIsSuccess = ItemDAO.Instance.UpdateItemAmount(currentItemId, (int)currentItemCellValue);
+                            LoadAlerts();
                         }
                     }
                     else if (currentColumnIndex == 4)
@@ -470,7 +902,85 @@ namespace MediaBazaarSolution
             oldEmployeeCellValue = dgvEmployees.CurrentCell.Value;
         }
 
-        
+
+        private void dgvEmployees_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            object currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
+
+            bool queryIsSuccess = false;
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to edit that employee?", "Edit Employee", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (currentEmployeeCellValue == null)
+                {
+                    MessageBox.Show("Enter a valid parameter!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
+                }
+                else
+                {
+                    currentEmployeeCellValue = dgvEmployees.CurrentCell.Value;
+                    int currentColumnIndex = dgvEmployees.CurrentCell.ColumnIndex;
+                    int currentEmployeeId = Convert.ToInt32(dgvEmployees.Rows[e.RowIndex].Cells[0].Value);
+
+                    if (currentColumnIndex == 1)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeFirstName(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 2)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeLastName(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 3)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeUsername(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 4)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeEmail(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 5)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeePhone(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 6)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeHourlyWage(currentEmployeeId, Convert.ToDouble(currentEmployeeCellValue));
+                    }
+                    else if (currentColumnIndex == 7)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeType(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                    else if (currentColumnIndex == 8)
+                    {
+                        queryIsSuccess = EmployeeDAO.Instance.UpdateEmployeeAddress(currentEmployeeId, currentEmployeeCellValue.ToString());
+                    }
+                }
+            }
+            else
+            {
+                dgvEmployees.CurrentCell.Value = oldEmployeeCellValue;
+                return;
+            }
+
+            if (queryIsSuccess)
+            {
+                MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                LoadAll();
+            }
+            else
+            {
+                MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PiechartCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadPieChart();
+            LoadGraphChartData();
+        }
+
+
 
         #endregion
 
@@ -482,18 +992,18 @@ namespace MediaBazaarSolution
         const int numOfLines = 6;
         private void LoadMatrixSchedule()
         {
-            
+
             Button oldBtn = new Button() { Width = 0, Height = 0, Location = new Point(-6, 0) };
             Matrix = new List<List<Button>>();
 
             for (int i = 0; i < numOfLines; i++)
             {
                 Matrix.Add(new List<Button>());
-                for(int j = 0; j < daysInWeek; j++)
+                for (int j = 0; j < daysInWeek; j++)
                 {
                     Button btn = new Button() { Width = 137, Height = 73 };
                     btn.Location = new Point(oldBtn.Location.X + oldBtn.Width + 6, oldBtn.Location.Y);
-                    
+
                     pnlMatrix.Controls.Add(btn);
                     Matrix[i].Add(btn);
 
@@ -544,7 +1054,7 @@ namespace MediaBazaarSolution
                 {
                     btn.BackColor = Color.LightYellow;
                 }
-                
+
                 useDate = useDate.AddDays(1);
             }
         }
@@ -553,9 +1063,9 @@ namespace MediaBazaarSolution
         {
             string date = (sender as Button).Tag.ToString();
             Button btn = sender as Button;
-            
+
             //Pass the reference of the current button to the scheduleAddForm
-            scheduleAddForm = new ScheduleAddForm(date, ref btn, this.UserType, this.ManagerId);
+            scheduleAddForm = new ScheduleAddForm(date, user);
             scheduleAddForm.Show();
         }
 
@@ -624,32 +1134,450 @@ namespace MediaBazaarSolution
             dtpDate.Value = DateTime.Now;
         }
 
-        private void MainScreen_Load(object sender, EventArgs e)
+
+        //Mailbox Presentation Layer
+        private void btnInbox_Click(object sender, EventArgs e)
         {
-            if(String.Compare(this.UserType,"admin") == 0)
+            pnlMailContent.Controls.Clear();
+            FillReceivedMails();
+            this.currentTab = 0;
+        }
+
+        private void Mail_Clicked(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            Mail m = btn.Tag as Mail;
+
+            if (currentTab == 0 && btn.BackColor == Color.LightCyan)
             {
-                LoadAllEmployees();
+                if (MailDAO.Instance.ChangeMailStatus(m.ID))
+                {
+                    btn.BackColor = Color.Transparent;
+                }
             }
-            else
+
+            GenerateMailContent(m.ID, m.Subject, EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender), EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Receiver), m.Date, m.Content);
+        }
+
+        private void btnSent_Click(object sender, EventArgs e)
+        {
+            pnlMailContent.Controls.Clear();
+            FillSentMails();
+            this.currentTab = 1;
+        }
+
+        private void btnTrash_Click(object sender, EventArgs e)
+        {
+            pnlMailContent.Controls.Clear();
+            FillDeletedMails();
+            this.currentTab = 2;
+        }
+
+        private void UpdateAllMailsList()
+        {
+            List<Mail> mailList = MailDAO.Instance.GetAllMails(this.adminID);
+            this.allMails.Clear();
+
+            foreach (Mail m in mailList)
             {
-                LoadAllDepotWorkers();
+                this.allMails.Add(m);
+
             }
         }
 
-        private void btnEmployeeEdit_Click(object sender, EventArgs e)
+        private void GenerateMailContent(int mid, string subject, string senderName, string receiverName, string dateStr, string contentStr)
         {
-            if (dgvEmployees.SelectedCells.Count > 0)
+            pnlMailContent.Controls.Clear();
+            //Add the mail subject
+            Label sj = new Label();
+            sj.Text = subject;
+            sj.Font = new Font(FontFamily.GenericSansSerif, 15, FontStyle.Bold);
+            sj.AutoSize = true;
+
+            pnlMailContent.Controls.Add(sj);
+
+            //Add the mail sender info
+            Label sender = new Label();
+            sender.Text = senderName;
+            sender.Font = new Font("Arial", 14, FontStyle.Regular);
+            sender.AutoSize = true;
+            sender.Location = new Point(6, 35);
+
+            pnlMailContent.Controls.Add(sender);
+
+            //Add the mail receiver info 
+            Label receiver = new Label();
+            receiver.Text = receiverName;
+            receiver.Font = new Font("Arial", 14, FontStyle.Regular);
+            receiver.AutoSize = true;
+            receiver.Location = new Point(600, 35);
+
+            pnlMailContent.Controls.Add(receiver);
+
+            //Add the mail date 
+            Label date = new Label();
+            date.Text = dateStr;
+            date.Font = new Font("Arial", 14, FontStyle.Regular);
+            date.AutoSize = true;
+            date.Location = new Point(600, 6);
+
+            pnlMailContent.Controls.Add(date);
+
+            //Add the rich text box content 
+            RichTextBox rtbx = new RichTextBox();
+            rtbx.Text = contentStr;
+            rtbx.Font = new Font("Arial", 14, FontStyle.Regular);
+            rtbx.AutoSize = true;
+            rtbx.Location = new Point(6, 100);
+            rtbx.Width = 780;
+            rtbx.Height = 380;
+            rtbx.ReadOnly = true;
+
+
+            pnlMailContent.Controls.Add(rtbx);
+
+            //Add the delete button 
+            Button btn = new Button();
+            btn.Text = "Delete";
+            btn.Width = 70;
+            btn.Height = 40;
+            btn.Location = new Point(700, 490);
+            btn.Click += DeleteMailFromAdmin;
+            btn.Tag = mid;
+
+            pnlMailContent.Controls.Add(btn);
+
+            if (this.currentTab == 0)
             {
-                int selectedRowIndex = dgvEmployees.SelectedCells[0].RowIndex;
-                DataGridViewRow selectedRow = dgvEmployees.Rows[selectedRowIndex];
-                employeeEditForm = new EmployeeEditForm(this, selectedRow);
-                employeeEditForm.Show();
+                Button btn1 = new Button();
+                btn1.Text = "Reply";
+                btn1.Width = 70;
+                btn1.Height = 40;
+                btn1.Location = new Point(600, 490);
+                btn1.Click += ReplyMail;
+                btn1.Tag = mid;
+
+                pnlMailContent.Controls.Add(btn1);
+            }
+
+        }
+
+        private void ReplyMail(object sender, EventArgs e)
+        {
+            int mid = Convert.ToInt32((sender as Button).Tag);
+            foreach (Mail m in allMails)
+            {
+                if (m.ID == mid)
+                {
+                    SendMail sm = new SendMail(this.adminID, m.Sender, m.Subject);
+                    sm.Show();
+                    break;
+                }
+            }
+        }
+
+        private void DeleteMailFromAdmin(object sender, EventArgs e)
+        {
+            int mid = Convert.ToInt32((sender as Button).Tag);
+            if (this.currentTab != 2)
+            {
+                if (MailDAO.Instance.DeleteMailFromAdmin(mid))
+                {
+                    MessageBox.Show("Successfully deleted the mail!", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    switch (currentTab)
+                    {
+                        case 0:
+                            FillReceivedMails();
+                            break;
+                        default:
+                            FillSentMails();
+                            break;
+
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("No employee selected!");
+                if (MailDAO.Instance.DeleteMailFromAdminForever(mid))
+                {
+                    MessageBox.Show("Successfully deleted the mail forever !", "Successful Mail Deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    UpdateAllMailsList();
+                    pnlMailContent.Controls.Clear();
+
+                    FillDeletedMails();
+                }
+            }
+
+        }
+
+        private void FillReceivedMails()
+        {
+            flpMailList.Controls.Clear();
+
+            foreach (Mail m in this.allMails)
+            {
+                if (m.Receiver == this.adminID && m.DeletedFromAdmin == 0)
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    if (m.Status == 0)
+                    {
+                        btn.BackColor = Color.LightCyan;
+                    }
+                    flpMailList.Controls.Add(btn);
+                }
+            }
+        }
+
+        private void FillSentMails()
+        {
+            flpMailList.Controls.Clear();
+            foreach (Mail m in this.allMails)
+            {
+                if (m.Sender == this.adminID && m.DeletedFromAdmin == 0)
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    flpMailList.Controls.Add(btn);
+                }
+            }
+        }
+
+        private void FillDeletedMails()
+        {
+            flpMailList.Controls.Clear();
+            foreach (Mail m in this.allMails)
+            {
+                if (m.DeletedFromAdmin == 1 && m.DeletedFromAdminForever == 0)
+                {
+                    Button btn = new Button() { Width = 285, Height = 72 };
+
+                    string displayText = m.Subject + "\n\n" + EmployeeDAO.Instance.GetFirstNameAndLastNameFromID(m.Sender) + "          " + m.Date;
+                    btn.Text = displayText;
+                    btn.Tag = m;
+                    btn.Click += Mail_Clicked;
+                    flpMailList.Controls.Add(btn);
+                }
+
+            }
+        }
+
+
+        private void CheckIfThereIsUnreadMails()
+        {
+            bool unreadMailExist = false;
+
+            foreach (Mail m in this.allMails)
+            {
+                if (m.Status == 0 && m.Receiver == this.adminID)
+                {
+                    unreadMailExist = true;
+                    break;
+                }
+            }
+
+            if (unreadMailExist)
+            {
+                btnInbox.BackColor = Color.LightCyan;
+            }
+            else
+            {
+                btnInbox.BackColor = Color.Transparent;
+            }
+        }
+
+        private void CheckMail_Tick(object sender, EventArgs e)
+        {
+            UpdateAllMailsList();
+            CheckIfThereIsUnreadMails();
+        }
+
+        private void btnComposeMail_Click(object sender, EventArgs e)
+        {
+            SendMail sendMail = new SendMail(this.adminID);
+            sendMail.ShowDialog();
+        }
+
+        private void cbShowCompleted_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void rbPriority_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbSortAlertsByPriority.Checked)
+            {
+                sortAlertsByPriority = true;
+                LoadAlerts();
+            }
+        }
+
+        private void rbTime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbSortAlertsByID.Checked)
+            {
+                sortAlertsByPriority = false;
+                LoadAlerts();
+            }
+        }
+
+        private void btnMakeOrder_Click(object sender, EventArgs e)
+        {
+            string message = "Item ID";
+            int index = lbxAlerts.SelectedIndex;
+            if (index >= 0)
+            {
+                message = alerts[index].ID.ToString();
+            }
+
+            string value = Interaction.InputBox("Please Input ID", "Enter a number", message);
+
+            int id = Convert.ToInt32(value);
+
+            value = Interaction.InputBox("Please input amount", "Enter a number");
+            int amount = Convert.ToInt32(value);
+            bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
+            if (success)
+            {
+                MessageBox.Show("Order succesfully added");
+                LoadOrders();
+            }
+            else
+            {
+                MessageBox.Show("Order could not be added, please try again.");
+            }
+        }
+
+        private void btnRemoveLimit_Click(object sender, EventArgs e)
+        {
+            int index = lbxAlerts.SelectedIndex;
+            if (index >= 0)
+            {
+                Alert alert = alerts[index];
+                int id = alert.ID;
+                bool success = RestockDAO.Instance.DeleteLimit(id);
+                if (success)
+                {
+                    MessageBox.Show("Alert and corresponding limit deleted");
+                }
+                else
+                {
+                    MessageBox.Show($"Alert and corresponding limit could not be deleted");
+                }
+                LoadAlerts();
+            }
+        }
+
+        private void btnSetLimit_Click(object sender, EventArgs e)
+        {
+            int id = (int)nUPLimitID.Value;
+            int limit = (int)nUPMinStock.Value;
+            bool success = RestockDAO.Instance.AddLimit(id, limit);
+            if (success)
+            {
+                List<Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
+                foreach (Item item in items)
+                {
+                    if (item.ID == id)
+                    {
+                        MessageBox.Show($"Limit for {item.ID} : {item.Name} succesfully set to {limit}");
+                    }
+                    break;
+                }
+                LoadAlerts();
+            }
+            else
+            {
+                MessageBox.Show($"Item with ID {id} not found, please try again.");
+            }
+
+        }
+
+
+
+
+
+        private void btnChangeStatus_Click(object sender, EventArgs e)
+        {
+            int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
+            string currentStatus = dgvOrders.SelectedRows[0].Cells[2].Value.ToString();
+            string newStatus = cbxStatus.SelectedItem.ToString();
+            bool success = RestockDAO.Instance.UpdateOrderStatus(id, newStatus);
+            if (success)
+            {
+                MessageBox.Show($"Order status succesfully changed from {currentStatus} to {newStatus} ");
+            }
+            LoadOrders();
+        }
+
+        private void btnChangeAmount_Click(object sender, EventArgs e)
+        {
+            int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
+            string value = Interaction.InputBox("Please input new amount", "Enter a number");
+            int amount;
+            bool result = Int32.TryParse(value, out amount);
+            while (!result)
+            {
+                value = Interaction.InputBox("Please input new amount", "Enter a number");
+                result = Int32.TryParse(value, out amount);
+            }
+            bool success = RestockDAO.Instance.UpdateAmount(id, amount);
+            if (success)
+            {
+                MessageBox.Show($"Amount changed to {amount}");
+                LoadOrders();
+            }
+            else
+            {
+                MessageBox.Show($"Could not change amount, please try again.");
+            }
+        }
+
+        private void cbShowCompleted_CheckedChanged_1(object sender, EventArgs e)
+        {
+            showCompletedOrders = cbShowCompleted.Checked;
+            LoadOrders();
+        }
+
+        private void AutoScheduleGeneratorBtn_Click(object sender, EventArgs e)
+        {
+            AddSchedule();
+        }
+
+        private void XAxisCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadGraphChart();
+        }
+
+        private void EmployeeEditBtn_Click(object sender, EventArgs e)
+        {
+            if(dgvEmployees.SelectedRows.Count != 0)
+            {
+                Employee employee = (Employee)dgvEmployees.SelectedRows[0].DataBoundItem;
+                EmployeeEditForm employeeEditForm = new EmployeeEditForm(this, employee, user);
+                employeeEditForm.Show();
             }
             
+        }
+
+        private void DepotEditBtn_Click(object sender, EventArgs e)
+        {
+            if (dgvDepot.SelectedRows.Count != 0)
+            {
+                Item item = (Item)dgvDepot.SelectedRows[0].DataBoundItem;
+                DepotEditForm depotEditForm = new DepotEditForm(this, item, user);
+                depotEditForm.Show();
+            }
         }
     }
 }

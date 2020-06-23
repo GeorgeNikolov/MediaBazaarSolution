@@ -15,27 +15,18 @@ namespace MediaBazaarSolution
     public partial class ScheduleAddForm : Form
     {
         List<int> employeeIDList;
-
+        Account user;
         private int employeeID;
         private string date;
-        private string startTime;
-        private string endTime;
+        private string time;
         private string taskName;
-        private string userType;
-        private int managerId;
-        
-        private Button referencedBtn;
-        public ScheduleAddForm(string date, ref Button btn, string userType, int managerId)
+        public ScheduleAddForm(string date, Account user)
         {
             InitializeComponent();
-            this.referencedBtn = btn;
             employeeIDList = new List<int>();
-
+            this.user = user;
             this.date = date;
-            this.userType = userType;
-            this.managerId = managerId;
             dtpStartTime.CustomFormat = "HH:mm";
-            dtpEndTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
             FillEmployeesComboBox();
             tbxDate.Text = date;
@@ -45,46 +36,49 @@ namespace MediaBazaarSolution
             { 
                 cbbxEmployees.SelectedIndex = employeeIDList.IndexOf((int)dgvSchedule.Rows[0].Cells[0].Value);
             }
+            if(user.Type.Equals(EmployeeType.Employee))
+            {
+                btnAddSchedule.Visible = false;
+                btnDeleteSchedule.Visible = false;
+                btnUpdateSchedule.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+                label6.Visible = false;
+                cbbxEmployees.Visible = false;
+                tbxDate.Visible = false;
+                tbxTaskName.Visible = false;
+                dtpEndTime.Visible = false;
+                dtpStartTime.Visible = false;
+            }
 
         }
 
         public void FillDgvSchedule()
         {
-            if(String.Compare(this.userType, "admin") == 0)
+            if (user.Type.Equals(EmployeeType.Administrator))
             {
                 dgvSchedule.DataSource = ScheduleDAO.Instance.GetEmployeesOnShiftByDate(this.date);
-            }
-            else
+            } else if (user.Type.Equals(EmployeeType.Manager))
             {
-                dgvSchedule.DataSource = ScheduleDAO.Instance.GetDepotWorkersOnShiftByDate(this.date,this.managerId);
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetScheduleByDateManager(this.date, this.user.ID);
+            } else
+            {
+                dgvSchedule.DataSource = ScheduleDAO.Instance.GetScheduleByDateEmployee(this.date, this.user.ID);
             }
+            
         }
 
         public void FillEmployeesComboBox()
         {
             employeeIDList.Clear();
-            List<Employee> employeeList;
-            if (String.Compare(this.userType, "admin") == 0)
+            List<Employee> employeeList = EmployeeDAO.Instance.GetAllEmployeesOnly();
+            cbbxEmployees.DataSource = employeeList;
+
+            foreach(Employee e in employeeList)
             {
-                employeeList = EmployeeDAO.Instance.GetAllEmployees();
-                cbbxEmployees.DataSource = employeeList;
-            }
-            else
-            {
-                employeeList = EmployeeDAO.Instance.GetAllDepotWorkers(this.managerId);
-                cbbxEmployees.DataSource = employeeList;
-            }
-            
-            if(employeeList.Count == 0)
-            {
-                MessageBox.Show("No employees assigned!", "No employees!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                foreach (Employee e in employeeList)
-                {
-                    employeeIDList.Add(e.ID);
-                }
+                employeeIDList.Add(e.ID);
             }
         }
 
@@ -93,39 +87,32 @@ namespace MediaBazaarSolution
             //Convert selected date as string to datetime datatype
             DateTime myDate = DateTime.ParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //Create a new DateTime variable made up of selected date + selected time of day
-            DateTime startTimeInDetails = myDate.Date + dtpStartTime.Value.TimeOfDay;
-            DateTime endTimeInDetails = myDate.Date + dtpEndTime.Value.TimeOfDay;
+            DateTime newDateTime = myDate.Date + dtpStartTime.Value.TimeOfDay;
             
             if(cbbxEmployees.SelectedIndex < 0)
             {
                 MessageBox.Show("Please select an employee to add", "Select Employee Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } else if (startTimeInDetails.AddMinutes(1) < DateTime.Now)
+            } else if (newDateTime.AddMinutes(1) < DateTime.Now)
             {
-                MessageBox.Show("You cannot set schedule in the past", "Choosing past date warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            } 
-            else if (endTimeInDetails < startTimeInDetails)
-            {
-                MessageBox.Show("End time happens before start time!", "Inconsistent time duration warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if (String.IsNullOrEmpty(tbxTaskName.Text))
+                MessageBox.Show("You cannot choose a date in the past", "Choosing past date warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            } else if (String.IsNullOrEmpty(tbxTaskName.Text))
             {
                 MessageBox.Show("Invalid task name!", "Task name error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } 
             else
             {
                 int employeeID = (cbbxEmployees.SelectedItem as Employee).ID;
-                string startTime = dtpStartTime.Value.ToString("HH:mm");
-                string endTime = dtpEndTime.Value.ToString("HH:mm");
+                string time = dtpStartTime.Value.ToString("HH:mm");
+                string endTime = dtpStartTime.Value.AddHours(4).ToString("HH:mm");
                 string taskName = tbxTaskName.Text;
-                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, startTime, endTime, taskName))
+                if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, endTime, taskName))
                 {
                     MessageBox.Show("The same schedule item has been put into the list!", "Duplicate schedule item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, startTime, endTime, taskName))
+                else if(ScheduleDAO.Instance.AddSchedule(employeeID, date, time, endTime, taskName))
                 {
                     MessageBox.Show("Successfully added the employee on shift !", "Successful added schedule", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     FillDgvSchedule();
-                    this.referencedBtn.BackColor = Color.LightYellow;
                 } else
                 {
                     MessageBox.Show("Fail to add the employee on shift !", "Fail to add schedule", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -142,7 +129,6 @@ namespace MediaBazaarSolution
         private void AddScheduleBinding()
         {
             dtpStartTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "StartTime"));
-            dtpEndTime.DataBindings.Add(new Binding("Value", dgvSchedule.DataSource, "EndTime"));
             tbxTaskName.DataBindings.Add(new Binding("Text", dgvSchedule.DataSource, "TaskName"));
         }
 
@@ -159,15 +145,10 @@ namespace MediaBazaarSolution
 
         private void btnDeleteSchedule_Click(object sender, EventArgs e)
         {
-            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, startTime, endTime, taskName))
+            if (ScheduleDAO.Instance.DeleteSchedule(employeeID, date, time))
             {
                 MessageBox.Show("Successfully deleted the schedule item", "Successful deletion", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 FillDgvSchedule();
-
-                if(dgvSchedule.Rows.Count <= 0)
-                {
-                    this.referencedBtn.BackColor = Color.White;
-                }
             }
         }
 
@@ -178,19 +159,18 @@ namespace MediaBazaarSolution
                 int selectedRowIndex = dgvSchedule.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = dgvSchedule.Rows[selectedRowIndex];
                 employeeID = Convert.ToInt32(selectedRow.Cells["EmployeeID"].Value);
-                startTime = selectedRow.Cells["StartTime"].Value.ToString();
-                endTime = selectedRow.Cells["EndTime"].Value.ToString();
+                time = selectedRow.Cells["StartTime"].Value.ToString();
                 taskName = selectedRow.Cells["TaskName"].Value.ToString();
             }
         }
 
         private void btnUpdateSchedule_Click(object sender, EventArgs e)
         {
-            string oldStartTime = this.startTime;
-            string oldEndTime = this.endTime;
+            string oldTime = this.time;
+         
             string oldTaskName = this.taskName;
-            string newStartTime = dtpStartTime.Value.ToString("HH:mm");
-            string newEndTime = dtpEndTime.Value.ToString("HH:mm");
+            string newTime = dtpStartTime.Value.ToString("HH:mm");
+            string newEndTime = dtpStartTime.Value.AddHours(4).ToString("HH:mm");
             string newTaskName = tbxTaskName.Text;
 
             if (employeeID != (cbbxEmployees.SelectedItem as Employee).ID)
@@ -199,7 +179,7 @@ namespace MediaBazaarSolution
                 return;
             }
 
-            if (ScheduleDAO.Instance.UpdateSchedule(oldStartTime, oldEndTime, oldTaskName, newStartTime, newEndTime, newTaskName, employeeID, date))
+            if (ScheduleDAO.Instance.UpdateSchedule(oldTime, newTime, newEndTime, newTaskName, employeeID, date))
             {
                 MessageBox.Show("Succesfully updated the schedule!", "Successful updation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FillDgvSchedule();

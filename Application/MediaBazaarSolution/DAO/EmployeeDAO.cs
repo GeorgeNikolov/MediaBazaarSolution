@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MediaBazaarSolution.DTO;
 using MediaBazaarSolution.Helper;
+using System.Windows;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -13,7 +14,7 @@ namespace MediaBazaarSolution.DAO
     {
         private static EmployeeDAO instance;
 
-        public static EmployeeDAO Instance
+        public static EmployeeDAO Instance 
         {
             get
             {
@@ -37,12 +38,13 @@ namespace MediaBazaarSolution.DAO
         {
             List<Employee> employeeList = new List<Employee>();
 
-            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.employee_type,e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name FROM employee AS e " +
+            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.email,  e.phone, e.address, e.employee_type, e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name, e.NoGoSchedule, e.ContractedHours FROM employee AS e " +
                 "LEFT JOIN department AS d ON e.department_id = d.id " +
                 "ORDER BY e.employee_id";
+
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach (DataRow row in data.Rows)
+            foreach(DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -50,31 +52,15 @@ namespace MediaBazaarSolution.DAO
             return employeeList;
 
         }
-        //Method for extracting only depot workers from the database.
-        public List<Employee> GetAllDepotWorkers(int managerId)
+
+        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage, string NoGoSchedule, int ContractedHours, int managerID)
         {
-            List<Employee> employeeList = new List<Employee>();
+            string password = "password";
+            string hashedPassword = MD5.GenerateMD5(password);
+            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours, manager_id)" +
+                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours , @managerID )";
 
-            string query = "SELECT e.employee_id, e.first_name, e.last_name, e.username, e.employee_type,e.hourly_wage, e.missed_shifts, e.manager_id, d.d_name FROM employee AS e " +
-                "LEFT JOIN department AS d ON e.department_id = d.id WHERE e.employee_type = 'employee' AND e.manager_id = @managerId";
-            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerId });
-
-            foreach (DataRow row in data.Rows)
-            {
-                Employee employee = new Employee(row);
-                employeeList.Add(employee);
-            }
-            return employeeList;
-        }
-
-        public bool AddNewEmployee(string fName, string lName, string place, string phone, string username, string email, string type, double hourlyWage)
-        {
-            string passwordToBeHashed = "password";
-            string hashedPassword = MD5.GenerateMD5(passwordToBeHashed);
-            string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address)" +
-                           "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address )";
-
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID}) > 0;
         }
 
         public bool DeleteEmployee(int id)
@@ -121,6 +107,8 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "UPDATE employee SET email = @email WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { email }) > 0;
+            
+            
         }
 
         public bool UpdateEmployeePhone(int id, string phone)
@@ -143,8 +131,34 @@ namespace MediaBazaarSolution.DAO
 
         public bool UpdateEmployeeAddress(int id, string address)
         {
-            string query = "UPDATE employee SET address = @address WHERE employee_id = " + id;
+            string query = "UPDATE employee SET address = @place WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { address }) > 0;
+        }
+
+        public bool UpdateEmployeeContractedHours(int id, int contractedHours)
+        {
+            string query = "UPDATE employee SET ContractedHours = @contractedHours WHERE employee_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { contractedHours }) > 0;
+        }
+
+        public bool UpdateEmployeeNoGoTimes(int id, string noGoSchedule)
+        {
+            string query = "UPDATE employee SET NoGoSchedule = @noGoSchedule WHERE employee_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { noGoSchedule }) > 0;
+        }
+
+        public List<Employee> GetAllEmployeesOnly()
+        {
+            string query = "SELECT * FROM employee WHERE employee_type = 'employee'";
+            List<Employee> employeeList = new List<Employee>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            foreach(DataRow row in data.Rows)
+            {
+                Employee employee = new Employee(row);
+                employeeList.Add(employee);
+            }
+            return employeeList;
         }
 
         public List<Employee> GetAllEmployeesOnShift(int workDayID)
@@ -154,7 +168,7 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach (DataRow row in data.Rows)
+            foreach(DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -163,19 +177,78 @@ namespace MediaBazaarSolution.DAO
             return employeeList;
         }
 
-        public bool UpdateEmployeeDepartment(int id, string newDepartment)
+        public List<Employee> GetAllManagers()
         {
-            string query = "UPDATE employee " +
-                           "SET department_id = (SELECT d.id FROM department d WHERE d.d_name = @newDepartment ) " +
-                           "WHERE employee_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newDepartment }) > 0;
+            string query = "SELECT * FROM employee WHERE employee_type='manager'";
+            List<Employee> employeeList = new List<Employee>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            foreach(DataRow row in data.Rows)
+            {
+                Employee employee = new Employee(row);
+                employeeList.Add(employee);
+            }
+
+            return employeeList;
         }
-        public bool UpdateEmployeeManager(int id, string newManager)
+
+        public string GetFirstNameAndLastNameFromID(int ID)
         {
-            string query = "UPDATE employee e " +
-                           "SET e.manager_id = (SELECT d.manager_id FROM department d WHERE d.d_name = @newDepartment ) " +
-                           "WHERE employee_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { newManager }) > 0;
+            string query1 = "SELECT first_name FROM employee WHERE employee_id = " + ID;
+            string query2 = "SELECT last_name FROM employee WHERE employee_id = " + ID;
+
+            return DataProvider.Instance.ExecuteScalar(query1).ToString() + " " + DataProvider.Instance.ExecuteScalar(query2);
         }
+
+        public List<Employee> GetAllEmployeesByManager(int managerID)
+        {
+            string query = "SELECT * FROM employee WHERE manager_id = @managerID && employee_type = 'employee'";
+            List<Employee> employeeList = new List<Employee>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerID });
+            foreach(DataRow row in data.Rows)
+            {
+                Employee employee = new Employee(row);
+                employeeList.Add(employee);
+            }
+
+            return employeeList;
+        }
+
+        public Employee GetManagerByEmployeeID(int employeeID)
+        {
+            string query = "SELECT * FROM employee WHERE employee_id IN ( SELECT manager_id FROM employee WHERE employee_id = @employeeID )";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID });
+            Employee employee = new Employee(data.Rows[0]);
+            return employee;
+        }
+
+        public bool UpdateEmployeeManager(int employeeID, int managerID)
+        {
+            string query = "UPDATE employee SET manager_id = @managerID WHERE employee_id = @employeeID ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { managerID, employeeID }) > 0;
+        }
+
+        public bool UpdateEmployeePassword(int employeeID, string password)
+        {
+            string hashedpassword = MD5.GenerateMD5(password);
+            string query = "UPDATE employee SET password = @password WHERE employee_id = @employeeID ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { hashedpassword, employeeID }) > 0;
+        }
+
+        public Employee GetEmployeeByID(int employeeID)
+        {
+            string query = "SELECT * FROM employee WHERE employee_id = @employeeID ";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { employeeID });
+            return new Employee(data.Rows[0]);
+        }
+
+        public bool UpdateEmployee(int employeeID, string fname, string lname, string uname, string email, string phone, double hwage, string type, string place, string noGoSchedule, int cHours, int managerID)
+        {
+            string query = "UPDATE employee SET first_name = @fname , last_name = @lname , username = @uname , email = @mail , phone = @pnumber , hourly_wage = @hwage , employee_type = @type , address = @place , NoGoSchedule = @noGoSchedule , ContractedHours = @cHours , manager_id = @managerID WHERE employee_id = @id ";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { fname, lname, uname, email, phone, hwage, type, place, noGoSchedule, cHours, managerID, employeeID }) > 0;
+        }
+
+
     }
 }

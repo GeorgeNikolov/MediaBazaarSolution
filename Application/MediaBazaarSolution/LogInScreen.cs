@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MediaBazaarSolution.DAO;
-using MediaBazaarSolution.DTO;
 
 namespace MediaBazaarSolution
 {
@@ -28,13 +27,9 @@ namespace MediaBazaarSolution
 
             if (LoginValid(username, password))
             {
+                MainScreen f = new MainScreen(AccountDAO.Instance.GetAccount(username, password));
                 
-                string userName = AccountDAO.Instance.GetUserFirstName(username, password);
-                string userType = AccountDAO.Instance.GetUserType(username, password);
-
-                //User Id is needed to extract depot workers under a certain manager.
-                int userId = AccountDAO.Instance.GetUserId(username, password);
-                MainScreen f = new MainScreen(userName, userType, userId);
+                
                 this.Hide();
                 f.ShowDialog();
                 this.Show();

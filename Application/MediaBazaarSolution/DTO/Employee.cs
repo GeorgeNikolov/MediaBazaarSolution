@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MediaBazaarSolution.DTO
 {
-    enum EmployeeType{
-        Employee,Manager, Administrator
+    public enum EmployeeType{
+        Employee, Manager, Administrator
     }
     public class Employee
     {
@@ -16,21 +16,31 @@ namespace MediaBazaarSolution.DTO
         private string firstName;
         private string lastName;
         private string username;   
-        private string type;
+        private string email;
+        private string phone;
+        private string address;
+        private string noGoSchedule;
+        private int contractedHours;
+
+        //private EmployeeType type;
+        private EmployeeType type;
         private double hourlyWage;
-        private string department_name;
-        private int? manager_id; 
 
         public int ID { get => iD; set => iD = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public string Username { get => username; set => username = value; }
-        public double HourlyWage { get => hourlyWage; set => hourlyWage = value; }
-        public string Type { get => type; set => type = value; }
-        
-        public string Department { get => department_name; set => department_name = value; }
-        public int? Manager_ID { get => manager_id; set => manager_id = value; }
+        public string FirstName { get => firstName; set { if (value == null || value == "") this.firstName = "None"; else { firstName = value; } } }
+        public string LastName { get => lastName; set { if (value == null || value == "") this.lastName = "None"; else { lastName = value; } } }
+        public string Username { get => username; set { if (value == null || value == "") this.username = "None"; else { username = value; } } }
+        public string Email { get => email; set { if (value == null || value == "") this.email = "None"; else { email = value; } } } 
+        public string Phone { get => phone; set { if (value == null || value == "") this.phone = "None"; else { phone = value; } } }
+        public double HourlyWage { get => hourlyWage; set { if (value == null || value == 0) this.hourlyWage = 0; else { hourlyWage = value; } } }
+        public EmployeeType Type { get => type; set => type = value; }
+        public string Address { get => address; set { if (value == null || value == "") this.address = "None"; else { address = value; } } }
+        public string NoGoSchedule { get => noGoSchedule; set { if (value == null || value == "") this.noGoSchedule = "None"; else { noGoSchedule = value; } } }
+        public int ContractedHours { get => contractedHours; set { if (value == null || value == 0) this.contractedHours = 0; else { contractedHours = value; } } }
 
+        //internal EmployeeType Type { get => type; set { EmployeeType.TryParse(value.ToString(), out this.type); this.Type = type; } }
+
+        //private string password;
 
         public Employee(DataRow row)
         {
@@ -38,11 +48,29 @@ namespace MediaBazaarSolution.DTO
             this.FirstName = row["first_name"].ToString();
             this.LastName = row["last_name"].ToString();
             this.Username = row["username"].ToString();
-            this.Type = row["employee_type"].ToString();
+            this.Email = row["email"].ToString();
+            this.Phone = row["phone"].ToString();
+            this.Address = row["address"].ToString();
+            string value = row["employee_type"].ToString();
+            if (value == null || value == "")
+            {
+                this.type = EmployeeType.Employee;
+            }
+            else if (value.ToString().Equals("Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                Type = EmployeeType.Administrator;
+            }
+            else if (value.ToString().Equals("Manager"))
+            {
+                Type = EmployeeType.Manager;
+            }
+            else
+            {
+                Type = EmployeeType.Employee;
+            }
             this.hourlyWage = Convert.ToDouble(row["hourly_wage"]);
-            this.Department = row["d_name"].ToString();
-            this.Manager_ID = row["manager_id"] as int?;
-
+            this.ContractedHours = (int)row["ContractedHours"];
+            this.NoGoSchedule = row["NoGoSchedule"].ToString();
         }
 
         public Employee(int id, string firstName, string lastName, string username, string email, string phone, string type, double hourlyWage)
@@ -51,7 +79,26 @@ namespace MediaBazaarSolution.DTO
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Username = username;
-            this.Type = type;
+            this.Email = email;
+            this.Phone = phone;
+            string value = type;
+            if (value == null || value == "")
+            {
+                this.type = EmployeeType.Employee;
+            }
+            else if (value.ToString().Equals("Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                Type = EmployeeType.Administrator;
+            }
+            else if (value.ToString().Equals("Manager"))
+            {
+                Type = EmployeeType.Manager;
+            }
+            else
+            {
+                Type = EmployeeType.Employee;
+            }
+            
             this.hourlyWage = hourlyWage;
         }
 

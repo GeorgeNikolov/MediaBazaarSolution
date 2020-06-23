@@ -176,53 +176,5 @@ function checkUpdateInfo() {
 
 }
 
-function showCategory(str) {
-	var http = new XMLHttpRequest();
-	http.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			document.getElementById('stock').innerHTML = this.responseText;
-		}
-	};
-	http.open("GET", "helpers/extractCategory.helper.php?category="+str, true);
-	http.send();
-}
 
-function searchName() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("name-input");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table-search");
-  tr = table.getElementsByTagName("tr");
 
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-
-function searchID() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("id-input");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table-search");
-  tr = table.getElementsByTagName("tr");
-
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}

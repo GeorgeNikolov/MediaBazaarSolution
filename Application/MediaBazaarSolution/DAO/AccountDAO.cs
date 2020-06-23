@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using MediaBazaarSolution.Helper;
+using MediaBazaarSolution.DTO;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -32,12 +33,10 @@ namespace MediaBazaarSolution.DAO
 
         private AccountDAO() { }
 
-        //A valid login is when a user is of admin/manager type.
         public bool LoginValid(string username, string password)
         {
-
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT * FROM employee WHERE username = @username AND password = @password AND (employee_type = 'admin' OR employee_type = 'manager')";
+            string query = "SELECT * FROM employee WHERE username = @username AND password = @password ";
 
             DataTable result = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
 
@@ -47,23 +46,27 @@ namespace MediaBazaarSolution.DAO
         public string GetUserFirstName(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT first_name FROM employee WHERE username = @username AND password = @password";
+            string query = "SELECT first_name FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin'";
 
             return DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword }).ToString();
         }
 
-        //Serves other parts of the program where specific permissions are required.
-        public string GetUserType(string username, string password)
+        public int GetAdminID(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT employee_type FROM employee WHERE username = @username AND password = @password";
-            return DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword }).ToString();
+            string query = "SELECT employee_id FROM employee WHERE username = @username AND password = @password AND employee_type = 'admin'";
+
+            return (int)DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword });
         }
-        public int GetUserId(string username, string password)
+
+        public Account GetAccount(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
-            string query = "SELECT employee_id FROM employee WHERE username = @username AND password = @password";
-            return Convert.ToInt32(DataProvider.Instance.ExecuteScalar(query, new object[] { username, hashedPassword }).ToString());
+            string query = "SELECT * FROM employee WHERE username = @username AND password = @password";
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
+            Account account = new Account(data.Rows[0]);
+            return account;
         }
     }
 }
