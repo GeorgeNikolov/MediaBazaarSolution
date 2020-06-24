@@ -44,19 +44,19 @@
             // 
             this.lblDepotAddFormUser.AutoSize = true;
             this.lblDepotAddFormUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDepotAddFormUser.Location = new System.Drawing.Point(78, 9);
-            this.lblDepotAddFormUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDepotAddFormUser.Location = new System.Drawing.Point(58, 7);
             this.lblDepotAddFormUser.Name = "lblDepotAddFormUser";
-            this.lblDepotAddFormUser.Size = new System.Drawing.Size(314, 46);
+            this.lblDepotAddFormUser.Size = new System.Drawing.Size(258, 37);
             this.lblDepotAddFormUser.TabIndex = 27;
             this.lblDepotAddFormUser.Text = "You are <User>";
             // 
             // btnApplyChangesToDepot
             // 
             this.btnApplyChangesToDepot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyChangesToDepot.Location = new System.Drawing.Point(187, 496);
+            this.btnApplyChangesToDepot.Location = new System.Drawing.Point(140, 403);
+            this.btnApplyChangesToDepot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnApplyChangesToDepot.Name = "btnApplyChangesToDepot";
-            this.btnApplyChangesToDepot.Size = new System.Drawing.Size(118, 52);
+            this.btnApplyChangesToDepot.Size = new System.Drawing.Size(88, 42);
             this.btnApplyChangesToDepot.TabIndex = 26;
             this.btnApplyChangesToDepot.Text = "Add Item";
             this.btnApplyChangesToDepot.UseVisualStyleBackColor = true;
@@ -65,34 +65,38 @@
             // tbxPrice
             // 
             this.tbxPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxPrice.Location = new System.Drawing.Point(314, 430);
+            this.tbxPrice.Location = new System.Drawing.Point(236, 349);
+            this.tbxPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbxPrice.Name = "tbxPrice";
-            this.tbxPrice.Size = new System.Drawing.Size(78, 30);
+            this.tbxPrice.Size = new System.Drawing.Size(60, 26);
             this.tbxPrice.TabIndex = 25;
             // 
             // tbxInStock
             // 
             this.tbxInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxInStock.Location = new System.Drawing.Point(86, 430);
+            this.tbxInStock.Location = new System.Drawing.Point(64, 349);
+            this.tbxInStock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbxInStock.Name = "tbxInStock";
-            this.tbxInStock.Size = new System.Drawing.Size(86, 30);
+            this.tbxInStock.Size = new System.Drawing.Size(66, 26);
             this.tbxInStock.TabIndex = 24;
             // 
             // tbxItemName
             // 
             this.tbxItemName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxItemName.Location = new System.Drawing.Point(156, 160);
+            this.tbxItemName.Location = new System.Drawing.Point(117, 130);
+            this.tbxItemName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbxItemName.Name = "tbxItemName";
-            this.tbxItemName.Size = new System.Drawing.Size(163, 30);
+            this.tbxItemName.Size = new System.Drawing.Size(123, 26);
             this.tbxItemName.TabIndex = 22;
             // 
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
             this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrice.Location = new System.Drawing.Point(322, 388);
+            this.lblPrice.Location = new System.Drawing.Point(242, 315);
+            this.lblPrice.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(61, 25);
+            this.lblPrice.Size = new System.Drawing.Size(49, 20);
             this.lblPrice.TabIndex = 21;
             this.lblPrice.Text = "Price";
             // 
@@ -100,9 +104,10 @@
             // 
             this.lblinStock.AutoSize = true;
             this.lblinStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblinStock.Location = new System.Drawing.Point(81, 388);
+            this.lblinStock.Location = new System.Drawing.Point(61, 315);
+            this.lblinStock.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblinStock.Name = "lblinStock";
-            this.lblinStock.Size = new System.Drawing.Size(91, 25);
+            this.lblinStock.Size = new System.Drawing.Size(76, 20);
             this.lblinStock.TabIndex = 20;
             this.lblinStock.Text = "In Stock";
             // 
@@ -110,9 +115,10 @@
             // 
             this.lblDescription.AutoSize = true;
             this.lblDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDescription.Location = new System.Drawing.Point(182, 243);
+            this.lblDescription.Location = new System.Drawing.Point(136, 197);
+            this.lblDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(100, 25);
+            this.lblDescription.Size = new System.Drawing.Size(81, 20);
             this.lblDescription.TabIndex = 19;
             this.lblDescription.Text = "Category";
             // 
@@ -120,9 +126,10 @@
             // 
             this.lblItemName.AutoSize = true;
             this.lblItemName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemName.Location = new System.Drawing.Point(182, 106);
+            this.lblItemName.Location = new System.Drawing.Point(136, 86);
+            this.lblItemName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblItemName.Name = "lblItemName";
-            this.lblItemName.Size = new System.Drawing.Size(115, 25);
+            this.lblItemName.Size = new System.Drawing.Size(96, 20);
             this.lblItemName.TabIndex = 18;
             this.lblItemName.Text = "Item Name";
             // 
@@ -131,16 +138,17 @@
             this.cbxCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxCategory.FormattingEnabled = true;
-            this.cbxCategory.Location = new System.Drawing.Point(74, 285);
+            this.cbxCategory.Location = new System.Drawing.Point(56, 232);
+            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbxCategory.Name = "cbxCategory";
-            this.cbxCategory.Size = new System.Drawing.Size(309, 33);
+            this.cbxCategory.Size = new System.Drawing.Size(233, 28);
             this.cbxCategory.TabIndex = 28;
             // 
             // DepotAddForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 597);
+            this.ClientSize = new System.Drawing.Size(358, 485);
             this.Controls.Add(this.cbxCategory);
             this.Controls.Add(this.lblDepotAddFormUser);
             this.Controls.Add(this.btnApplyChangesToDepot);
@@ -151,7 +159,9 @@
             this.Controls.Add(this.lblinStock);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.lblItemName);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DepotAddForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DepotAddForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DepotAddForm_FormClosing);
             this.Load += new System.EventHandler(this.DepotAddForm_Load);

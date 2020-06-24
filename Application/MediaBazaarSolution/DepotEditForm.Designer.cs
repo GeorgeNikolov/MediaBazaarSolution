@@ -136,6 +136,7 @@
             this.Controls.Add(this.NameTB);
             this.Controls.Add(this.lblFName);
             this.Name = "DepotEditForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DepotEditForm";
             this.ResumeLayout(false);
             this.PerformLayout();

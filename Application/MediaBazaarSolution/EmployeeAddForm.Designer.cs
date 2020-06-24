@@ -372,6 +372,7 @@
             this.Controls.Add(this.lblFName);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "EmployeeAddForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EmployeeAddForm";
             this.ResumeLayout(false);
             this.PerformLayout();

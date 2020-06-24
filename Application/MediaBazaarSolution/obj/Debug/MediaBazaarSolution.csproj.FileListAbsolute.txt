@@ -275,3 +275,5 @@ C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Appl
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.EmployeeEditForm.resources
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.ScheduleAddForm.resources
 C:\Users\George\Desktop\MediaBazaarSolution\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.SendMail.resources
+C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.DepotEditForm.resources
+C:\Users\doann\Documents\Project Semester 2\administation-project-s2-cb06-3\Application\MediaBazaarSolution\obj\Debug\MediaBazaarSolution.EmployeeEditForm.resources

@@ -116,6 +116,7 @@
             this.Controls.Add(this.tbxSubject);
             this.Controls.Add(this.label1);
             this.Name = "SendMail";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SendMail";
             this.ResumeLayout(false);
             this.PerformLayout();

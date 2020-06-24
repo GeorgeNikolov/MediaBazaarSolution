@@ -72,7 +72,7 @@ namespace MediaBazaarSolution.DAO
 
         public bool DeleteSchedule(int employeeID, string date, string startTime)
         {
-            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM schedule WHERE employee_id = @employeeID && date = @date && start_time = @_time )";
+            string query = "DELETE FROM schedule WHERE schedule_id = (SELECT schedule_id FROM (SELECT * FROM schedule) AS my_table WHERE employee_id = @employeeID && date = @date && start_time = @startTime )";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { employeeID, date, startTime }) > 0;
         }
 

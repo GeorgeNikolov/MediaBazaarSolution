@@ -70,6 +70,7 @@ namespace MediaBazaarSolution
                     if (MailDAO.Instance.SendMail(this.subject != ""?this.subject:tbxSubject.Text, rtbxContent.Text, date, this.adminID, receiver))
                     {
                         MessageBox.Show("Succefully sent your mail!", "Mail sent successfully", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        this.Close();
                     }
                 }
         }
