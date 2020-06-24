@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MediaBazaarSolution.Helper;
 using MediaBazaarSolution.DTO;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace MediaBazaarSolution.DAO
 {
@@ -42,7 +43,7 @@ namespace MediaBazaarSolution.DAO
 
             return result.Rows.Count > 0;
         }
-        
+
         public string GetUserFirstName(string username, string password)
         {
             string hashedPassword = MD5.GenerateMD5(password);
@@ -67,6 +68,45 @@ namespace MediaBazaarSolution.DAO
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { username, hashedPassword });
             Account account = new Account(data.Rows[0]);
             return account;
+
+
+        }
+
+        private void LoadAll(string userType)
+        {
+            //string query = "SELECT dp.item_id, dp.item_name, dp.amount,c.category_name, dp.price " +
+            //    "FROM `depot_item` AS dp " +
+            //    "LEFT JOIN category AS c " +
+            //    "ON dp.category_id = c.category_id";
+
+            //List<Item> itemList = new List<Item>();
+
+            //DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+
+            //foreach (DataRow row in data.Rows)
+            //{
+            //    Item item = new Item(row);
+            //    itemList.Add(item);
+            //}
+
+
+            //return itemList;
+
+            List<int> indecis = new List<int>();
+            List<string> categories = new List<string>();
+            List<string> employees = new List<string>();
+            List<Mail> allMails = new List<Mail>();
+            List<Alert> alerts = new List<Alert>();
+            List<Order> orders = new List<Order>();
+
+            switch (userType)
+            {
+                case "Employee":
+
+                    break;
+            }
+
         }
     }
 }

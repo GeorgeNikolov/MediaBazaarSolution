@@ -211,6 +211,10 @@ namespace MediaBazaarSolution.DAO
             return item;
         }
 
-
+        public bool IncreaseItemAmount(int id, int increaseAmount)
+        {
+            string query = "UPDATE depot_item SET amount = amount + @increaseAmount WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { increaseAmount }) > 0;
+        }
     }
 }
