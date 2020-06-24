@@ -18,15 +18,15 @@ using System.Collections.Concurrent;
 using Org.BouncyCastle.Asn1.IsisMtt;
 using Renci.SshNet.Messages.Authentication;
 using MediaBazaarSolution.Scheduling;
-
-
+using GraphQL;
+using System.Runtime.CompilerServices;
 
 namespace MediaBazaarSolution
 {
     public partial class MainScreen : Form
     {
-        private bool sortAlertsByPriority;
-        private bool showCompletedOrders = false;
+        private bool sortAlertsByPriority = false;
+        private bool showCompletedOrders = false;       
 
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
@@ -58,6 +58,7 @@ namespace MediaBazaarSolution
         private List<List<Button>> matrix;
 
         List<string> dayOfWeek = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+        List<string> possibleOrderStatuses = new List<string> { "complete", "incomplete", "pending", "cancelled" };
 
         public string UserFirstName
         {
@@ -77,6 +78,7 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
 
+            Alert.PriorityMargin = 1000;
             //scheduleForm = new ScheduleForm();
 
             indecis = new List<int>();
@@ -563,19 +565,24 @@ namespace MediaBazaarSolution
         private void LoadAlerts()
         {
             alerts = RestockDAO.Instance.LoadAlerts(sortAlertsByPriority);
-            lbxAlerts.Items.Clear();
-            foreach (Alert alert in alerts)
+            if (alerts != null)
             {
-                lbxAlerts.Items.Add(alert.ToString());
-            }
+                lbxAlerts.Items.Clear();
+                foreach (Alert alert in alerts)
+                {
+                    lbxAlerts.Items.Add(alert.ToString());
+                }
+            }          
         }
 
         private void LoadOrders()
         {
             orders = RestockDAO.Instance.LoadOrders(showCompletedOrders);
-            dgvOrders.DataSource = orders;
-            dgvOrders.Columns[dgvOrders.ColumnCount-1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
+            if(orders != null)
+            {
+                dgvOrders.DataSource = orders;
+                dgvOrders.Columns[dgvOrders.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
         }
 
         private void SearchItemByCategory(string categoryWanted)
@@ -1506,23 +1513,43 @@ namespace MediaBazaarSolution
             {
                 message = alerts[index].ID.ToString();
             }
-
             string value = Interaction.InputBox("Please Input ID", "Enter a number", message);
 
-            int id = Convert.ToInt32(value);
-
-            value = Interaction.InputBox("Please input amount", "Enter a number");
-            int amount = Convert.ToInt32(value);
-            bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
-            if (success)
+            if(int.TryParse(value, out int id))
             {
-                MessageBox.Show("Order succesfully added");
-                LoadOrders();
+                if (ItemDAO.Instance.SearchItemByID(id.ToString()).Count > 0)
+                {
+                    value = Interaction.InputBox("Please input amount", "Enter a number");             
+                    if (int.TryParse(value, out int amount))
+                    {
+
+                        bool success = RestockDAO.Instance.AddOrder(id, amount, "incomplete");
+                        if (success)
+                        {
+                            MessageBox.Show("Order succesfully added");
+                            LoadOrders();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Order could not be added, please try again.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid input.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Could not find ID, please try again.");
+                }          
             }
             else
             {
-                MessageBox.Show("Order could not be added, please try again.");
+                if(value != "")
+                MessageBox.Show("Enter a valid ID number");
             }
+            
         }
 
         private void btnRemoveLimit_Click(object sender, EventArgs e)
@@ -1543,25 +1570,32 @@ namespace MediaBazaarSolution
                 }
                 LoadAlerts();
             }
+            else
+            {
+                MessageBox.Show("Please select an alert or add a new limit");
+            }
         }
 
         private void btnSetLimit_Click(object sender, EventArgs e)
         {
             int id = (int)nUPLimitID.Value;
-            int limit = (int)nUPMinStock.Value;
-            bool success = RestockDAO.Instance.AddLimit(id, limit);
-            if (success)
+            if (ItemDAO.Instance.SearchItemByID(id.ToString()).Count > 0)
             {
-                List<Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
-                foreach (Item item in items)
+                int limit = (int)nUPMinStock.Value;
+                bool success = RestockDAO.Instance.AddLimit(id, limit);
+                if (success)
                 {
-                    if (item.ID == id)
+                    List<Item> items = ItemDAO.Instance.SearchItemByID(id.ToString());
+                    foreach (Item item in items)
                     {
-                        MessageBox.Show($"Limit for {item.ID} : {item.Name} succesfully set to {limit}");
+                        if (item.ID == id)
+                        {
+                            MessageBox.Show($"Limit for {item.ID} : {item.Name} succesfully set to {limit}");
+                        }
+                        break;
                     }
-                    break;
+                    LoadAlerts();
                 }
-                LoadAlerts();
             }
             else
             {
@@ -1576,38 +1610,53 @@ namespace MediaBazaarSolution
 
         private void btnChangeStatus_Click(object sender, EventArgs e)
         {
-            int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
-            string currentStatus = dgvOrders.SelectedRows[0].Cells[2].Value.ToString();
-            string newStatus = cbxStatus.SelectedItem.ToString();
-            bool success = RestockDAO.Instance.UpdateOrderStatus(id, newStatus);
+            int orderNo = (int)dgvOrders.SelectedRows[0].Cells[0].Value; 
+            int id = (int)dgvOrders.SelectedRows[0].Cells[1].Value;
+            int amount = (int)dgvOrders.SelectedRows[0].Cells[2].Value;
+            string currentStatus = dgvOrders.SelectedRows[0].Cells[3].Value.ToString();
+
+            string newStatus = cbxStatus.SelectedItem.ToString();           
+            bool success = RestockDAO.Instance.UpdateOrderStatus(orderNo, newStatus);
             if (success)
             {
                 MessageBox.Show($"Order status succesfully changed from {currentStatus} to {newStatus} ");
+                if (newStatus == "complete")
+                {
+                    
+                    if(ItemDAO.Instance.IncreaseItemAmount(id, amount))
+                    {
+                        Item item = ItemDAO.Instance.SearchItemByID(id.ToString())[0];
+                        MessageBox.Show($"{item.ID} : {item.Name} stock replenished by {amount}");
+                        LoadAll();
+                    }
+                }        
             }
             LoadOrders();
         }
 
         private void btnChangeAmount_Click(object sender, EventArgs e)
         {
-            int id = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
+            int orderNo = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
             string value = Interaction.InputBox("Please input new amount", "Enter a number");
-            int amount;
-            bool result = Int32.TryParse(value, out amount);
-            while (!result)
+            if(value == "")
             {
-                value = Interaction.InputBox("Please input new amount", "Enter a number");
-                result = Int32.TryParse(value, out amount);
-            }
-            bool success = RestockDAO.Instance.UpdateAmount(id, amount);
-            if (success)
-            {
-                MessageBox.Show($"Amount changed to {amount}");
-                LoadOrders();
+                MessageBox.Show("Change amount cancelled");
             }
             else
             {
-                MessageBox.Show($"Could not change amount, please try again.");
-            }
+                int.TryParse(value, out int amount);
+
+                bool success = RestockDAO.Instance.UpdateAmount(orderNo, amount);
+                if (success)
+                {
+                    MessageBox.Show($"Amount changed to {amount}");
+                    LoadOrders();
+                }
+                else
+                {
+                    MessageBox.Show($"Could not change amount, please input a valid amount.");
+                }
+            }        
         }
 
         private void cbShowCompleted_CheckedChanged_1(object sender, EventArgs e)
@@ -1645,6 +1694,41 @@ namespace MediaBazaarSolution
                 DepotEditForm depotEditForm = new DepotEditForm(this, item, user);
                 depotEditForm.Show();
             }
+        }
+
+        private void dgvOrders_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvOrders.SelectedRows.Count > 0) 
+            {
+                string currentStatus = dgvOrders.SelectedRows[0].Cells[2].Value.ToString();
+                cbxStatus.Items.Clear();
+                switch (currentStatus)
+                {
+                    case "complete":
+                        cbxStatus.Enabled = false;
+                        btnChangeStatus.Enabled = false;
+                        break;
+                    case "cancelled":
+                        cbxStatus.Enabled = false;
+                        btnChangeStatus.Enabled = false;
+                        break;
+                    default:
+                        foreach (string item in possibleOrderStatuses)
+                        {
+                            if (item != currentStatus)
+                                cbxStatus.Items.Add(item);
+                        }
+                        cbxStatus.Enabled = true;
+                        btnChangeStatus.Enabled = true;
+                        break;
+                }
+            }     
+        }
+
+        private void btnChangePriorityMargin_Click(object sender, EventArgs e)
+        {
+            Alert.PriorityMargin = (int)nUPPriority.Value;
+            LoadAlerts();
         }
 
         private void MissedShiftsCB_SelectedIndexChanged(object sender, EventArgs e)

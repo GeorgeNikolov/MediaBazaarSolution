@@ -33,29 +33,27 @@ namespace MediaBazaarSolution.DAO
     
         public List<Alert> LoadAlerts(bool sortByPriority)
         {
+            List<Alert> alertList = new List<Alert>();
             string query = "SELECT dp.item_id as item_id , dp.amount as stock ,l.min_stock as min_stock " +
-                    "FROM `depot_item` AS dp " +
-                    "LEFT JOIN limits AS l " +
-                    "ON dp.item_id = l.item_id " +
-                    "WHERE dp.item_id = l.item_id ";
+                    "FROM depot_item AS dp, limits as l " +
+                    "WHERE dp.item_id = l.item_id AND l.min_stock >= dp.amount ";
 
-            if (sortByPriority)
-            {
-                query += "ORDER BY priority";
-            }
-            else
+            if (!sortByPriority)
             {
                 query += "ORDER BY item_id";
             }
-            List<Alert> alertList = new List<Alert>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-
 
             foreach (DataRow row in data.Rows)
             {
                 Alert alert = new Alert(row);
                 alertList.Add(alert);
+            }
+
+            if (sortByPriority)
+            {
+                alertList.Sort();
             }
 
             return alertList;
@@ -116,7 +114,7 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "SELECT COUNT(item_id) " +
                            " FROM limits WHERE item_id = " + id;
-            if((int)DataProvider.Instance.ExecuteScalar(query) > 0)
+            if(Convert.ToInt32( DataProvider.Instance.ExecuteScalar(query)) > 0)
             {
                 return true;
             }
@@ -135,21 +133,15 @@ namespace MediaBazaarSolution.DAO
             return DataProvider.Instance.ExecuteNonQuery(query) > 0;
         }
 
-        public bool DeleteOrder(int id)
+        public bool UpdateOrderStatus(int orderNo, string newStatus)
         {
-            string query = "DELETE FROM orders WHERE item_id = " + id;
+            string query = $"UPDATE orders SET status = '{newStatus}' WHERE orderNo = " + orderNo;
             return DataProvider.Instance.ExecuteNonQuery(query) > 0;
         }
 
-        public bool UpdateOrderStatus(int id, string newStatus)
+        public bool UpdateAmount(int orderNo, int amount)
         {
-            string query = $"UPDATE orders SET status = '{newStatus}' WHERE item_id = " + id;
-            return DataProvider.Instance.ExecuteNonQuery(query) > 0;
-        }
-
-        public bool UpdateAmount(int id, int amount)
-        {
-            string query = "UPDATE orders SET amount = @amount WHERE item_id = " + id;
+            string query = "UPDATE orders SET amount = @amount WHERE orderNo = " + orderNo;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { amount }) > 0;
         }
     }
