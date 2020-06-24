@@ -260,17 +260,8 @@ namespace MediaBazaarSolution
             }
             else
             {
-                if (EmployeeDAO.Instance.UpdateEmployeeFirstName(employee.ID, fName) &&
-                    EmployeeDAO.Instance.UpdateEmployeeLastName(employee.ID, lName) &&
-                    EmployeeDAO.Instance.UpdateEmployeeAddress(employee.ID, address) &&
-                    EmployeeDAO.Instance.UpdateEmployeePhone(employee.ID, phone) &&
-                    EmployeeDAO.Instance.UpdateEmployeeUsername(employee.ID, username) &&
-                    EmployeeDAO.Instance.UpdateEmployeeEmail(employee.ID, email) &&
-                    EmployeeDAO.Instance.UpdateEmployeeType(employee.ID, type) &&
-                    EmployeeDAO.Instance.UpdateEmployeeHourlyWage(employee.ID, hourlyWage) &&
-                    EmployeeDAO.Instance.UpdateEmployeeNoGoTimes(employee.ID, NoGoSchedule) &&
-                    EmployeeDAO.Instance.UpdateEmployeeContractedHours(employee.ID, intContractedHours) &&
-                    EmployeeDAO.Instance.UpdateEmployeeManager(employee.ID, managerID))
+                if (EmployeeDAO.Instance.UpdateEmployee(employee.ID, fName, lName, username, email, phone, hourlyWage, type, address, NoGoSchedule, intContractedHours, managerID))
+                    
                 {
                     if (employee.ID == user.ID)
                     {
