@@ -88,7 +88,7 @@ namespace MediaBazaarSolution
                 //parentForm.Depot.AddItemToDepot(dgvDepot, itemName, itemCategory, itemInStock, price);
                 if (ItemDAO.Instance.AddItemToDepot(itemName, itemCategory, itemInStock, price))
                 {
-                    MessageBox.Show("Item successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Item successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     parentForm.LoadAll();
                     this.Close();
                 }

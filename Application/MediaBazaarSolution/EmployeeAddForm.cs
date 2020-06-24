@@ -108,7 +108,16 @@ namespace MediaBazaarSolution
                 managerID = managers[ManagerIDCB.SelectedIndex].ID;
             }
 
-
+            List<Employee> employees = EmployeeDAO.Instance.GetAllEmployees();
+            bool usernameIsTaken = false;
+            foreach (Employee employee in employees)
+            {
+                if (employee.Username.Equals(username))
+                {
+                    usernameIsTaken = true;
+                    break;
+                }
+            }
 
             bool isNotValidFirstName = int.TryParse(fName, out int intFName);
             bool isNotValidLastName = int.TryParse(lName, out int intLName);
@@ -175,11 +184,15 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show($"A forbidden character is used, please refrain from using any of the following characters: {new string(forbiddenCharacters)}", "Invalid characters used", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (usernameIsTaken)
+            {
+                MessageBox.Show("That username is already taken", "Password already taken", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
                 if (EmployeeDAO.Instance.AddNewEmployee(fName, lName, address, phone, username, email, type, hourlyWage, NoGoSchedule, intContractedHours, managerID))
                 {
-                    MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Employee successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     parentForm.LoadAll();
                     this.Close();
                 }
