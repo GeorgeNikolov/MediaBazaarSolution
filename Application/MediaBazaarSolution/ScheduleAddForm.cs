@@ -27,6 +27,7 @@ namespace MediaBazaarSolution
             this.user = user;
             this.date = date;
             dtpStartTime.CustomFormat = "HH:mm";
+            dtpEndTime.CustomFormat = "HH:mm";
             FillDgvSchedule();
             FillEmployeesComboBox();
             tbxDate.Text = date;
@@ -99,11 +100,15 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show("Invalid task name!", "Task name error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } 
+            else if (newDateTime < dtpEndTime.Value)
+            {
+                MessageBox.Show("The end time cannot be earlier than the start time", "Invalid End time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             else
             {
                 int employeeID = (cbbxEmployees.SelectedItem as Employee).ID;
                 string time = dtpStartTime.Value.ToString("HH:mm");
-                string endTime = dtpStartTime.Value.AddHours(4).ToString("HH:mm");
+                string endTime = dtpEndTime.Value.ToString("HH:mm");
                 string taskName = tbxTaskName.Text;
                 if (ScheduleDAO.Instance.GetSchedule(employeeID, date, time, endTime, taskName))
                 {

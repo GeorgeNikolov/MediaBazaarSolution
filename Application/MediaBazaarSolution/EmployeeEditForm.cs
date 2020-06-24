@@ -119,7 +119,12 @@ namespace MediaBazaarSolution
             {
                 label12.Visible = false;
                 passwordTB.Visible = false;
+            } else
+            {
+                HWageTB.Enabled = false;
             }
+
+            
             
 
         }
@@ -194,7 +199,7 @@ namespace MediaBazaarSolution
             bool usernameIsTaken = false;
             foreach (Employee employee in employees)
             {
-                if (employee.Username.Equals(username))
+                if (employee.Username.Equals(username) && !(this.employee.ID == employee.ID))
                 {
                     usernameIsTaken = true;
                     break;
