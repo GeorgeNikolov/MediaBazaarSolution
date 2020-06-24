@@ -216,5 +216,10 @@ namespace MediaBazaarSolution.DAO
             string query = "UPDATE depot_item SET `category_id` = (SELECT category_id FROM category WHERE category_name = @valueToBeChanged ) , item_name = @name , amount = @amount , price = @price WHERE item_id = @id ";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { category, name, amount, price, id }) > 0;
         }
+        public bool IncreaseItemAmount(int id, int increaseAmount)
+        {
+            string query = "UPDATE depot_item SET amount = amount + @increaseAmount WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { increaseAmount }) > 0;
+        }
     }
 }
