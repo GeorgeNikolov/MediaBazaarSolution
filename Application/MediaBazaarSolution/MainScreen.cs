@@ -26,7 +26,7 @@ namespace MediaBazaarSolution
     public partial class MainScreen : Form
     {
         private bool sortAlertsByPriority = false;
-        private bool showCompletedOrders = false;       
+        private bool showCompletedOrders = false;
 
         private DepotAddForm depotAddForm;
         private EmployeeAddForm employeeAddForm;
@@ -138,6 +138,9 @@ namespace MediaBazaarSolution
             //By default all the received mails will be displayed
             FillReceivedMails();
 
+            this.Text = $"Mediabazaarsolution";
+
+            
         }
 
         #region Methods 
@@ -146,7 +149,7 @@ namespace MediaBazaarSolution
         {
             LoadAllItems();
             LoadItemCategoriesInComboBox();
-            if(!user.Type.Equals(EmployeeType.Employee))
+            if (!user.Type.Equals(EmployeeType.Employee))
             {
                 LoadAllEmployees();
                 LoadAlerts();
@@ -224,7 +227,7 @@ namespace MediaBazaarSolution
             MissedShiftsCB.SelectedIndex = 0;
             List<int> managerIDs = new List<int>();
             managerIDs.AddRange(statisticsScreen.GetManagers());
-            foreach(int ID in managerIDs)
+            foreach (int ID in managerIDs)
             {
                 MissedShiftsCB.Items.Add(ID.ToString());
             }
@@ -255,12 +258,12 @@ namespace MediaBazaarSolution
             }
 
             int[] values = new int[employees.Length];
-            if(MissedShiftsCB.SelectedItem.ToString().Equals("All managers"))
+            if (MissedShiftsCB.SelectedItem.ToString().Equals("All managers"))
             {
                 for (int i = 0; i < employees.Length; i++)
                 {
 
-                    
+
                     values[i] = statisticsScreen.GetMissedShiftsByManager(significantEmployees[i].ID);
 
                 }
@@ -288,7 +291,7 @@ namespace MediaBazaarSolution
 
         private void LoadPieChart()
         {
-            
+
             String[] products;
             SeriesCollection series = new SeriesCollection();
 
@@ -371,8 +374,8 @@ namespace MediaBazaarSolution
         {
             List<Item> items = statisticsScreen.GetAllItems().ToList();
             List<string> names = new List<string>();
-            
-            
+
+
             XAxisCB.Items.Clear();
             if (PiechartCB.SelectedItem.ToString().Equals("All Items"))
             {
@@ -380,8 +383,9 @@ namespace MediaBazaarSolution
                 {
                     names.Add(items[i].Name);
                 }
-                
-            } else
+
+            }
+            else
             {
                 for (int i = 0; i < items.Count; i++)
                 {
@@ -404,12 +408,12 @@ namespace MediaBazaarSolution
             GraphSeries = new SeriesCollection();
             cartesianChart1.AxisY.Clear();
             cartesianChart1.AxisX.Clear();
-            if ( YAxisCB.Text.Equals("Stock History"))
+            if (YAxisCB.Text.Equals("Stock History"))
             {
                 // Stock History
                 Item item = ItemDAO.Instance.SearchItembyName(XAxisCB.Text);
                 int id = item.ID;
-                    
+
                 List<Stock_History> stock_histories = ItemDAO.Instance.GetStock_Histories(id);
                 List<string> stock_history_labels = new List<string>();
                 List<int> values = new List<int>();
@@ -434,7 +438,7 @@ namespace MediaBazaarSolution
                     stock_history_labels.Add(stock_histories[i].date.ToString("dd/MM"));
                     currentAmount += stock_histories[i].amount;
                     values.Add(currentAmount);
-                    
+
                 }
                 cartesianChart1.AxisX.Add(new Axis
                 {
@@ -499,7 +503,7 @@ namespace MediaBazaarSolution
                     Title = "Price",
                     Values = new ChartValues<double>(values),
                     LineSmoothness = 0,
-                    
+
                 });
 
                 cartesianChart1.AxisY.Add(new Axis
@@ -508,8 +512,8 @@ namespace MediaBazaarSolution
                     LabelFormatter = value => value.ToString("C")
                 });
             }
-            
-            
+
+
             cartesianChart1.LegendLocation = LegendLocation.Right;
 
 
@@ -517,11 +521,11 @@ namespace MediaBazaarSolution
             YFormatter = null;
             YFormatter = value => value.ToString();
 
-            
-            
+
+
             cartesianChart1.Series = GraphSeries;
 
-            
+
 
 
             //statisticsScreen.UpdateGraphchart();
@@ -531,7 +535,7 @@ namespace MediaBazaarSolution
         {
             //Load the available categories to the combobox in the depot tab
             //By default the selected index will be 0
-            
+
             cbxItemCategory.DataSource = ItemCategoryDAO.Instance.getAllCategory();
             cbxItemCategory.DisplayMember = "name";
             cbxItemCategory.SelectedIndex = 0;
@@ -540,17 +544,18 @@ namespace MediaBazaarSolution
         private void LoadAllEmployees()
         {
             List<Employee> employeeList;
-            if(user.Type.Equals(EmployeeType.Administrator))
+            if (user.Type.Equals(EmployeeType.Administrator))
             {
                 employeeList = EmployeeDAO.Instance.GetAllEmployees();
                 dgvEmployees.DataSource = employeeList;
-            } else
+            }
+            else
             {
                 employeeList = EmployeeDAO.Instance.GetAllEmployeesByManager(user.ID);
                 employeeList.Add(EmployeeDAO.Instance.GetEmployeeByID(user.ID));
                 dgvEmployees.DataSource = employeeList;
             }
-            
+
 
             employees.Clear();
 
@@ -573,13 +578,13 @@ namespace MediaBazaarSolution
                 {
                     lbxAlerts.Items.Add(alert.ToString());
                 }
-            }          
+            }
         }
 
         private void LoadOrders()
         {
             orders = RestockDAO.Instance.LoadOrders(showCompletedOrders);
-            if(orders != null)
+            if (orders != null)
             {
                 dgvOrders.DataSource = orders;
                 dgvOrders.Columns[dgvOrders.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -779,7 +784,7 @@ namespace MediaBazaarSolution
             if (cbxItemCategory.SelectedIndex == 0)
             {
                 tbxSearchItemById.ReadOnly = false;
-                
+
             }
             else
             {
@@ -1517,11 +1522,11 @@ namespace MediaBazaarSolution
             }
             string value = Interaction.InputBox("Please Input ID", "Enter a number", message);
 
-            if(int.TryParse(value, out int id))
+            if (int.TryParse(value, out int id))
             {
                 if (ItemDAO.Instance.SearchItemByID(id.ToString()).Count > 0)
                 {
-                    value = Interaction.InputBox("Please input amount", "Enter a number");             
+                    value = Interaction.InputBox("Please input amount", "Enter a number");
                     if (int.TryParse(value, out int amount))
                     {
 
@@ -1544,14 +1549,14 @@ namespace MediaBazaarSolution
                 else
                 {
                     MessageBox.Show("Could not find ID, please try again.");
-                }          
+                }
             }
             else
             {
-                if(value != "")
-                MessageBox.Show("Enter a valid ID number");
+                if (value != "")
+                    MessageBox.Show("Enter a valid ID number");
             }
-            
+
         }
 
         private void btnRemoveLimit_Click(object sender, EventArgs e)
@@ -1612,26 +1617,26 @@ namespace MediaBazaarSolution
 
         private void btnChangeStatus_Click(object sender, EventArgs e)
         {
-            int orderNo = (int)dgvOrders.SelectedRows[0].Cells[0].Value; 
+            int orderNo = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
             int id = (int)dgvOrders.SelectedRows[0].Cells[1].Value;
             int amount = (int)dgvOrders.SelectedRows[0].Cells[2].Value;
             string currentStatus = dgvOrders.SelectedRows[0].Cells[3].Value.ToString();
 
-            string newStatus = cbxStatus.SelectedItem.ToString();           
+            string newStatus = cbxStatus.SelectedItem.ToString();
             bool success = RestockDAO.Instance.UpdateOrderStatus(orderNo, newStatus);
             if (success)
             {
                 MessageBox.Show($"Order status succesfully changed from {currentStatus} to {newStatus} ");
                 if (newStatus == "complete")
                 {
-                    
-                    if(ItemDAO.Instance.IncreaseItemAmount(id, amount))
+
+                    if (ItemDAO.Instance.IncreaseItemAmount(id, amount))
                     {
                         Item item = ItemDAO.Instance.SearchItemByID(id.ToString())[0];
                         MessageBox.Show($"{item.ID} : {item.Name} stock replenished by {amount}");
                         LoadAll();
                     }
-                }        
+                }
             }
             LoadOrders();
         }
@@ -1640,7 +1645,7 @@ namespace MediaBazaarSolution
         {
             int orderNo = (int)dgvOrders.SelectedRows[0].Cells[0].Value;
             string value = Interaction.InputBox("Please input new amount", "Enter a number");
-            if(value == "")
+            if (value == "")
             {
                 MessageBox.Show("Change amount cancelled");
             }
@@ -1658,7 +1663,7 @@ namespace MediaBazaarSolution
                 {
                     MessageBox.Show($"Could not change amount, please input a valid amount.");
                 }
-            }        
+            }
         }
 
         private void cbShowCompleted_CheckedChanged_1(object sender, EventArgs e)
@@ -1679,13 +1684,13 @@ namespace MediaBazaarSolution
 
         private void EmployeeEditBtn_Click(object sender, EventArgs e)
         {
-            if(dgvEmployees.SelectedRows.Count != 0)
+            if (dgvEmployees.SelectedRows.Count != 0)
             {
                 Employee employee = (Employee)dgvEmployees.SelectedRows[0].DataBoundItem;
                 EmployeeEditForm employeeEditForm = new EmployeeEditForm(this, employee, user);
                 employeeEditForm.Show();
             }
-            
+
         }
 
         private void DepotEditBtn_Click(object sender, EventArgs e)
@@ -1700,7 +1705,7 @@ namespace MediaBazaarSolution
 
         private void dgvOrders_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvOrders.SelectedRows.Count > 0) 
+            if (dgvOrders.SelectedRows.Count > 0)
             {
                 string currentStatus = dgvOrders.SelectedRows[0].Cells[2].Value.ToString();
                 cbxStatus.Items.Clear();
@@ -1724,7 +1729,7 @@ namespace MediaBazaarSolution
                         btnChangeStatus.Enabled = true;
                         break;
                 }
-            }     
+            }
         }
 
         private void btnChangePriorityMargin_Click(object sender, EventArgs e)
@@ -1736,7 +1741,7 @@ namespace MediaBazaarSolution
         private void MissedShiftsCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadMSPC();
-            
+
         }
     }
 }

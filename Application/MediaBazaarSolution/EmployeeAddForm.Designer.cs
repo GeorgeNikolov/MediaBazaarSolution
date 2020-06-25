@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeAddForm));
             this.lblFName = new System.Windows.Forms.Label();
             this.lblLName = new System.Windows.Forms.Label();
             this.lblUName = new System.Windows.Forms.Label();
@@ -370,10 +371,11 @@
             this.Controls.Add(this.lblUName);
             this.Controls.Add(this.lblLName);
             this.Controls.Add(this.lblFName);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "EmployeeAddForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EmployeeAddForm";
+            this.Text = "Add Employee";
             this.ResumeLayout(false);
             this.PerformLayout();
 

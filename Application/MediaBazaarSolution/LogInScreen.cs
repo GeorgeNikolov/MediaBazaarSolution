@@ -17,26 +17,31 @@ namespace MediaBazaarSolution
         public LogInScreen()
         {
             InitializeComponent();
-            
+
         }
 
         private void btnLogIn_Click(object sender, EventArgs e)
         {
             string username = tbxUsername.Text;
             string password = tbxPassword.Text;
+            try
+            {
+                if (LoginValid(username, password))
+                {
+                    MainScreen f = new MainScreen(AccountDAO.Instance.GetAccount(username, password));
 
-            if (LoginValid(username, password))
+
+                    this.Hide();
+                    f.ShowDialog();
+                    this.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Wrong username or password!", "Fail to login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } catch
             {
-                MainScreen f = new MainScreen(AccountDAO.Instance.GetAccount(username, password));
-                
-                
-                this.Hide();
-                f.ShowDialog();
-                this.Show();
-            }
-            else
-            {
-                MessageBox.Show("Wrong username or password!", "Fail to login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("A connection couldn't be made to the database", "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -45,7 +50,7 @@ namespace MediaBazaarSolution
             return AccountDAO.Instance.LoginValid(username, password);
         }
 
-        
+
 
         private void LogInScreen_FormClosing(object sender, FormClosingEventArgs e)
         {

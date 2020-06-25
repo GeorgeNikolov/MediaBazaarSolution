@@ -32,23 +32,26 @@ namespace MediaBazaarSolution
             {
                 TypeCB.Items.Add("Admin");
                 TypeCB.Items.Add("Manager");
-                
-            } else if (user.Type.Equals(EmployeeType.Manager))
+
+            }
+            else if (user.Type.Equals(EmployeeType.Manager))
             {
                 TypeCB.Items.Add("Manager");
             }
             TypeCB.Items.Add("Employee");
-            if(employee.Type.Equals(EmployeeType.Administrator))
+            if (employee.Type.Equals(EmployeeType.Administrator))
             {
                 TypeCB.SelectedIndex = 0;
-            } else if (employee.Type.Equals(EmployeeType.Manager))
+            }
+            else if (employee.Type.Equals(EmployeeType.Manager))
             {
                 TypeCB.SelectedItem = "Manager";
-            } else
+            }
+            else
             {
                 TypeCB.SelectedItem = "Employee";
             }
-            
+
             AddressTB.Text = employee.Address;
             CHoursTB.Text = employee.ContractedHours.ToString();
             EmailTB.Text = employee.Email;
@@ -84,11 +87,11 @@ namespace MediaBazaarSolution
             NoWorkCB.Items.AddRange(shifts);
             Employee contractedManager = null;
             managers = EmployeeDAO.Instance.GetAllManagers();
-            if(employee.Type.Equals(EmployeeType.Employee))
+            if (employee.Type.Equals(EmployeeType.Employee))
             {
                 contractedManager = EmployeeDAO.Instance.GetManagerByEmployeeID(employee.ID);
             }
-            
+
 
             for (int i = 0; i < managers.Count; i++)
             {
@@ -100,7 +103,7 @@ namespace MediaBazaarSolution
                         ManagerIDCB.SelectedIndex = i;
                     }
                 }
-                
+
             }
 
             if (employee.Type.Equals(EmployeeType.Employee))
@@ -115,17 +118,18 @@ namespace MediaBazaarSolution
                 NoWorkLB.Items.AddRange(noGoStrings);
             }
 
-            if(!(employee.ID == user.ID))
+            if (!(employee.ID == user.ID))
             {
                 label12.Visible = false;
                 passwordTB.Visible = false;
-            } else
+            }
+            else
             {
                 HWageTB.Enabled = false;
             }
 
-            
-            
+
+
 
         }
 
@@ -185,12 +189,13 @@ namespace MediaBazaarSolution
                 NoGoSchedule += noGoIntList[i];
             }
             int managerID;
-            if(!type.Equals("Employee"))
+            if (!type.Equals("Employee"))
             {
                 managerID = 0;
                 NoGoSchedule = "";
 
-            } else
+            }
+            else
             {
                 managerID = managers[ManagerIDCB.SelectedIndex].ID;
             }
@@ -281,7 +286,7 @@ namespace MediaBazaarSolution
             else
             {
                 if (EmployeeDAO.Instance.UpdateEmployee(employee.ID, fName, lName, username, email, phone, hourlyWage, type, address, NoGoSchedule, intContractedHours, managerID))
-                    
+
                 {
                     if (employee.ID == user.ID)
                     {
@@ -290,7 +295,8 @@ namespace MediaBazaarSolution
                             MessageBox.Show("Employee successfully edited!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             parentForm.LoadAll();
                             this.Close();
-                        } else
+                        }
+                        else
                         {
                             MessageBox.Show("Employee not edited!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }

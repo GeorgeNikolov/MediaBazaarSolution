@@ -35,7 +35,7 @@ namespace MediaBazaarSolution
             PriceTB.Text = item.Price.ToString();
 
             categories = ItemCategoryDAO.Instance.getAllCategory();
-            for (int i = 0; i < categories.Count; i++ )
+            for (int i = 0; i < categories.Count; i++)
             {
                 CategoryCB.Items.Add(categories[i].Name);
                 if (item.Category.Equals(categories[i].Name))
@@ -44,7 +44,7 @@ namespace MediaBazaarSolution
                 }
                 categoriesString.Add(categories[i].Name);
             }
-            if(user.Type.Equals(EmployeeType.Employee))
+            if (user.Type.Equals(EmployeeType.Employee))
             {
                 CategoryCB.Enabled = false;
                 NameTB.Enabled = false;
@@ -88,7 +88,8 @@ namespace MediaBazaarSolution
             else if (!isValidPrice)
             {
                 MessageBox.Show("The price is not valid", "Invalid price", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else if (intAmount < 0)
+            }
+            else if (intAmount < 0)
             {
                 MessageBox.Show("The amount cannot be negative", "Invalid amount", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -107,7 +108,8 @@ namespace MediaBazaarSolution
                     MessageBox.Show("Item Updated!", "Item Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     mainScreen.LoadAll();
                     this.Close();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Somgething went wrong! \nItem not updated!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

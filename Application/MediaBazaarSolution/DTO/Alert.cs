@@ -17,7 +17,7 @@ namespace MediaBazaarSolution.DTO
         private string priority;
         private static int priorityMargin;
 
-        
+
 
         public Alert(DataRow row)
         {
@@ -36,16 +36,16 @@ namespace MediaBazaarSolution.DTO
         public int ID { get => this.iD; set => this.iD = value; }
         public int Stock { get => this.stock; set => this.stock = value; }
         public int Limit { get => this.limit; set { this.limit = value; SetPriority(); } }
-        public string Priority { get => this.priority;}
+        public string Priority { get => this.priority; }
         public static int PriorityMargin { set => priorityMargin = value; }
 
         public int CompareTo(Alert other)
         {
-            if(this.priority == "HIGH" && other.priority == "HIGH")
+            if (this.priority == "HIGH" && other.priority == "HIGH")
             {
                 return 0;
             }
-            else if(this.priority == "HIGH" && other.priority == "REG")
+            else if (this.priority == "HIGH" && other.priority == "REG")
             {
                 return -1;
             }
@@ -60,16 +60,16 @@ namespace MediaBazaarSolution.DTO
         private void SetPriority()
         {
             int difference = this.limit - this.stock;
-            if(difference < priorityMargin && difference >=0)
-                {
-                    this.priority = "REG";
-                }
-                else if(difference >= priorityMargin)
-                {
-                    this.priority = "HIGH";
-                }
+            if (difference < priorityMargin && difference >= 0)
+            {
+                this.priority = "REG";
+            }
+            else if (difference >= priorityMargin)
+            {
+                this.priority = "HIGH";
+            }
         }
 
-        
-}
+
+    }
 }

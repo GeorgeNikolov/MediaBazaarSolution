@@ -44,11 +44,11 @@ namespace MediaBazaarSolution.DTO
             this.status = status;
             this.DeletedFromAdminForever = deletedFromAdminForever;
         }
-      
+
 
         public string Subject { get => subject; set => subject = value; }
         public string Content { get => content; set => content = value; }
-        
+
         public string Date { get => date; set => date = value; }
         public int DeletedFromAdmin { get => deletedFromAdmin; set => deletedFromAdmin = value; }
         public int Status { get => status; set => status = value; }

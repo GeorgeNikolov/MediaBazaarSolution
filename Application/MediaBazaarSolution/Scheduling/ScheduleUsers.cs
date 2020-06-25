@@ -18,9 +18,9 @@
         //Set an int for easier sorting
         private int setNoGoHours(bool[] noGoTimes)
         {
-            
+
             int sum = 0;
-            for(int i = 0; i < noGoTimes.Length; i++ )
+            for (int i = 0; i < noGoTimes.Length; i++)
             {
                 if (noGoTimes[i])
                 {

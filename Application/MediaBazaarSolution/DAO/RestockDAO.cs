@@ -29,8 +29,8 @@ namespace MediaBazaarSolution.DAO
                 RestockDAO.instance = value;
             }
         }
-            private RestockDAO() { }
-    
+        private RestockDAO() { }
+
         public List<Alert> LoadAlerts(bool sortByPriority)
         {
             List<Alert> alertList = new List<Alert>();
@@ -62,11 +62,11 @@ namespace MediaBazaarSolution.DAO
         public List<Order> LoadOrders(bool showCompletedOrders)
         {
             string query = "SELECT * FROM orders ";
-            
-            if(!showCompletedOrders)
+
+            if (!showCompletedOrders)
             {
                 query += "WHERE NOT status = 'complete' ";
-                    //"IN('incomplete', 'pending', 'cancelled') ";
+                //"IN('incomplete', 'pending', 'cancelled') ";
             }
 
             query += "ORDER BY item_id ";
@@ -114,7 +114,7 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "SELECT COUNT(item_id) " +
                            " FROM limits WHERE item_id = " + id;
-            if(Convert.ToInt32( DataProvider.Instance.ExecuteScalar(query)) > 0)
+            if (Convert.ToInt32(DataProvider.Instance.ExecuteScalar(query)) > 0)
             {
                 return true;
             }
@@ -122,9 +122,9 @@ namespace MediaBazaarSolution.DAO
         }
 
         private bool UpdateLimit(int id, int valueToBeChanged)
-        {      
-                string query = "UPDATE limits SET min_stock = @valueToBeChanged WHERE item_id = " + id;
-                return DataProvider.Instance.ExecuteNonQuery(query, new object[] { valueToBeChanged }) > 0;    
+        {
+            string query = "UPDATE limits SET min_stock = @valueToBeChanged WHERE item_id = " + id;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { valueToBeChanged }) > 0;
         }
 
         public bool DeleteLimit(int id)

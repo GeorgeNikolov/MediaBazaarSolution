@@ -42,7 +42,7 @@ namespace MediaBazaarSolution.DTO
         public int EmployeeID { get => employeeID; set => employeeID = value; }
         public string EmployeeFirstName { get => employeeFirstName; set => employeeFirstName = value; }
         public string EmployeeLastName { get => employeeLastName; set => employeeLastName = value; }
-       
+
         public string TaskName { get => taskName; set => taskName = value; }
         public string Date { get => date; set => date = value; }
         public string StartTime { get => startTime; set => startTime = value; }

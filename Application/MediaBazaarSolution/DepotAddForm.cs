@@ -29,7 +29,7 @@ namespace MediaBazaarSolution
 
         private void btnApplyChangesToDepot_Click(object sender, EventArgs e)
         {
-            
+
             string itemName = tbxItemName.Text;
             bool IsNotValidItemName = int.TryParse(tbxItemName.Text, out int itemNameInt);
             string itemCategory = (cbxCategory.SelectedItem as Category).Name;
@@ -115,6 +115,6 @@ namespace MediaBazaarSolution
             //parentForm.Depot.LoadItemCategoriesInComboBox(cbxCategory);
         }
 
-        
+
     }
 }

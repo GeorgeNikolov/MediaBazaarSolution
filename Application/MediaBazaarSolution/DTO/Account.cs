@@ -36,7 +36,7 @@ namespace MediaBazaarSolution.DTO
         public string NoGoSchedule { get => noGoSchedule; set { if (value == null || value == "") this.noGoSchedule = "None"; else { noGoSchedule = value; } } }
         public int ContractedHours { get => contractedHours; set { if (value == null || value == 0) this.contractedHours = 0; else { contractedHours = value; } } }
 
-        
+
 
         //internal EmployeeType Type { get => type; set { EmployeeType.TryParse(value.ToString(), out this.type); this.Type = type; } }
 
@@ -68,8 +68,8 @@ namespace MediaBazaarSolution.DTO
             {
                 Type = EmployeeType.Employee;
             }
-            
-        
+
+
             this.hourlyWage = Convert.ToDouble(row["hourly_wage"]);
             this.ContractedHours = (int)row["ContractedHours"];
             this.NoGoSchedule = row["NoGoSchedule"].ToString();

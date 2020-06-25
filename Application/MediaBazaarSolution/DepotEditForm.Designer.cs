@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepotEditForm));
             this.NameTB = new System.Windows.Forms.TextBox();
             this.lblFName = new System.Windows.Forms.Label();
             this.AmountTB = new System.Windows.Forms.TextBox();
@@ -135,9 +136,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NameTB);
             this.Controls.Add(this.lblFName);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DepotEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DepotEditForm";
+            this.Text = "Edit Product";
             this.ResumeLayout(false);
             this.PerformLayout();
 

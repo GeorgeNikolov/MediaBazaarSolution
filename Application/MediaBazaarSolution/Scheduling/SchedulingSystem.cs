@@ -42,7 +42,7 @@ namespace MediaBazaarSolution.Scheduling
         {
             ScheduleUsers[] schedule = new ScheduleUsers[21];
             // Loop through employees
-            foreach(ScheduleUsers user in scheduleUsers)
+            foreach (ScheduleUsers user in scheduleUsers)
             {
                 // Loop through Contracted Hours
                 for (int i = 0; i < user.ContractedHours; i++)
@@ -53,11 +53,11 @@ namespace MediaBazaarSolution.Scheduling
                     for (int j = 0; j < 21; j++)
                     {
                         // Check if timeslot is available and relevant
-                        if(!(user.noGoTimes[j]) && timesAvailable[j])
+                        if (!(user.noGoTimes[j]) && timesAvailable[j])
                         {
                             timesAvailable[j] = false;
                             schedule[j] = user;
-                            
+
                             break;
                         }
                         // Check if timeslot was relevant for counting purposes
@@ -66,7 +66,7 @@ namespace MediaBazaarSolution.Scheduling
                             timesAvailableHad++;
                         }
                         // If the amount of available timeslots is the amount of hours they cannot work
-                        if (timesAvailableHad == (21-user.noGoHours))
+                        if (timesAvailableHad == (21 - user.noGoHours))
                         {
                             // Loop backwards through the previous timeslots
                             for (int n = j; n > 0; n--)
@@ -94,15 +94,15 @@ namespace MediaBazaarSolution.Scheduling
                                     break;
                                 }
                             }
-                            
+
                             break;
-                            
+
                         }
-                        
+
                     }
                 }
             }
-            
+
             return schedule;
         }
 

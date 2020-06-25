@@ -21,22 +21,22 @@ namespace MediaBazaarSolution
         {
             InitializeComponent();
             this.parentForm = parent;
-            if(user.Type.Equals(EmployeeType.Administrator))
+            if (user.Type.Equals(EmployeeType.Administrator))
             {
                 cbbxType.Items.Add("Admin");
                 cbbxType.Items.Add("Manager");
             }
             cbbxType.Items.Add("Employee");
-            
+
             cbbxType.SelectedIndex = 0;
 
             managers = EmployeeDAO.Instance.GetAllManagers();
-            
+
 
             for (int i = 0; i < managers.Count; i++)
             {
                 string fullname = $"{managers[i].FirstName} {managers[i].LastName}";
-                
+
                 ManagerIDCB.Items.Add(fullname);
             }
             ManagerIDCB.SelectedIndex = 0;
@@ -60,18 +60,19 @@ namespace MediaBazaarSolution
             else if (cbbxType.SelectedItem.ToString().Equals("Manager"))
             {
                 type = "Manager";
-            } else
+            }
+            else
             {
                 type = "Employee";
             }
-            
+
             string hourlyWageString = tbxRate.Text;
             string contractedHours = ContractedHoursTB.Text;
             string NoGoSchedule = "";
 
             char[] forbiddenCharacters = new char[] { '\\', '\'', '\"', '@', '$', '#', '&', '*', '_', '=', '?', '<', '>', '.' };
             bool forbiddenCharactersUsed = false;
-            if ((fName.IndexOfAny(forbiddenCharacters) != -1 ) ||
+            if ((fName.IndexOfAny(forbiddenCharacters) != -1) ||
                 (lName.IndexOfAny(forbiddenCharacters) != -1) ||
                 (username.IndexOfAny(forbiddenCharacters) != -1) ||
                 (address.IndexOfAny(forbiddenCharacters) != -1))
@@ -211,14 +212,16 @@ namespace MediaBazaarSolution
         private void AddNoWorkBtn_Click(object sender, EventArgs e)
         {
             string workingString = NoWorkCB.Text.ToString();
-            if (NoWorkLB.Items.Contains(workingString)) {
+            if (NoWorkLB.Items.Contains(workingString))
+            {
                 MessageBox.Show("That day is already in there");
-            } else
+            }
+            else
             {
                 NoWorkLB.Items.Add(workingString);
                 SortLB();
             }
-            
+
         }
 
 
@@ -286,7 +289,7 @@ namespace MediaBazaarSolution
             for (int i = 0; i < list.Length; i++)
             {
                 string tempstring = "";
-                if(list[i]/3 == 0)
+                if (list[i] / 3 == 0)
                 {
                     tempstring = "Monday";
                 }
@@ -314,11 +317,11 @@ namespace MediaBazaarSolution
                 {
                     tempstring = "Sunday";
                 }
-                if (list[i]%3 == 0)
+                if (list[i] % 3 == 0)
                 {
                     tempstring += " Morning";
                 }
-                if (list[i]%3 == 1)
+                if (list[i] % 3 == 1)
                 {
                     tempstring += " Afternoon";
                 }

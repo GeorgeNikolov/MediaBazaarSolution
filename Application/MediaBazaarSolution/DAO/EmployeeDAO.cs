@@ -14,7 +14,7 @@ namespace MediaBazaarSolution.DAO
     {
         private static EmployeeDAO instance;
 
-        public static EmployeeDAO Instance 
+        public static EmployeeDAO Instance
         {
             get
             {
@@ -44,7 +44,7 @@ namespace MediaBazaarSolution.DAO
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -60,7 +60,7 @@ namespace MediaBazaarSolution.DAO
             string query = "INSERT INTO employee(first_name, last_name, username, password, email, phone, employee_type, hourly_wage, address, NoGoSchedule, ContractedHours, manager_id, missed_shifts)" +
                            "VALUES( @fName , @lName , @username , @password , @email , @phone , @type , @hourlyWage , @address , @NoGoSchedule , @ContractedHours , @managerID , @missedShifts )";
 
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] {fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID, 0 }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { fName, lName, username, hashedPassword, email, phone, type, hourlyWage, place, NoGoSchedule, ContractedHours, managerID, 0 }) > 0;
         }
 
         public bool DeleteEmployee(int id)
@@ -107,8 +107,8 @@ namespace MediaBazaarSolution.DAO
         {
             string query = "UPDATE employee SET email = @email WHERE employee_id = " + id;
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { email }) > 0;
-            
-            
+
+
         }
 
         public bool UpdateEmployeePhone(int id, string phone)
@@ -153,7 +153,7 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -168,7 +168,7 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -183,7 +183,7 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);
@@ -206,7 +206,7 @@ namespace MediaBazaarSolution.DAO
             List<Employee> employeeList = new List<Employee>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { managerID });
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Employee employee = new Employee(row);
                 employeeList.Add(employee);

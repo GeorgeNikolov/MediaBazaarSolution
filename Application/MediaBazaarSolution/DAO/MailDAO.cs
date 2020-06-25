@@ -39,7 +39,7 @@ namespace MediaBazaarSolution.DAO
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Mail m = new Mail(row);
                 mailList.Add(m);
@@ -63,7 +63,7 @@ namespace MediaBazaarSolution.DAO
         public bool SendMail(string subject, string content, string date, int sender, int receiver)
         {
             string query = "INSERT INTO mail SET subject = @subject , content = @content , date = @date , sender = @sender , receiver = @receiver ";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { subject, content, date, sender, receiver}) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { subject, content, date, sender, receiver }) > 0;
         }
 
         public bool DeleteMailFromAdminForever(int mailID)

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace MediaBazaarSolution.DTO
 {
-    public enum EmployeeType{
+    public enum EmployeeType
+    {
         Employee, Manager, Administrator
     }
     public class Employee
@@ -15,7 +16,7 @@ namespace MediaBazaarSolution.DTO
         private int iD;
         private string firstName;
         private string lastName;
-        private string username;   
+        private string username;
         private string email;
         private string phone;
         private string address;
@@ -32,7 +33,7 @@ namespace MediaBazaarSolution.DTO
         public string FirstName { get => firstName; set { if (value == null || value == "") this.firstName = "None"; else { firstName = value; } } }
         public string LastName { get => lastName; set { if (value == null || value == "") this.lastName = "None"; else { lastName = value; } } }
         public string Username { get => username; set { if (value == null || value == "") this.username = "None"; else { username = value; } } }
-        public string Email { get => email; set { if (value == null || value == "") this.email = "None"; else { email = value; } } } 
+        public string Email { get => email; set { if (value == null || value == "") this.email = "None"; else { email = value; } } }
         public string Phone { get => phone; set { if (value == null || value == "") this.phone = "None"; else { phone = value; } } }
         public double HourlyWage { get => hourlyWage; set { if (value == null || value == 0) this.hourlyWage = 0; else { hourlyWage = value; } } }
         public EmployeeType Type { get => type; set => type = value; }
@@ -75,13 +76,13 @@ namespace MediaBazaarSolution.DTO
             this.hourlyWage = Convert.ToDouble(row["hourly_wage"]);
             this.ContractedHours = (int)row["ContractedHours"];
             this.NoGoSchedule = row["NoGoSchedule"].ToString();
-            if(Type.Equals(EmployeeType.Employee))
+            if (Type.Equals(EmployeeType.Employee))
             {
                 this.managerID = Convert.ToInt32(row["manager_id"]);
                 this.missed_shifts = Convert.ToInt32(row["missed_shifts"]);
             }
-            
-            
+
+
         }
 
         public Employee(int id, string firstName, string lastName, string username, string email, string phone, string type, double hourlyWage)
@@ -109,7 +110,7 @@ namespace MediaBazaarSolution.DTO
             {
                 Type = EmployeeType.Employee;
             }
-            
+
             this.hourlyWage = hourlyWage;
         }
 

@@ -9,7 +9,7 @@ namespace MediaBazaarSolution.DTO
 {
     public class Price_History
     {
-        
+
         public Price_History(DataRow row)
         {
             this.ID = (int)row["item_id"];

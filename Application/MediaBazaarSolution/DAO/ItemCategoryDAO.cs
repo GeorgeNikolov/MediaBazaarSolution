@@ -14,8 +14,8 @@ namespace MediaBazaarSolution.DAO
         //this ensures that only one object of its kind exists and provides a single point of access to it for any other code
         private static ItemCategoryDAO instance;
 
-        public static ItemCategoryDAO Instance 
-        { 
+        public static ItemCategoryDAO Instance
+        {
             get
             {
                 if (instance == null)
@@ -37,13 +37,13 @@ namespace MediaBazaarSolution.DAO
 
         public List<Category> getAllCategory()
         {
-            
+
             string query = "SELECT * FROM category";
             List<Category> listCategory = new List<Category>();
             listCategory.Add(new Category(-1, "None"));
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
-            foreach(DataRow row in data.Rows)
+            foreach (DataRow row in data.Rows)
             {
                 Category category = new Category(row);
                 listCategory.Add(category);

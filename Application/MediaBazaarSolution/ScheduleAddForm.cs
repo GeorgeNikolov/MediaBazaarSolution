@@ -54,6 +54,7 @@ namespace MediaBazaarSolution
                 dtpStartTime.Visible = false;
             }
 
+            this.Text = $"Schedule of {date.ToString()}";
         }
 
         public void FillDgvSchedule()

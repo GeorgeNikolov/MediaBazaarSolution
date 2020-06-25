@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepotAddForm));
             this.lblDepotAddFormUser = new System.Windows.Forms.Label();
             this.btnApplyChangesToDepot = new System.Windows.Forms.Button();
             this.tbxPrice = new System.Windows.Forms.TextBox();
@@ -54,7 +55,7 @@
             // 
             this.btnApplyChangesToDepot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnApplyChangesToDepot.Location = new System.Drawing.Point(140, 403);
-            this.btnApplyChangesToDepot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnApplyChangesToDepot.Margin = new System.Windows.Forms.Padding(2);
             this.btnApplyChangesToDepot.Name = "btnApplyChangesToDepot";
             this.btnApplyChangesToDepot.Size = new System.Drawing.Size(88, 42);
             this.btnApplyChangesToDepot.TabIndex = 26;
@@ -66,7 +67,7 @@
             // 
             this.tbxPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxPrice.Location = new System.Drawing.Point(236, 349);
-            this.tbxPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxPrice.Margin = new System.Windows.Forms.Padding(2);
             this.tbxPrice.Name = "tbxPrice";
             this.tbxPrice.Size = new System.Drawing.Size(60, 26);
             this.tbxPrice.TabIndex = 25;
@@ -75,7 +76,7 @@
             // 
             this.tbxInStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxInStock.Location = new System.Drawing.Point(64, 349);
-            this.tbxInStock.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxInStock.Margin = new System.Windows.Forms.Padding(2);
             this.tbxInStock.Name = "tbxInStock";
             this.tbxInStock.Size = new System.Drawing.Size(66, 26);
             this.tbxInStock.TabIndex = 24;
@@ -84,7 +85,7 @@
             // 
             this.tbxItemName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxItemName.Location = new System.Drawing.Point(117, 130);
-            this.tbxItemName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbxItemName.Margin = new System.Windows.Forms.Padding(2);
             this.tbxItemName.Name = "tbxItemName";
             this.tbxItemName.Size = new System.Drawing.Size(123, 26);
             this.tbxItemName.TabIndex = 22;
@@ -139,7 +140,7 @@
             this.cbxCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.Location = new System.Drawing.Point(56, 232);
-            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2);
             this.cbxCategory.Name = "cbxCategory";
             this.cbxCategory.Size = new System.Drawing.Size(233, 28);
             this.cbxCategory.TabIndex = 28;
@@ -159,10 +160,11 @@
             this.Controls.Add(this.lblinStock);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.lblItemName);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "DepotAddForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DepotAddForm";
+            this.Text = "Add Product";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DepotAddForm_FormClosing);
             this.Load += new System.EventHandler(this.DepotAddForm_Load);
             this.ResumeLayout(false);
