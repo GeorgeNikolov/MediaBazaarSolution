@@ -178,9 +178,9 @@
     <Compile Include="SendMail.Designer.cs">
       <DependentUpon>SendMail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Scheduling\ScheduleUsers.cs" />
-    <Compile Include="Scheduling\SchedulingSystem.cs" />
-    <Compile Include="StatisticsScreen.cs" />
+    <Compile Include="Logic\ScheduleUsers.cs" />
+    <Compile Include="Logic\SchedulingSystem.cs" />
+    <Compile Include="Logic\StatisticsScreen.cs" />
     <EmbeddedResource Include="DepotEditForm.resx">
       <DependentUpon>DepotEditForm.cs</DependentUpon>
     </EmbeddedResource>
