@@ -89,6 +89,7 @@ namespace MediaBazaarSolution
             DateTime myDate = DateTime.ParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             //Create a new DateTime variable made up of selected date + selected time of day
             DateTime newDateTime = myDate.Date + dtpStartTime.Value.TimeOfDay;
+            DateTime newEndTime = myDate.Date + dtpEndTime.Value.TimeOfDay;
             
             if(cbbxEmployees.SelectedIndex < 0)
             {
@@ -100,7 +101,7 @@ namespace MediaBazaarSolution
             {
                 MessageBox.Show("Invalid task name!", "Task name error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } 
-            else if (newDateTime < dtpEndTime.Value)
+            else if (newDateTime > newEndTime)
             {
                 MessageBox.Show("The end time cannot be earlier than the start time", "Invalid End time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
