@@ -531,6 +531,7 @@ namespace MediaBazaarSolution
         {
             //Load the available categories to the combobox in the depot tab
             //By default the selected index will be 0
+            
             cbxItemCategory.DataSource = ItemCategoryDAO.Instance.getAllCategory();
             cbxItemCategory.DisplayMember = "name";
             cbxItemCategory.SelectedIndex = 0;
@@ -749,7 +750,7 @@ namespace MediaBazaarSolution
             {
                 SearchItemByID(idAsString);
             }
-            cbxItemCategory.SelectedIndex = 0;
+
 
         }
 
@@ -775,14 +776,15 @@ namespace MediaBazaarSolution
         {
 
             //Allows the search of a product only by ID or by Category but not both.
-            if (cbxItemCategory.SelectedIndex != -1 && cbxItemCategory.SelectedIndex != 0)
+            if (cbxItemCategory.SelectedIndex == 0)
             {
-                tbxSearchItemById.ReadOnly = true;
-                tbxSearchItemById.Text = null;
+                tbxSearchItemById.ReadOnly = false;
+                
             }
             else
             {
-                tbxSearchItemById.ReadOnly = false;
+                tbxSearchItemById.ReadOnly = true;
+                tbxSearchItemById.Text = null;
             }
 
         }

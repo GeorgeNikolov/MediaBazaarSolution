@@ -37,9 +37,10 @@ namespace MediaBazaarSolution.DAO
 
         public List<Category> getAllCategory()
         {
+            
             string query = "SELECT * FROM category";
             List<Category> listCategory = new List<Category>();
-
+            listCategory.Add(new Category(-1, "None"));
             DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
             foreach(DataRow row in data.Rows)
