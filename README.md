@@ -39,7 +39,7 @@ Project is: _in progress_
 Sharing information between different offices is a challenging especially when speed, reliablity, accuracy and scalability are the main goal. 
 
 ## Created by
-Georgi Nikolov - 
+Georgi Nikolov,
 Khoa Doan,
 Daniel Vaswani,
 Colin Polder
