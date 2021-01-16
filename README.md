@@ -33,7 +33,7 @@ To-do list:
 * Reorganize Code
 
 ## Status
-Project is: _in progress_
+Project is: _completed_
 
 ## Inspiration
 Sharing information between different offices is a challenging especially when speed, reliablity, accuracy and scalability are the main goal. 
